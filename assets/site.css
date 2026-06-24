@@ -399,6 +399,7 @@ code {
 .case-grid,
 .chart-grid,
 .timeline-grid,
+.contact-grid,
 .artifact-grid {
   display: grid;
   gap: 16px;
@@ -456,6 +457,7 @@ code {
 
 .result-card,
 .stack-card,
+.contact-card,
 .artifact-card {
   border-radius: 24px;
   border: 1px solid rgba(234, 223, 206, 0.92);
@@ -485,10 +487,33 @@ code {
 
 .result-card p,
 .stack-card p,
+.contact-card p,
 .artifact-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.7;
+}
+
+.contact-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.contact-card {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-card strong {
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.contact-label {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .stack-card {
@@ -768,6 +793,7 @@ tbody td {
   .case-grid,
   .chart-grid,
   .timeline-grid,
+  .contact-grid,
   .artifact-grid,
   .panel-links .links-list {
     grid-template-columns: 1fr;

@@ -43,6 +43,10 @@ BACKUP_ARTIFACT_ROOT = Path(
 ).resolve()
 
 K8S_BOX_PUBLIC_ROOT = "artifacts/k8s-box"
+SITE_URL = "https://tyurinmacsim-ops.github.io/portfolio/"
+CONTACT_EMAIL = "tyurinmacsim@gmail.com"
+CONTACT_TELEGRAM = "@Max_Tyrin"
+CONTACT_TELEGRAM_URL = "https://t.me/Max_Tyrin"
 
 SVG_TEXT_STYLE = (
     "text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }"
@@ -1158,6 +1162,22 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
     ]
+    contact_cards = [
+        (
+            "Telegram",
+            CONTACT_TELEGRAM,
+            "Быстрый способ связи по вакансиям, интервью и техническим вопросам.",
+            CONTACT_TELEGRAM_URL,
+            "Открыть Telegram",
+        ),
+        (
+            "Email",
+            CONTACT_EMAIL,
+            "Почта для HR, приглашений на интервью и детального обсуждения роли.",
+            f"mailto:{CONTACT_EMAIL}",
+            "Написать письмо",
+        ),
+    ]
 
     stat_cards_html = "\n".join(
         f'<article class="stat-card"><span class="stat-label">{escape(label)}</span><strong>{escape(value)}</strong></article>'
@@ -1247,6 +1267,17 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
     quick_links_html = "\n".join(
         f'<li><a href="{escape(href)}">{escape(label)}</a></li>' for label, href in quick_links
     )
+    contact_cards_html = "\n".join(
+        (
+            '<article class="contact-card">'
+            f'<span class="contact-label">{escape(label)}</span>'
+            f'<strong>{escape(value)}</strong>'
+            f'<p>{escape(text)}</p>'
+            f'<a class="btn btn-secondary" href="{escape(href)}">{escape(cta)}</a>'
+            "</article>"
+        )
+        for label, value, text, href, cta in contact_cards
+    )
 
     html_text = f"""<!doctype html>
 <html lang="ru">
@@ -1255,6 +1286,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Максим Тюрин • Портфолио DevOps / Platform Engineer</title>
   <meta name="description" content="Портфолио DevOps / Platform Engineer с подтверждаемыми артефактами: git-статистика, кейсы, графики, демо-проект.">
+  <link rel="canonical" href="{SITE_URL}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1275,6 +1307,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         <a href="#artifacts">Артефакты</a>
         <a href="#cases">Кейсы</a>
         <a href="#demo">Стенд</a>
+        <a href="#contacts">Контакты</a>
       </div>
     </nav>
     <div class="hero-grid">
@@ -1290,6 +1323,8 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
           <a href="artifacts/k8s-box/README.md">K8s-box</a>
           <a href="pages/platform-engineering-demo.html">Demo stand</a>
+          <a href="{CONTACT_TELEGRAM_URL}">{CONTACT_TELEGRAM}</a>
+          <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>
         </div>
         <ul class="hero-points">
           <li>Подтверждённый период активности: {escape(first_period)} -> {escape(last_period)}</li>
@@ -1445,6 +1480,17 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
       </div>
     </section>
 
+    <section class="panel" id="contacts">
+      <div class="section-head">
+        <p class="eyebrow">Контакты</p>
+        <h2>Связаться напрямую</h2>
+      </div>
+      <div class="section-note">Сайт открыт публично. По прямой ссылке он доступен сразу, а в поиске может появляться по мере индексации поисковиками.</div>
+      <div class="contact-grid">
+        {contact_cards_html}
+      </div>
+    </section>
+
     <section class="panel panel-links">
       <div class="section-head">
         <p class="eyebrow">Материалы</p>
@@ -1477,6 +1523,27 @@ def main() -> None:
     write_landing_page(repo_root / "index.html", summary, backup_artifact, k8s_box_artifact)
     write_content_pages(repo_root)
     (repo_root / ".nojekyll").write_text("", encoding="utf-8")
+    (repo_root / "robots.txt").write_text(
+        "User-agent: *\nAllow: /\n\nSitemap: https://tyurinmacsim-ops.github.io/portfolio/sitemap.xml\n",
+        encoding="utf-8",
+    )
+    (repo_root / "sitemap.xml").write_text(
+        """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/highlights.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/activity-summary.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/case-studies.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/public-projects.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/artifact-evidence.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/resume-portfolio-map.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/platform-engineering-demo.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/artifacts/backup-automation/README.md</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/artifacts/k8s-box/README.md</loc></url>
+</urlset>
+""",
+        encoding="utf-8",
+    )
 
     month_labels = list(summary["monthly"].keys())
     month_values = list(summary["monthly"].values())
