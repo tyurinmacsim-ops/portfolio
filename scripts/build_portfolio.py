@@ -1159,11 +1159,8 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
-<<<<<<< HEAD
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
-=======
->>>>>>> 0363d08 (Add resume to portfolio evidence map)
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
