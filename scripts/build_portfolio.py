@@ -864,15 +864,15 @@ def write_landing_page(path: Path, summary: dict) -> None:
     route_cards = [
         (
             "Для HR",
-            "Быстро видно, что опыт подтверждается не только резюме, но и цифровым следом: коммиты, инфраструктурные артефакты, кейсы и воспроизводимый демо-стенд.",
+            "Здесь собраны резюме, git-статистика, рабочие артефакты и публичный демо-стенд. По ним можно быстро проверить стек, периоды активности и тип задач.",
         ),
         (
             "Для техлида",
-            "Можно быстро пройти путь от верхнеуровневой сводки к конкретным направлениям: Kubernetes, Terraform, GitOps, CI/CD, observability и platform engineering.",
+            "От общей сводки можно перейти к конкретным направлениям: Kubernetes, Terraform, GitOps, CI/CD, observability, backup/restore и platform engineering.",
         ),
         (
             "Для собеседования",
-            "Портфолио помогает обсуждать не абстрактные навыки, а конкретные потоки, периоды активности, стек и типы задач.",
+            "Удобно использовать как опорный материал на интервью: здесь есть конкретные проекты, графики, стек и примеры эксплуатационных задач.",
         ),
     ]
 
@@ -964,10 +964,10 @@ def write_landing_page(path: Path, summary: dict) -> None:
       <div class="hero-copy">
         <p class="eyebrow">DevOps / Platform Engineer</p>
         <h1>DevOps / Platform Engineer: подтверждённый опыт, кейсы и артефакты</h1>
-        <p class="hero-lead">Собрано на основе локального архива рабочих каталогов и публичного демо-стенда. Показывает подтверждённую активность по Kubernetes, Terraform, GitOps, CI/CD и observability.</p>
+        <p class="hero-lead">Портфолио собрано по локальному архиву рабочих каталогов, git-истории и публичным артефактам. Здесь сведены подтверждаемые материалы по Kubernetes, Terraform, GitOps, CI/CD, observability и эксплуатации сервисов.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#overview">Маршрут для HR</a>
-          <a class="btn btn-secondary" href="#tech">Маршрут для техспеца</a>
+          <a class="btn btn-primary" href="#overview">Для HR</a>
+          <a class="btn btn-secondary" href="#tech">Для техспециалиста</a>
         </div>
         <ul class="hero-points">
           <li>Подтверждённый период активности: {escape(first_period)} -> {escape(last_period)}</li>
@@ -976,8 +976,8 @@ def write_landing_page(path: Path, summary: dict) -> None:
         </ul>
       </div>
       <aside class="hero-panel">
-        <span class="panel-kicker">Быстрый срез</span>
-        <h2>Что уже видно из данных</h2>
+        <span class="panel-kicker">Сводка</span>
+        <h2>Ключевые показатели</h2>
         <div class="stats-grid">
           {stat_cards_html}
         </div>
@@ -989,7 +989,7 @@ def write_landing_page(path: Path, summary: dict) -> None:
     <section class="panel" id="overview">
       <div class="section-head">
         <p class="eyebrow">Обзор</p>
-        <h2>Зачем это смотреть HR и техспециалисту</h2>
+        <h2>Как читать это портфолио</h2>
       </div>
       <div class="route-grid">
         {route_cards_html}
