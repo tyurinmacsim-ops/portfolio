@@ -42,6 +42,8 @@ BACKUP_ARTIFACT_ROOT = Path(
     )
 ).resolve()
 
+K8S_BOX_PUBLIC_ROOT = "artifacts/k8s-box"
+
 SVG_TEXT_STYLE = (
     "text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }"
     ".title { font-size: 26px; font-weight: 800; }"
@@ -239,6 +241,37 @@ def analyze_backup_artifact(root: Path) -> dict | None:
         "shell_files": shell_files,
         "yaml_files": yaml_files,
     }
+
+
+def analyze_public_toolkit(root: Path) -> dict | None:
+    if not root.exists():
+        return None
+
+    counts = {
+        "total_files": 0,
+        "terraform_files": 0,
+        "shell_files": 0,
+        "hcl_files": 0,
+        "markdown_docs": 0,
+        "ci_files": 0,
+    }
+
+    for file_path in root.rglob("*"):
+        if not file_path.is_file():
+            continue
+        counts["total_files"] += 1
+        if file_path.suffix == ".tf":
+            counts["terraform_files"] += 1
+        if file_path.suffix == ".sh":
+            counts["shell_files"] += 1
+        if file_path.suffix == ".hcl":
+            counts["hcl_files"] += 1
+        if file_path.suffix == ".md":
+            counts["markdown_docs"] += 1
+        if file_path.name in {".gitlab-ci.yml", ".github", ".github.yml"} or file_path.name.endswith(".gitlab-ci.yml"):
+            counts["ci_files"] += 1
+
+    return counts
 
 
 def write_json(path: Path, data: dict) -> None:
@@ -893,7 +926,7 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_landing_page(path: Path, summary: dict) -> None:
+def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, k8s_box_artifact: dict | None) -> None:
     repos = summary["repos"]
     monthly = summary["monthly"]
     yearly = summary["yearly"]
@@ -926,6 +959,47 @@ def write_landing_page(path: Path, summary: dict) -> None:
         ),
     ]
 
+    result_cards = [
+        (
+            format_int(summary["total_my_commits"]),
+            "подтверждённых коммитов",
+            "Коммиты собраны из локально сохранившихся рабочих репозиториев с читаемой git-историей.",
+        ),
+        (
+            str(summary["repos_with_my_commits"]),
+            "рабочих потоков",
+            "Покрытие идёт по Kubernetes, Terraform, GitOps, Helm, GitLab CI и смежной эксплуатации.",
+        ),
+        (
+            "100+",
+            "сервисов в GitOps-контуре",
+            "Подтверждается production-направление с Helm, GitLab CI/CD, мониторингом и эксплуатационными изменениями.",
+        ),
+        (
+            f"{top_year} / {format_int(top_year_value)}",
+            "самый сильный год",
+            "Пиковая подтверждённая активность приходится на год с наибольшей плотностью инфраструктурных изменений.",
+        ),
+    ]
+
+    if backup_artifact:
+        result_cards.append(
+            (
+                f"{backup_artifact['counts']['Python']} / {backup_artifact['counts']['Shell']} / {backup_artifact['counts']['YAML']}",
+                "backup toolkit",
+                "Публично вынесены Python, shell и YAML-артефакты для backup/restore automation, S3/AWS и CronJob-процессов.",
+            )
+        )
+
+    if k8s_box_artifact:
+        result_cards.append(
+            (
+                str(k8s_box_artifact["total_files"]),
+                "файлов в k8s-box",
+                "Sanitized platform toolkit по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN entrypoint и эксплуатационным runbook-ам.",
+            )
+        )
+
     case_cards = [
         (
             "Production GitOps / Kubernetes",
@@ -945,12 +1019,38 @@ def write_landing_page(path: Path, summary: dict) -> None:
         ),
     ]
 
+    artifact_cards = [
+        {
+            "title": "Backup / Restore Automation Toolkit",
+            "text": "Пакет с redacted-скриптами и конфигурацией для backup/restore процессов: Python, shell, Kubernetes CronJob, S3/AWS, Secrets Manager, PostgreSQL, MariaDB и MongoDB.",
+            "tags": ["Python", "Kubernetes", "AWS/S3", "PostgreSQL", "MongoDB"],
+            "primary": ("Открыть артефакт", "artifacts/backup-automation/README.md"),
+            "secondary": ("Смотреть разбор", "pages/artifact-evidence.html"),
+        },
+        {
+            "title": "K8s-box Platform Toolkit",
+            "text": "Публичная sanitized-копия рабочего набора для Yandex Cloud: Terraform, Terragrunt, ArgoCD, Vault, GitLab CI/CD, VPN VM, profile-driven bootstrap и эксплуатационная документация.",
+            "tags": ["Yandex Cloud", "Terraform", "Terragrunt", "ArgoCD", "Vault"],
+            "primary": ("Открыть k8s-box", "artifacts/k8s-box/README.md"),
+            "secondary": ("Что включено", "artifacts/k8s-box/PORTFOLIO_NOTES.md"),
+        },
+        {
+            "title": "Platform Engineering Demo",
+            "text": "Отдельный воспроизводимый стенд под техпроверку: Terraform, Kubernetes, observability stack, smoke-test и GitHub Actions.",
+            "tags": ["Terraform", "kind", "Prometheus", "Grafana", "GitHub Actions"],
+            "primary": ("Открыть демо", "pages/platform-engineering-demo.html"),
+            "secondary": ("Читать README", "projects/platform-engineering-demo/README.md"),
+        },
+    ]
+
     quick_links = [
         ("Ключевые выводы", "pages/highlights.html"),
         ("Сводка активности", "pages/activity-summary.html"),
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
+        ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
+        ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
@@ -967,6 +1067,32 @@ def write_landing_page(path: Path, summary: dict) -> None:
     case_cards_html = "\n".join(
         f'<article class="case-card"><h3>{escape(title)}</h3><p>{escape(text)}</p></article>'
         for title, text in case_cards
+    )
+    result_cards_html = "\n".join(
+        (
+            '<article class="result-card">'
+            f'<strong>{escape(value)}</strong>'
+            f'<span>{escape(label)}</span>'
+            f'<p>{escape(text)}</p>'
+            "</article>"
+        )
+        for value, label, text in result_cards
+    )
+    artifact_cards_html = "\n".join(
+        (
+            '<article class="artifact-card">'
+            f'<h3>{escape(card["title"])}</h3>'
+            f'<p>{escape(card["text"])}</p>'
+            '<ul class="artifact-tags">'
+            + "".join(f"<li>{escape(tag)}</li>" for tag in card["tags"])
+            + "</ul>"
+            + '<div class="artifact-actions">'
+            + f'<a class="btn btn-primary" href="{escape(card["primary"][1])}">{escape(card["primary"][0])}</a>'
+            + f'<a class="btn btn-secondary" href="{escape(card["secondary"][1])}">{escape(card["secondary"][0])}</a>'
+            + "</div>"
+            + "</article>"
+        )
+        for card in artifact_cards
     )
     workstream_rows = "\n".join(
         (
@@ -1005,7 +1131,9 @@ def write_landing_page(path: Path, summary: dict) -> None:
       <a class="brand" href="#top">Максим Тюрин</a>
       <div class="topbar-links">
         <a href="#overview">Обзор</a>
+        <a href="#results">Результаты</a>
         <a href="#charts">Графики</a>
+        <a href="#artifacts">Артефакты</a>
         <a href="#cases">Кейсы</a>
         <a href="#demo">Стенд</a>
       </div>
@@ -1018,6 +1146,11 @@ def write_landing_page(path: Path, summary: dict) -> None:
         <div class="hero-actions">
           <a class="btn btn-primary" href="#overview">Для HR</a>
           <a class="btn btn-secondary" href="#tech">Для техспециалиста</a>
+        </div>
+        <div class="hero-links">
+          <a href="artifacts/backup-automation/README.md">Backup automation</a>
+          <a href="artifacts/k8s-box/README.md">K8s-box</a>
+          <a href="pages/platform-engineering-demo.html">Demo stand</a>
         </div>
         <ul class="hero-points">
           <li>Подтверждённый период активности: {escape(first_period)} -> {escape(last_period)}</li>
@@ -1046,6 +1179,16 @@ def write_landing_page(path: Path, summary: dict) -> None:
       </div>
       <div class="note-box">
         <strong>Важно.</strong> В графиках показаны только те репозитории, где локально сохранилась читаемая git-история. Ранние копии части рабочих каталогов, включая некоторые архивы 2021–2022 годов, местами сохранились неполно и поэтому недопредставлены в статистике.
+      </div>
+    </section>
+
+    <section class="panel" id="results">
+      <div class="section-head">
+        <p class="eyebrow">Результаты</p>
+        <h2>Что уже можно показать как рабочий результат</h2>
+      </div>
+      <div class="result-grid">
+        {result_cards_html}
       </div>
     </section>
 
@@ -1118,6 +1261,16 @@ def write_landing_page(path: Path, summary: dict) -> None:
       </div>
     </section>
 
+    <section class="panel" id="artifacts">
+      <div class="section-head">
+        <p class="eyebrow">Артефакты</p>
+        <h2>Публичные технические доказательства</h2>
+      </div>
+      <div class="artifact-grid">
+        {artifact_cards_html}
+      </div>
+    </section>
+
     <section class="panel" id="demo">
       <div class="section-head">
         <p class="eyebrow">Стенд</p>
@@ -1160,7 +1313,8 @@ def main() -> None:
     write_activity_summary(repo_root / "docs" / "ACTIVITY_SUMMARY.md", summary)
     write_highlights(repo_root / "docs" / "HIGHLIGHTS.md", summary)
     write_artifact_evidence(repo_root / "docs" / "ARTIFACT_EVIDENCE.md", backup_artifact)
-    write_landing_page(repo_root / "index.html", summary)
+    k8s_box_artifact = analyze_public_toolkit(repo_root / K8S_BOX_PUBLIC_ROOT)
+    write_landing_page(repo_root / "index.html", summary, backup_artifact, k8s_box_artifact)
     write_content_pages(repo_root)
     (repo_root / ".nojekyll").write_text("", encoding="utf-8")
 

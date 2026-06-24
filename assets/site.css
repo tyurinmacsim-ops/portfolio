@@ -167,6 +167,30 @@ code {
   margin-top: 28px;
 }
 
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hero-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.68rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(234, 223, 206, 0.92);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.hero-links a:hover {
+  color: var(--ink);
+  border-color: rgba(15, 118, 110, 0.26);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -363,9 +387,11 @@ code {
 }
 
 .stats-grid,
+.result-grid,
 .route-grid,
 .case-grid,
-.chart-grid {
+.chart-grid,
+.artifact-grid {
   display: grid;
   gap: 16px;
 }
@@ -410,6 +436,45 @@ code {
 .route-card,
 .case-card {
   padding: 20px;
+}
+
+.result-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.result-card,
+.artifact-card {
+  border-radius: 24px;
+  border: 1px solid rgba(234, 223, 206, 0.92);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 248, 240, 0.82) 100%);
+  padding: 22px;
+}
+
+.result-card {
+  display: grid;
+  gap: 10px;
+}
+
+.result-card strong {
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.result-card span {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.result-card p,
+.artifact-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
 .route-card h3,
@@ -511,6 +576,46 @@ tbody td {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.artifact-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.artifact-card {
+  display: grid;
+  gap: 16px;
+}
+
+.artifact-card h3 {
+  margin: 0;
+  font-size: 1.18rem;
+}
+
+.artifact-tags {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.artifact-tags li {
+  padding: 0.42rem 0.68rem;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.08);
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.artifact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+}
+
 .demo-card {
   padding: 22px;
   display: flex;
@@ -555,9 +660,11 @@ tbody td {
 
 @media (max-width: 1080px) {
   .hero-grid,
+  .result-grid,
   .route-grid,
   .case-grid,
   .chart-grid,
+  .artifact-grid,
   .panel-links .links-list {
     grid-template-columns: 1fr;
   }
@@ -599,6 +706,11 @@ tbody td {
   }
 
   .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-links,
+  .artifact-actions {
     flex-direction: column;
   }
 }

@@ -18,7 +18,9 @@
       <a class="brand" href="#top">Максим Тюрин</a>
       <div class="topbar-links">
         <a href="#overview">Обзор</a>
+        <a href="#results">Результаты</a>
         <a href="#charts">Графики</a>
+        <a href="#artifacts">Артефакты</a>
         <a href="#cases">Кейсы</a>
         <a href="#demo">Стенд</a>
       </div>
@@ -31,6 +33,11 @@
         <div class="hero-actions">
           <a class="btn btn-primary" href="#overview">Для HR</a>
           <a class="btn btn-secondary" href="#tech">Для техспециалиста</a>
+        </div>
+        <div class="hero-links">
+          <a href="artifacts/backup-automation/README.md">Backup automation</a>
+          <a href="artifacts/k8s-box/README.md">K8s-box</a>
+          <a href="pages/platform-engineering-demo.html">Demo stand</a>
         </div>
         <ul class="hero-points">
           <li>Подтверждённый период активности: 2023-09 -> 2026-03</li>
@@ -64,6 +71,21 @@
       </div>
       <div class="note-box">
         <strong>Важно.</strong> В графиках показаны только те репозитории, где локально сохранилась читаемая git-история. Ранние копии части рабочих каталогов, включая некоторые архивы 2021–2022 годов, местами сохранились неполно и поэтому недопредставлены в статистике.
+      </div>
+    </section>
+
+    <section class="panel" id="results">
+      <div class="section-head">
+        <p class="eyebrow">Результаты</p>
+        <h2>Что уже можно показать как рабочий результат</h2>
+      </div>
+      <div class="result-grid">
+        <article class="result-card"><strong>8 166</strong><span>подтверждённых коммитов</span><p>Коммиты собраны из локально сохранившихся рабочих репозиториев с читаемой git-историей.</p></article>
+<article class="result-card"><strong>42</strong><span>рабочих потоков</span><p>Покрытие идёт по Kubernetes, Terraform, GitOps, Helm, GitLab CI и смежной эксплуатации.</p></article>
+<article class="result-card"><strong>100+</strong><span>сервисов в GitOps-контуре</span><p>Подтверждается production-направление с Helm, GitLab CI/CD, мониторингом и эксплуатационными изменениями.</p></article>
+<article class="result-card"><strong>2025 / 4 407</strong><span>самый сильный год</span><p>Пиковая подтверждённая активность приходится на год с наибольшей плотностью инфраструктурных изменений.</p></article>
+<article class="result-card"><strong>3 / 6 / 15</strong><span>backup toolkit</span><p>Публично вынесены Python, shell и YAML-артефакты для backup/restore automation, S3/AWS и CronJob-процессов.</p></article>
+<article class="result-card"><strong>137</strong><span>файлов в k8s-box</span><p>Sanitized platform toolkit по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN entrypoint и эксплуатационным runbook-ам.</p></article>
       </div>
     </section>
 
@@ -151,6 +173,18 @@
       </div>
     </section>
 
+    <section class="panel" id="artifacts">
+      <div class="section-head">
+        <p class="eyebrow">Артефакты</p>
+        <h2>Публичные технические доказательства</h2>
+      </div>
+      <div class="artifact-grid">
+        <article class="artifact-card"><h3>Backup / Restore Automation Toolkit</h3><p>Пакет с redacted-скриптами и конфигурацией для backup/restore процессов: Python, shell, Kubernetes CronJob, S3/AWS, Secrets Manager, PostgreSQL, MariaDB и MongoDB.</p><ul class="artifact-tags"><li>Python</li><li>Kubernetes</li><li>AWS/S3</li><li>PostgreSQL</li><li>MongoDB</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/backup-automation/README.md">Открыть артефакт</a><a class="btn btn-secondary" href="pages/artifact-evidence.html">Смотреть разбор</a></div></article>
+<article class="artifact-card"><h3>K8s-box Platform Toolkit</h3><p>Публичная sanitized-копия рабочего набора для Yandex Cloud: Terraform, Terragrunt, ArgoCD, Vault, GitLab CI/CD, VPN VM, profile-driven bootstrap и эксплуатационная документация.</p><ul class="artifact-tags"><li>Yandex Cloud</li><li>Terraform</li><li>Terragrunt</li><li>ArgoCD</li><li>Vault</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/k8s-box/README.md">Открыть k8s-box</a><a class="btn btn-secondary" href="artifacts/k8s-box/PORTFOLIO_NOTES.md">Что включено</a></div></article>
+<article class="artifact-card"><h3>Platform Engineering Demo</h3><p>Отдельный воспроизводимый стенд под техпроверку: Terraform, Kubernetes, observability stack, smoke-test и GitHub Actions.</p><ul class="artifact-tags"><li>Terraform</li><li>kind</li><li>Prometheus</li><li>Grafana</li><li>GitHub Actions</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="pages/platform-engineering-demo.html">Открыть демо</a><a class="btn btn-secondary" href="projects/platform-engineering-demo/README.md">Читать README</a></div></article>
+      </div>
+    </section>
+
     <section class="panel" id="demo">
       <div class="section-head">
         <p class="eyebrow">Стенд</p>
@@ -176,6 +210,8 @@
 <li><a href="pages/case-studies.html">Кейсы</a></li>
 <li><a href="pages/public-projects.html">Публичные демо-проекты</a></li>
 <li><a href="pages/artifact-evidence.html">Дополнительные артефакты</a></li>
+<li><a href="artifacts/backup-automation/README.md">Backup automation toolkit</a></li>
+<li><a href="artifacts/k8s-box/README.md">K8s-box toolkit</a></li>
 <li><a href="pages/resume-portfolio-map.html">Сопоставление резюме и портфолио</a></li>
 <li><a href="pages/application-blurb.html">Краткое описание</a></li>
 <li><a href="data/commit_summary.json">JSON со статистикой</a></li>
