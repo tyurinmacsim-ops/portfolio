@@ -1,0 +1,47 @@
+projects:
+%{ for project_name, project_params in projects }
+  ${project_name}:
+    namespace: ${namespace}
+    additionalLabels: {}
+    additionalAnnotations: {}
+    description: ${project_params["description"]}
+    sourceRepos:
+    - '*'
+    destinations:
+    - namespace: "*"
+      server: https://kubernetes.default.svc
+    clusterResourceWhitelist:
+      - group: "*"
+        kind: "*"
+    clusterResourceBlacklist: []
+    namespaceResourceWhitelist: []
+    orphanedResources: {}
+    roles:
+      - name: ${project_name}-admin
+        policies:
+          - p, proj:${project_name}:${project_name}-admin, applications, *, ${project_name}/*, allow
+          - p, proj:${project_name}:${project_name}-admin, logs, get, ${project_name}/*, allow
+        groups:
+          - ${project_params["oidc_public_env_group_prefix"]}_${project_name}_admin
+          - ${project_params["oidc_unique_env_group_prefix"]}_${project_name}_admin
+      - name: ${project_name}-exec
+        policies:
+          - p, proj:${project_name}:${project_name}-exec, applications, get, ${project_name}/*, allow
+          - p, proj:${project_name}:${project_name}-exec, applications, sync, ${project_name}/*, allow
+          - p, proj:${project_name}:${project_name}-exec, logs, get, ${project_name}/*, allow
+          - p, proj:${project_name}:${project_name}-exec, exec, create, ${project_name}/*, allow
+        groups:
+          - ${project_params["oidc_public_env_group_prefix"]}_${project_name}_exec
+          - ${project_params["oidc_unique_env_group_prefix"]}_${project_name}_exec
+      - name: ${project_name}-readonly
+        policies:
+          - p, proj:${project_name}:${project_name}-readonly, applications, get, ${project_name}/*, allow
+          - p, proj:${project_name}:${project_name}-readonly, applications, sync, ${project_name}/*, allow
+          - p, proj:${project_name}:${project_name}-readonly, logs, get, ${project_name}/*, allow
+        groups:
+          - ${project_params["oidc_public_env_group_prefix"]}_${project_name}_readonly
+          - ${project_params["oidc_unique_env_group_prefix"]}_${project_name}_readonly
+    sourceNamespaces:
+    - ${namespace}
+
+%{ endfor ~}

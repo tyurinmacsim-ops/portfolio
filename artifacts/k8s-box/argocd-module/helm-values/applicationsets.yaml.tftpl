@@ -1,0 +1,65 @@
+applicationsets:
+  %{ for project_name, project_params in projects }
+  ${project_name}-tenants:
+    namespace: ${namespace}
+    generators:
+      - git:
+          repoURL: ${git_repo_urls[project_name]}
+          revision: HEAD
+          directories:
+            - path: "*"
+
+    template:
+      metadata:
+        name: ${project_name}-{{path.basename}}
+        labels:
+          project: ${project_name}-{{path.basename}}
+      spec:
+        project: ${project_name}
+        source:
+          repoURL: ${git_repo_urls[project_name]}
+          targetRevision: HEAD
+          path: "{{path}}"
+          helm:
+            releaseName: "{{path.basename}}"
+            %{ if argocd_helm_secrets_enabled }
+            valueFiles:
+              - "secrets+age-import:///helm-secrets-private-keys/key.txt?./secrets.yaml"
+            %{ endif }
+        destination:
+          server: https://kubernetes.default.svc
+          %{ if project_params["single_namespace"] }
+          namespace: ${project_name}
+          %{ else }
+          namespace: ${project_name}-{{path.basename}}
+          %{ endif }
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
+          retry:
+            backoff:
+              duration: 15s
+              factor: 2
+              maxDuration: 5m
+            limit: 15
+          syncOptions:
+          - CreateNamespace=true
+          %{ if project_params["ignore_deployment_replicas"] }
+          - RespectIgnoreDifferences=true
+          %{ endif }
+          %{ if project_params["serverside_apply"] }
+          - ServerSideApply=true
+          %{ endif }
+
+        %{ if project_params["ignore_deployment_replicas"] }
+        ignoreDifferences:
+        - group: apps
+          kind: Deployment
+          jsonPointers:
+          - /spec/replicas
+        %{ endif }
+        info:
+        - name: url
+          value: https://argoproj.github.io/
+  %{ endfor ~}

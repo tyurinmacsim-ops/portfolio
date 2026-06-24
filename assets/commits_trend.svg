@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420">
+<style>
+text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
+</style>
+<defs>
+<linearGradient id="trendFill" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0f766e" stop-opacity="0.30"/>
+<stop offset="100%" stop-color="#0f766e" stop-opacity="0.02"/>
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="1100" height="420" rx="28" ry="28" fill="#fffaf4"/>
+<text class="title" x="30" y="46">Тренд активности по месяцам</text>
+<text class="subtitle" x="30" y="70">Показывает темп работы и изменение нагрузки по времени.</text>
+<polyline points="76,344 76.0,144.3 110.1,255.4 144.1,221.7 178.2,204.8 212.3,305.1 246.3,300.3 280.4,341.0 314.5,337.7 348.6,319.9 382.6,303.9 416.7,313.9 450.8,298.8 484.8,294.9 518.9,300.0 553.0,310.3 587.0,304.2 621.1,334.7 655.2,247.6 689.2,229.8 723.3,130.1 757.4,227.1 791.4,250.3 825.5,84.0 859.6,263.9 893.7,238.6 927.7,196.4 961.8,253.9 995.9,295.5 1029.9,267.5 1064.0,284.3 1064,344" fill="url(#trendFill)" stroke="none"/>
+<polyline points="76.0,144.3 110.1,255.4 144.1,221.7 178.2,204.8 212.3,305.1 246.3,300.3 280.4,341.0 314.5,337.7 348.6,319.9 382.6,303.9 416.7,313.9 450.8,298.8 484.8,294.9 518.9,300.0 553.0,310.3 587.0,304.2 621.1,334.7 655.2,247.6 689.2,229.8 723.3,130.1 757.4,227.1 791.4,250.3 825.5,84.0 859.6,263.9 893.7,238.6 927.7,196.4 961.8,253.9 995.9,295.5 1029.9,267.5 1064.0,284.3" fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="76" y1="344.0" x2="1064" y2="344.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="348.0">0</text>
+<line x1="76" y1="279.0" x2="1064" y2="279.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="283.0">215</text>
+<line x1="76" y1="214.0" x2="1064" y2="214.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="218.0">431</text>
+<line x1="76" y1="149.0" x2="1064" y2="149.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="153.0">647</text>
+<line x1="76" y1="84.0" x2="1064" y2="84.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="88.0">863</text>
+<text class="axis" x="58.0" y="392">2023-09</text>
+<text class="axis" x="160.2" y="392">2023-12</text>
+<text class="axis" x="262.4" y="392">2024-03</text>
+<text class="axis" x="364.6" y="392">2024-06</text>
+<text class="axis" x="466.8" y="392">2024-09</text>
+<text class="axis" x="569.0" y="392">2024-12</text>
+<text class="axis" x="671.2" y="392">2025-03</text>
+<text class="axis" x="773.4" y="392">2025-06</text>
+<text class="axis" x="875.7" y="392">2025-09</text>
+<text class="axis" x="977.9" y="392">2026-01</text>
+<text class="axis" x="1046.0" y="392">2026-03</text>
+<circle cx="76.0" cy="144.3" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="110.1" cy="255.4" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="144.1" cy="221.7" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="178.2" cy="204.8" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="212.3" cy="305.1" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="246.3" cy="300.3" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="280.4" cy="341.0" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="314.5" cy="337.7" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="348.6" cy="319.9" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="382.6" cy="303.9" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="416.7" cy="313.9" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="450.8" cy="298.8" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="484.8" cy="294.9" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="518.9" cy="300.0" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="553.0" cy="310.3" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="587.0" cy="304.2" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="621.1" cy="334.7" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="655.2" cy="247.6" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="689.2" cy="229.8" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="723.3" cy="130.1" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="757.4" cy="227.1" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="791.4" cy="250.3" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="825.5" cy="84.0" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="859.6" cy="263.9" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="893.7" cy="238.6" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="927.7" cy="196.4" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="961.8" cy="253.9" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="995.9" cy="295.5" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="1029.9" cy="267.5" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="1064.0" cy="284.3" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+</svg>
