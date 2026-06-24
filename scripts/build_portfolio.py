@@ -806,6 +806,7 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
                 f"- Источник: `{artifact['root']}`",
                 "- Тип подтверждения: non-git evidence по рабочему каталогу.",
                 "- Что подтверждает: практическую работу с backup/restore automation, Kubernetes CronJob, Dockerized utilities, S3/AWS, Secrets Manager, Slack alerting, PostgreSQL, MariaDB и MongoDB.",
+                "- Публичные redacted-копии в репозитории: [artifacts/backup-automation](../artifacts/backup-automation/README.md)",
                 "",
                 "## Состав артефакта",
                 "",
@@ -827,8 +828,16 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
                 "",
             ]
         )
+        link_map = {
+            "backup-k8s/files/daily_backups_lambda.py": "../artifacts/backup-automation/backup-k8s/files/daily_backups_lambda.py",
+            "backup-k8s/files/restore_backups.py": "../artifacts/backup-automation/backup-k8s/files/restore_backups.py",
+            "backup-mongo-k8s/files/daily_backups_mongodb.py": "../artifacts/backup-automation/backup-mongo-k8s/files/daily_backups_mongodb.py",
+        }
         for item in artifact["python_files"]:
-            lines.append(f"- `{item}`")
+            if item in link_map:
+                lines.append(f"- [{item}]({link_map[item]})")
+            else:
+                lines.append(f"- `{item}`")
 
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
