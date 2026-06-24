@@ -1000,23 +1000,126 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
             )
         )
 
+    stack_cards = [
+        {
+            "title": "Kubernetes / GitOps / delivery",
+            "period": "~5 лет",
+            "text": "EKS, AKS, managed Kubernetes в Yandex Cloud, Helm, ArgoCD, FluxCD, rollout-пайплайны, ingress, observability, миграции сервисов в k8s.",
+            "areas": [
+                "CI/CD и GitOps",
+                "Helm и release management",
+                "наблюдаемость и эксплуатация",
+            ],
+        },
+        {
+            "title": "AWS / EKS / data operations",
+            "period": "~4.5 года",
+            "text": "Production-контур в AWS: EKS, Terraform, Terragrunt, базы данных, очереди, логирование, backup/restore, cost и release automation.",
+            "areas": [
+                "EKS и AWS-инфраструктура",
+                "RDS, MongoDB, Kafka, RabbitMQ",
+                "S3 и backup automation",
+            ],
+        },
+        {
+            "title": "Azure / AKS / security",
+            "period": "~0.7 года",
+            "text": "AKS, private ingress, Key Vault, network policies, audit trail, platform hardening и подготовка инфраструктурного контура к PCI DSS.",
+            "areas": [
+                "AKS и private PaaS",
+                "RBAC, TLS, Key Vault",
+                "security-oriented DevOps",
+            ],
+        },
+        {
+            "title": "Yandex Cloud / platform toolkit",
+            "period": "~0.3+ года",
+            "text": "Terragrunt-модули, Vault, ArgoCD, runner, VPN entrypoint, observability и profile-driven bootstrap для платформенных стендов.",
+            "areas": [
+                "Yandex Cloud и Terragrunt",
+                "Vault / ArgoCD / runner",
+                "platform bootstrap и runbooks",
+            ],
+        },
+        {
+            "title": "On-prem / virtualization / admin",
+            "period": "~4+ года",
+            "text": "Proxmox, VMware, Hyper-V, Linux/Windows-инфраструктура, backup, AD/GPO, сопровождение хостов и сетевой базовой инфраструктуры.",
+            "areas": [
+                "виртуализация и администрирование",
+                "backup и базовая эксплуатация",
+                "инфраструктурная поддержка",
+            ],
+        },
+    ]
+
     case_cards = [
-        (
-            "Production GitOps / Kubernetes",
-            "Контур с 100+ сервисами, GitOps-процессы, Helm, GitLab CI/CD, мониторинг и эксплуатационные изменения в production.",
-        ),
-        (
-            "Azure / AKS / PCI DSS readiness",
-            "Terraform, Terragrunt, AKS, private ingress, Key Vault, сетевые политики и инфраструктурная подготовка к аудиту.",
-        ),
-        (
-            "Yandex Cloud / аналитическая платформа",
-            "Kubernetes, Airflow, Trino, JupyterHub, Vault, External Secrets, registry и observability для data-направления.",
-        ),
-        (
-            "Backup / Restore Automation",
-            "Отдельный рабочий toolkit без git-истории: Python backup/restore скрипты, Kubernetes CronJob, Docker utility-образы, S3/AWS, Slack alerting, PostgreSQL, MariaDB и MongoDB.",
-        ),
+        {
+            "title": "Production GitOps / Kubernetes",
+            "result": "100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день",
+            "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD", "FluxCD"],
+            "text": "Production-контур для multi-service платформы: GitOps-процессы, деплой, мониторинг, логирование и эксплуатационные изменения в production.",
+            "link": ("Открыть кейсы", "pages/case-studies.html"),
+        },
+        {
+            "title": "Azure / AKS / PCI DSS readiness",
+            "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
+            "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
+            "text": "IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.",
+            "link": ("Смотреть кейс", "pages/case-studies.html"),
+        },
+        {
+            "title": "Yandex Cloud / platform toolkit",
+            "result": "публичный toolkit на 137 файлов и полный bootstrap-поток",
+            "stack": ["Yandex Cloud", "Terragrunt", "ArgoCD", "Vault", "GitLab CI/CD"],
+            "text": "Платформенный набор под YC: VPC, security groups, VPN VM, runner, Kubernetes, Vault, ArgoCD и эксплуатационная документация.",
+            "link": ("Открыть k8s-box", "artifacts/k8s-box/README.md"),
+        },
+        {
+            "title": "Backup / Restore Automation",
+            "result": "отдельный публичный артефакт по stateful-сервисам и recovery workflow",
+            "stack": ["Python", "Kubernetes", "AWS S3", "PostgreSQL", "MongoDB", "Slack"],
+            "text": "Toolkit по резервному копированию и восстановлению: backup/restore скрипты, CronJob-процессы, Docker utility-образы и оповещения.",
+            "link": ("Открыть backup toolkit", "artifacts/backup-automation/README.md"),
+        },
+    ]
+
+    timeline_items = [
+        {
+            "period": "2017-2019",
+            "title": "Системное администрирование и виртуализация",
+            "meta": "~1.8 года",
+            "text": "100+ хостов, AD, GPO, backup, VMware, Hyper-V. База по эксплуатации инфраструктуры до перехода в DevOps.",
+            "tags": ["VMware", "Hyper-V", "Windows infra", "backup"],
+        },
+        {
+            "period": "2019-2021",
+            "title": "SWAPP / AWS + Hetzner + Proxmox",
+            "meta": "~2.5 года",
+            "text": "Terraform, Ansible, Docker, Kubernetes, AWS, Hetzner, Proxmox, Cloudflare. Ранний production-опыт в cloud и контейнерной инфраструктуре.",
+            "tags": ["AWS", "Hetzner", "Proxmox", "Terraform", "Ansible"],
+        },
+        {
+            "period": "2021-2022",
+            "title": "Azure / AKS / PCI DSS",
+            "meta": "~0.7 года",
+            "text": "AKS, private ingress, Key Vault, audit trail, platform hardening, IaC и подготовка инфраструктуры к security-аудиту.",
+            "tags": ["Azure", "AKS", "Terraform", "FluxCD", "security"],
+        },
+        {
+            "period": "2023-2025",
+            "title": "AWS / EKS / 100+ microservices",
+            "meta": "~2.3 года",
+            "text": "Production-платформа с интенсивным релизным циклом: GitLab CI/CD, ArgoCD, FluxCD, EKS, observability, data services и backup automation.",
+            "tags": ["AWS", "EKS", "GitOps", "Helm", "observability"],
+        },
+        {
+            "period": "2025-2026",
+            "title": "Yandex Cloud / k8s-box / platform engineering",
+            "meta": "~0.3+ года",
+            "text": "YC-проекты, Terragrunt, Vault, runner, VPN entrypoint, profile-driven platform toolkit и публичный sanitized `k8s-box`.",
+            "tags": ["Yandex Cloud", "Terragrunt", "Vault", "ArgoCD", "toolkit"],
+        },
     ]
 
     artifact_cards = [
@@ -1064,9 +1167,43 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         f'<article class="route-card"><h3>{escape(title)}</h3><p>{escape(text)}</p></article>'
         for title, text in route_cards
     )
+    stack_cards_html = "\n".join(
+        (
+            '<article class="stack-card">'
+            f'<div class="stack-card-head"><h3>{escape(card["title"])}</h3><span>{escape(card["period"])}</span></div>'
+            f'<p>{escape(card["text"])}</p>'
+            '<ul class="stack-areas">'
+            + "".join(f"<li>{escape(area)}</li>" for area in card["areas"])
+            + "</ul>"
+            + "</article>"
+        )
+        for card in stack_cards
+    )
     case_cards_html = "\n".join(
-        f'<article class="case-card"><h3>{escape(title)}</h3><p>{escape(text)}</p></article>'
-        for title, text in case_cards
+        (
+            '<article class="case-card case-card-rich">'
+            f'<div class="case-kicker">{escape(card["result"])}</div>'
+            f'<h3>{escape(card["title"])}</h3>'
+            f'<p>{escape(card["text"])}</p>'
+            '<ul class="case-tags">'
+            + "".join(f"<li>{escape(tag)}</li>" for tag in card["stack"])
+            + "</ul>"
+            + f'<a class="btn btn-secondary" href="{escape(card["link"][1])}">{escape(card["link"][0])}</a>'
+            + "</article>"
+        )
+        for card in case_cards
+    )
+    timeline_items_html = "\n".join(
+        (
+            '<article class="timeline-card">'
+            f'<span class="timeline-period">{escape(item["period"])}</span>'
+            f'<div class="timeline-body"><div class="timeline-head"><h3>{escape(item["title"])}</h3><span>{escape(item["meta"])}</span></div>'
+            f'<p>{escape(item["text"])}</p>'
+            '<ul class="timeline-tags">'
+            + "".join(f"<li>{escape(tag)}</li>" for tag in item["tags"])
+            + "</ul></div></article>"
+        )
+        for item in timeline_items
     )
     result_cards_html = "\n".join(
         (
@@ -1132,7 +1269,9 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
       <div class="topbar-links">
         <a href="#overview">Обзор</a>
         <a href="#results">Результаты</a>
+        <a href="#stack">Стек</a>
         <a href="#charts">Графики</a>
+        <a href="#timeline">Таймлайн</a>
         <a href="#artifacts">Артефакты</a>
         <a href="#cases">Кейсы</a>
         <a href="#demo">Стенд</a>
@@ -1187,8 +1326,19 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         <p class="eyebrow">Результаты</p>
         <h2>Что уже можно показать как рабочий результат</h2>
       </div>
+      <div class="section-note">Числа и периоды ниже собраны из локального архива, резюме и уже вынесенных публичных артефактов.</div>
       <div class="result-grid">
         {result_cards_html}
+      </div>
+    </section>
+
+    <section class="panel" id="stack">
+      <div class="section-head">
+        <p class="eyebrow">Стек и зоны ответственности</p>
+        <h2>По каким направлениям опыт уже читается целиком</h2>
+      </div>
+      <div class="stack-grid">
+        {stack_cards_html}
       </div>
     </section>
 
@@ -1254,10 +1404,20 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
     <section class="panel" id="cases">
       <div class="section-head">
         <p class="eyebrow">Кейсы</p>
-        <h2>Какие типы задач этот архив уже подтверждает</h2>
+        <h2>Кейсы с результатом, стеком и прямым входом</h2>
       </div>
       <div class="case-grid">
         {case_cards_html}
+      </div>
+    </section>
+
+    <section class="panel" id="timeline">
+      <div class="section-head">
+        <p class="eyebrow">Таймлайн</p>
+        <h2>Опыт по годам, облакам и инфраструктурным этапам</h2>
+      </div>
+      <div class="timeline-grid">
+        {timeline_items_html}
       </div>
     </section>
 
