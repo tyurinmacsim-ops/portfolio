@@ -1,0 +1,125 @@
+{
+  "generated_at_utc": "2026-06-24T09:09:20Z",
+  "sources": [
+    {
+      "source": "eusy",
+      "path": "/Users/macbook/Yandex.Disk.localized/работа/eusy",
+      "exists": true,
+      "summary": "The snapshot preserves strong repository topology for Ansible, Terraform, FluxCD, Terragrunt, Helm, and Kafka topic management, but the working trees are mostly empty and the local .git copies are incomplete.",
+      "regular_file_count_excluding_git": 0,
+      "evidence_points": [
+        {
+          "label": "Ansible role topology",
+          "path": "ansible/roles",
+          "items": [
+            "audit",
+            "certbot",
+            "common",
+            "del_users",
+            "dns",
+            "docker",
+            "filebeat",
+            "hashicorp_balancer",
+            "hashicorp_vault",
+            "java",
+            "logstash",
+            "ms-defender",
+            "nginx",
+            "opensearch",
+            "opensearch_balancer",
+            "rudder",
+            "squid",
+            "tuning",
+            "ufw"
+          ]
+        },
+        {
+          "label": "Terraform scope layout",
+          "path": "infra/terraform",
+          "items": [
+            "app01-dev",
+            "development",
+            "dns-internal",
+            "domain-zones",
+            "opensearch",
+            "postgresql_flexible",
+            "vault",
+            "vm"
+          ]
+        },
+        {
+          "label": "Shared module layout",
+          "path": "modules",
+          "items": [
+            "ansible",
+            "common",
+            "environments",
+            "hub",
+            "infra",
+            "logger",
+            "opensearch",
+            "postgresql",
+            "vault"
+          ]
+        },
+        {
+          "label": "FluxCD repository layout",
+          "path": "fluxcd",
+          "items": [
+            "apps/base",
+            "apps/dev-k8s",
+            "clusters/dev-k8s",
+            "clusters/prod-k8s",
+            "infrastructure/base",
+            "infrastructure/dev-k8s",
+            "infrastructure/monitoring",
+            "infrastructure/prod-k8s"
+          ]
+        },
+        {
+          "label": "Terragrunt live layout",
+          "path": "terragrunt-live",
+          "items": [
+            "_global/environments",
+            "_global/hub",
+            "_global/infra",
+            "_global/logger",
+            "_global/opensearch",
+            "_global/postgresql",
+            "_global/redis",
+            "_global/vault",
+            "eusy_prod/westeurope"
+          ]
+        },
+        {
+          "label": "Helm chart layout",
+          "path": "charts",
+          "items": [
+            "kafka-topics/templates",
+            "web/templates"
+          ]
+        },
+        {
+          "label": "Kafka topic repository layout",
+          "path": "kafka-topics",
+          "items": [
+            "migrations/topics",
+            "test/examples"
+          ]
+        },
+        {
+          "label": "Terragrunt modules",
+          "path": "terragrunt-modules",
+          "items": [
+            "opensearch"
+          ]
+        }
+      ],
+      "caveats": [
+        "This is topology-based evidence, not commit-based evidence.",
+        "Directory modification timestamps mostly reflect copy or import time, not original authoring time.",
+        "The local .git copies under eusy are incomplete, so git history could not be read reliably."
+      ]
+    }
+  ]
+}

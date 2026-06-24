@@ -1,0 +1,11 @@
+.DS_Store
+.terraform/
+.tmp/
+terraform.tfstate
+terraform.tfstate.*
+crash.log
+__pycache__/
+.pytest_cache/
+dist/
+build/
+*.pyc

@@ -1,0 +1,471 @@
+{
+  "total_repos_scanned": 108,
+  "valid_git_repos_scanned": 69,
+  "invalid_git_copies_skipped": 39,
+  "repos_with_my_commits": 42,
+  "total_my_commits": 8166,
+  "author_aliases_detected": 6,
+  "repos": [
+    {
+      "public_name": "Project 07 - ArgoCD delivery platform",
+      "commits": 2953,
+      "first_date": "2025-02-11",
+      "last_date": "2025-10-30",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Project 02 - Ops automation / Ansible + Terraform",
+      "commits": 1538,
+      "first_date": "2023-09-05",
+      "last_date": "2025-10-24",
+      "tech": [
+        "Ansible",
+        "GitLab CI",
+        "Kubernetes",
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Project 01 - GitOps / FluxCD platform",
+      "commits": 1292,
+      "first_date": "2023-09-08",
+      "last_date": "2024-02-28",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Project 08 - Helm chart fleet",
+      "commits": 775,
+      "first_date": "2023-09-08",
+      "last_date": "2025-10-29",
+      "tech": [
+        "Helm"
+      ]
+    },
+    {
+      "public_name": "Project 09 - GitLab templates for bot delivery",
+      "commits": 245,
+      "first_date": "2023-12-07",
+      "last_date": "2025-08-21",
+      "tech": []
+    },
+    {
+      "public_name": "Project 10 - Access management platform",
+      "commits": 155,
+      "first_date": "2025-12-19",
+      "last_date": "2026-02-27",
+      "tech": [
+        "GitLab CI",
+        "Kubernetes",
+        "Terraform",
+        "Terragrunt"
+      ]
+    },
+    {
+      "public_name": "Project 11 - Kubernetes platform box",
+      "commits": 122,
+      "first_date": "2026-03-02",
+      "last_date": "2026-03-16",
+      "tech": [
+        "GitLab CI",
+        "Terraform",
+        "Terragrunt"
+      ]
+    },
+    {
+      "public_name": "Project 12 - Infrastructure as Code modules",
+      "commits": 118,
+      "first_date": "2025-04-21",
+      "last_date": "2025-10-24",
+      "tech": [
+        "GitLab CI",
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Workstream 09",
+      "commits": 115,
+      "first_date": "2025-12-16",
+      "last_date": "2026-02-27",
+      "tech": [
+        "GitLab CI",
+        "Terraform",
+        "Terragrunt"
+      ]
+    },
+    {
+      "public_name": "Project 03 - Helm releases for multi-service apps",
+      "commits": 104,
+      "first_date": "2023-09-08",
+      "last_date": "2024-02-16",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Project 13 - Shared CI/CD components",
+      "commits": 66,
+      "first_date": "2025-07-25",
+      "last_date": "2025-10-20",
+      "tech": [
+        "GitLab CI"
+      ]
+    },
+    {
+      "public_name": "Workstream 12",
+      "commits": 63,
+      "first_date": "2025-12-02",
+      "last_date": "2025-12-03",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 13",
+      "commits": 63,
+      "first_date": "2025-12-02",
+      "last_date": "2025-12-03",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 14",
+      "commits": 59,
+      "first_date": "2026-01-29",
+      "last_date": "2026-02-27",
+      "tech": []
+    },
+    {
+      "public_name": "Workstream 15",
+      "commits": 54,
+      "first_date": "2025-04-16",
+      "last_date": "2025-10-24",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 16",
+      "commits": 50,
+      "first_date": "2026-03-03",
+      "last_date": "2026-03-16",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 17",
+      "commits": 48,
+      "first_date": "2025-12-19",
+      "last_date": "2026-02-25",
+      "tech": [
+        "GitLab CI",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 18",
+      "commits": 34,
+      "first_date": "2025-12-19",
+      "last_date": "2026-02-19",
+      "tech": [
+        "GitLab CI",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 19",
+      "commits": 32,
+      "first_date": "2025-07-25",
+      "last_date": "2025-09-02",
+      "tech": [
+        "GitLab CI"
+      ]
+    },
+    {
+      "public_name": "Workstream 20",
+      "commits": 31,
+      "first_date": "2025-12-02",
+      "last_date": "2025-12-08",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 21",
+      "commits": 30,
+      "first_date": "2025-12-04",
+      "last_date": "2025-12-05",
+      "tech": [
+        "Ansible"
+      ]
+    },
+    {
+      "public_name": "Project 04 - CI template library",
+      "commits": 29,
+      "first_date": "2023-12-07",
+      "last_date": "2024-01-23",
+      "tech": []
+    },
+    {
+      "public_name": "Workstream 23",
+      "commits": 27,
+      "first_date": "2025-03-17",
+      "last_date": "2025-10-22",
+      "tech": [
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Workstream 24",
+      "commits": 24,
+      "first_date": "2025-12-02",
+      "last_date": "2025-12-03",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 25",
+      "commits": 23,
+      "first_date": "2025-12-17",
+      "last_date": "2026-02-27",
+      "tech": [
+        "Docker",
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 26",
+      "commits": 15,
+      "first_date": "2025-12-24",
+      "last_date": "2025-12-29",
+      "tech": [
+        "GitLab CI",
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Workstream 27",
+      "commits": 12,
+      "first_date": "2025-12-22",
+      "last_date": "2026-02-25",
+      "tech": [
+        "Docker",
+        "GitLab CI"
+      ]
+    },
+    {
+      "public_name": "Workstream 28",
+      "commits": 12,
+      "first_date": "2025-12-26",
+      "last_date": "2025-12-29",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Project 05 - Backup automation pipeline",
+      "commits": 11,
+      "first_date": "2023-12-15",
+      "last_date": "2024-02-26",
+      "tech": [
+        "Docker",
+        "GitLab CI"
+      ]
+    },
+    {
+      "public_name": "Workstream 30",
+      "commits": 11,
+      "first_date": "2026-03-11",
+      "last_date": "2026-03-12",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Project 06 - Service CI/CD integration",
+      "commits": 10,
+      "first_date": "2023-12-19",
+      "last_date": "2023-12-22",
+      "tech": [
+        "Docker",
+        "GitLab CI"
+      ]
+    },
+    {
+      "public_name": "Workstream 32",
+      "commits": 10,
+      "first_date": "2026-01-27",
+      "last_date": "2026-02-27",
+      "tech": [
+        "GitLab CI",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 33",
+      "commits": 8,
+      "first_date": "2026-03-11",
+      "last_date": "2026-03-12",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 34",
+      "commits": 7,
+      "first_date": "2025-12-17",
+      "last_date": "2025-12-26",
+      "tech": [
+        "GitLab CI",
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Workstream 35",
+      "commits": 4,
+      "first_date": "2025-12-02",
+      "last_date": "2025-12-02",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 36",
+      "commits": 4,
+      "first_date": "2025-12-03",
+      "last_date": "2025-12-03",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 37",
+      "commits": 3,
+      "first_date": "2026-03-11",
+      "last_date": "2026-03-11",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 38",
+      "commits": 2,
+      "first_date": "2026-03-11",
+      "last_date": "2026-03-11",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 39",
+      "commits": 2,
+      "first_date": "2026-03-12",
+      "last_date": "2026-03-12",
+      "tech": [
+        "GitLab CI",
+        "Terraform",
+        "Terragrunt"
+      ]
+    },
+    {
+      "public_name": "Workstream 40",
+      "commits": 2,
+      "first_date": "2026-01-16",
+      "last_date": "2026-01-16",
+      "tech": [
+        "Docker",
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 41",
+      "commits": 2,
+      "first_date": "2026-01-16",
+      "last_date": "2026-01-16",
+      "tech": [
+        "GitLab CI",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 42",
+      "commits": 1,
+      "first_date": "2025-12-04",
+      "last_date": "2025-12-04",
+      "tech": [
+        "Ansible"
+      ]
+    }
+  ],
+  "monthly": {
+    "2023-09": 663,
+    "2023-10": 294,
+    "2023-11": 406,
+    "2023-12": 462,
+    "2024-01": 129,
+    "2024-02": 145,
+    "2024-03": 10,
+    "2024-04": 21,
+    "2024-05": 80,
+    "2024-06": 133,
+    "2024-07": 100,
+    "2024-08": 150,
+    "2024-09": 163,
+    "2024-10": 146,
+    "2024-11": 112,
+    "2024-12": 132,
+    "2025-01": 31,
+    "2025-02": 320,
+    "2025-03": 379,
+    "2025-04": 710,
+    "2025-05": 388,
+    "2025-06": 311,
+    "2025-07": 863,
+    "2025-08": 266,
+    "2025-09": 350,
+    "2025-10": 490,
+    "2025-12": 299,
+    "2026-01": 161,
+    "2026-02": 254,
+    "2026-03": 198
+  },
+  "yearly": {
+    "2023": 1825,
+    "2024": 1321,
+    "2025": 4407,
+    "2026": 613
+  }
+}
