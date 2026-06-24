@@ -1,0 +1,19 @@
+configs:
+
+  repositories:
+  %{ for git_repo_name, git_repo_url in git_repo_urls }
+    ${git_repo_name}:
+      url: ${jsonencode(git_repo_url)}
+      name: ${jsonencode(git_repo_name)}
+      type: "git"
+      username: ${jsonencode(git_repo_username)}
+      password: ${jsonencode(git_repo_passwords[git_repo_name])}
+  %{ endfor ~}
+  %{ for chart_repo_name, chart_repo_url in chart_repo_urls }
+    ${chart_repo_name}:
+      url: ${jsonencode(chart_repo_url)}
+      name: ${jsonencode(chart_repo_name)}
+      type: "helm"
+      username: ${jsonencode(chart_repo_username)}
+      password: ${jsonencode(chart_repo_passwords[chart_repo_name])}
+  %{ endfor ~}

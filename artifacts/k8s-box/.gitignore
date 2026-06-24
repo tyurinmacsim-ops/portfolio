@@ -1,0 +1,27 @@
+# Terragrunt
+.terragrunt-cache/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform.lock.hcl
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local generated context files
+.generated/
+
+# Local bootstrap artifacts
+.local/
+.artifacts/
+
+# Local Helm runtime cache for argocd stack
+argocd/.helm/
+
+.env

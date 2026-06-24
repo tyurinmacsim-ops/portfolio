@@ -1,0 +1,263 @@
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+stages:
+  - validate
+  - plan
+  - apply
+  - verify
+  - destroy
+
+variables:
+  LOAD_DOTENV: "false"
+  TF_IN_AUTOMATION: "1"
+  TF_INPUT: "0"
+  TF_CLI_ARGS: "-no-color"
+  TG_NON_INTERACTIVE: "true"
+  SKIP_FOLDER_DESTROY: "true"
+  APPLY_RUNTIME_PROFILE: "true"
+  K8S_BOX_INFRA_REPO_REF: "main"
+  K8S_BOX_PROFILE_FILE: "profiles/test-minimal.env"
+
+default:
+  tags:
+    - infra-runner
+  before_script:
+    - chmod +x scripts/*.sh
+    - |
+      if [[ -n "${K8S_BOX_PROFILE_FILE:-}" ]]; then
+        if [[ ! -f "${K8S_BOX_PROFILE_FILE}" ]]; then
+          echo "Profile file not found: ${K8S_BOX_PROFILE_FILE}" >&2
+          exit 1
+        fi
+        set -a
+        source "${K8S_BOX_PROFILE_FILE}"
+        set +a
+      fi
+    - |
+      if [[ -n "${YC_TOKEN:-}" && -z "${TF_VAR_YC_TOKEN:-}" ]]; then
+        export TF_VAR_YC_TOKEN="${YC_TOKEN}"
+      fi
+      if [[ -n "${TF_VAR_YC_TOKEN:-}" && -z "${TF_VAR_yc_token:-}" ]]; then
+        export TF_VAR_yc_token="${TF_VAR_YC_TOKEN}"
+      fi
+      if [[ -n "${GITLAB_TOKEN:-}" && -z "${K8S_BOX_GITLAB_REPO_TOKEN:-}" ]]; then
+        export K8S_BOX_GITLAB_REPO_TOKEN="${GITLAB_TOKEN}"
+      fi
+      if [[ -z "${TF_VAR_YC_TOKEN:-}" ]] && command -v yc >/dev/null 2>&1; then
+        fresh_token="$(yc iam create-token 2>/dev/null || true)"
+        if [[ -n "${fresh_token}" ]]; then
+          export TF_VAR_YC_TOKEN="${fresh_token}"
+          export TF_VAR_yc_token="${fresh_token}"
+        fi
+      fi
+
+.cluster_changes: &cluster_changes
+  - env.hcl
+  - folder/**/*
+  - vpc/**/*
+  - security-group/**/*
+  - vpn-vm/**/*
+  - vpn/**/*
+  - test-cluster-k8s/**/*
+  - yc-folder-module/**/*
+  - yc-vpc-module/**/*
+  - yc-security-group-module/**/*
+  - yc-vpn-vm-module/**/*
+  - yc-k8s-module/**/*
+  - scripts/bootstrap-k8s-box.sh
+  - scripts/check-env.sh
+
+.platform_changes: &platform_changes
+  - argocd/**/*
+  - argocd-module/**/*
+  - vault-infra/**/*
+  - yc-vault-infra-module/**/*
+  - scripts/ensure-infra-repo.sh
+  - scripts/apply-platform-runtime-profile.sh
+  - scripts/platform-maintenance.sh
+  - scripts/preflight-vault-observability.sh
+  - scripts/healthcheck-vault-observability.sh
+  - scripts/service-smoke-check.sh
+  - scripts/vault-test-bootstrap.sh
+
+.full_changes: &full_changes
+  - env.hcl
+  - folder/**/*
+  - vpc/**/*
+  - security-group/**/*
+  - vpn-vm/**/*
+  - vpn/**/*
+  - test-cluster-k8s/**/*
+  - vault-infra/**/*
+  - argocd/**/*
+  - yc-folder-module/**/*
+  - yc-vpc-module/**/*
+  - yc-security-group-module/**/*
+  - yc-vpn-vm-module/**/*
+  - yc-k8s-module/**/*
+  - yc-vault-infra-module/**/*
+  - argocd-module/**/*
+  - scripts/ensure-infra-repo.sh
+  - scripts/apply-platform-runtime-profile.sh
+  - scripts/bootstrap-k8s-box.sh
+  - scripts/platform-maintenance.sh
+  - scripts/preflight-vault-observability.sh
+  - scripts/healthcheck-vault-observability.sh
+  - scripts/service-smoke-check.sh
+  - scripts/vault-test-bootstrap.sh
+
+validate:scripts:
+  stage: validate
+  script:
+    - test -z "${K8S_BOX_PROFILE_FILE:-}" || test -f "${K8S_BOX_PROFILE_FILE}"
+    - bash -n scripts/bootstrap-k8s-box.sh
+    - bash -n scripts/platform-maintenance.sh
+    - bash -n scripts/check-env.sh
+    - bash -n scripts/ensure-infra-repo.sh
+    - bash -n scripts/apply-platform-runtime-profile.sh
+    - bash -n scripts/scaffold-stack-from-requirements.sh
+    - bash -n scripts/validate-profile-file.sh
+    - ./scripts/validate-profile-file.sh profiles/test-minimal.env
+    - ./scripts/validate-profile-file.sh profiles/dev-standard.env
+    - ./scripts/validate-profile-file.sh profiles/prod-baseline.env
+    - test -z "${K8S_BOX_PROFILE_FILE:-}" || ./scripts/validate-profile-file.sh "${K8S_BOX_PROFILE_FILE}"
+    - terragrunt hcl format --check
+
+validate:tools:
+  stage: validate
+  script:
+    - terraform version
+    - terragrunt --version
+    - yc --version
+    - kubectl version --client
+
+prepare:platform-runtime:
+  stage: validate
+  script:
+    - export INFRA_REPO_DIR="${CI_PROJECT_DIR}/.deps/infrastructure"
+    - ./scripts/ensure-infra-repo.sh
+    - ./scripts/apply-platform-runtime-profile.sh
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *platform_changes
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes: *platform_changes
+      when: on_success
+    - when: never
+
+plan:cluster:
+  stage: plan
+  script:
+    - set -o pipefail
+    - ./scripts/bootstrap-k8s-box.sh plan-cluster | tee plan-cluster.log
+    - sed -E 's/\x1b\[[0-9;]*m//g' plan-cluster.log > plan-cluster.clean.log
+    - awk '/Plan:|No changes\.|Apply complete!|^Error:|error occurred|Skipping / {print}' plan-cluster.clean.log > plan-cluster.summary || true
+  artifacts:
+    when: always
+    paths:
+      - plan-cluster.log
+      - plan-cluster.clean.log
+      - plan-cluster.summary
+    expire_in: 1 week
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *cluster_changes
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes: *cluster_changes
+      when: on_success
+    - when: never
+
+plan:platform:
+  stage: plan
+  needs:
+    - prepare:platform-runtime
+  script:
+    - set -o pipefail
+    - export INFRA_REPO_DIR="${CI_PROJECT_DIR}/.deps/infrastructure"
+    - ./scripts/bootstrap-k8s-box.sh plan | tee plan-platform.log
+    - sed -E 's/\x1b\[[0-9;]*m//g' plan-platform.log > plan-platform.clean.log
+    - awk '/Plan:|No changes\.|Apply complete!|^Error:|error occurred|Skipping / {print}' plan-platform.clean.log > plan-platform.summary || true
+  artifacts:
+    when: always
+    paths:
+      - plan-platform.log
+      - plan-platform.clean.log
+      - plan-platform.summary
+    expire_in: 1 week
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes: *platform_changes
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+      changes: *platform_changes
+      when: on_success
+    - when: never
+
+apply:cluster:
+  stage: apply
+  script:
+    - ./scripts/bootstrap-k8s-box.sh apply-cluster
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes: *cluster_changes
+      when: on_success
+    - when: never
+
+apply:platform:
+  stage: apply
+  needs:
+    - job: apply:cluster
+      optional: true
+    - job: prepare:platform-runtime
+      optional: true
+  script:
+    - export INFRA_REPO_DIR="${CI_PROJECT_DIR}/.deps/infrastructure"
+    - ./scripts/platform-maintenance.sh apply-vault-infra -auto-approve
+    - ./scripts/platform-maintenance.sh apply-argocd -auto-approve
+    - ./scripts/platform-maintenance.sh upgrade-vault-observability
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes: *full_changes
+      when: on_success
+    - when: never
+
+verify:health:
+  stage: verify
+  needs:
+    - apply:platform
+  script:
+    - export INFRA_REPO_DIR="${CI_PROJECT_DIR}/.deps/infrastructure"
+    - ./scripts/platform-maintenance.sh status
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes: *full_changes
+      when: on_success
+    - when: never
+
+verify:smoke:
+  stage: verify
+  needs:
+    - verify:health
+  script:
+    - export INFRA_REPO_DIR="${CI_PROJECT_DIR}/.deps/infrastructure"
+    - ./scripts/platform-maintenance.sh smoke-services
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes: *full_changes
+      when: on_success
+    - when: never
+
+destroy:stack:
+  stage: destroy
+  script:
+    - ./scripts/bootstrap-k8s-box.sh destroy
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual
+      allow_failure: false
+    - when: never

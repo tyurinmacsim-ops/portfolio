@@ -842,6 +842,15 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
     lines.extend(
         [
             "",
+            "## K8s-box Platform Toolkit",
+            "",
+            "- Источник: `/Users/macbook/Yandex.Disk.localized/работа/hilbert team/coretech/k8s-box`",
+            "- Тип подтверждения: sanitized public copy рабочего platform engineering toolkit.",
+            "- Что подтверждает: практическую работу с `Yandex Cloud`, `Terraform`, `Terragrunt`, `ArgoCD`, `Vault`, `GitLab CI/CD`, VPN entrypoint, cluster profiles и эксплуатационной документацией.",
+            "- Публичная копия в репозитории: [artifacts/k8s-box](../artifacts/k8s-box/README.md)",
+            "- Состав публичной копии: `136` файлов, включая `50` Terraform-файлов, `20` shell-скриптов, `10` HCL-файлов и `31` Markdown-документ.",
+            "- Что было исключено из публичной копии: `.git`, `.env`, `.generated`, клиентские VPN-конфиги, дублирующие рабочие каталоги и соседний runtime-репозиторий `infrastructure`.",
+            "",
             "## Следующие артефакты, которые можно публиковать в redacted-виде",
             "",
             "Ниже перечислены не исходные рабочие репозитории, а типы технических артефактов, которые можно безопасно вынести в публичное портфолио после обезличивания.",
