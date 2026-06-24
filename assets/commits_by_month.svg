@@ -1,100 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1350" viewBox="0 0 1100 1350">
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1430" viewBox="0 0 1100 1430">
 <style>
-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17212b; }
-.title { font-size: 24px; font-weight: 700; }
-.label { font-size: 14px; }
-.value { font-size: 14px; font-weight: 600; }
+text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
 </style>
-<rect x="0" y="0" width="1100" height="1350" fill="#f7f8fa"/>
-<text class="title" x="24" y="40">Commits by Month</text>
-<text class="label" x="24" y="87">2023-09</text>
-<rect x="260" y="70" rx="6" ry="6" width="614" height="24" fill="#2f6fed"/>
-<text class="value" x="884" y="87">663</text>
-<text class="label" x="24" y="129">2023-10</text>
-<rect x="260" y="112" rx="6" ry="6" width="272" height="24" fill="#2f6fed"/>
-<text class="value" x="542" y="129">294</text>
-<text class="label" x="24" y="171">2023-11</text>
-<rect x="260" y="154" rx="6" ry="6" width="376" height="24" fill="#2f6fed"/>
-<text class="value" x="646" y="171">406</text>
-<text class="label" x="24" y="213">2023-12</text>
-<rect x="260" y="196" rx="6" ry="6" width="428" height="24" fill="#2f6fed"/>
-<text class="value" x="698" y="213">462</text>
-<text class="label" x="24" y="255">2024-01</text>
-<rect x="260" y="238" rx="6" ry="6" width="119" height="24" fill="#2f6fed"/>
-<text class="value" x="389" y="255">129</text>
-<text class="label" x="24" y="297">2024-02</text>
-<rect x="260" y="280" rx="6" ry="6" width="134" height="24" fill="#2f6fed"/>
-<text class="value" x="404" y="297">145</text>
-<text class="label" x="24" y="339">2024-03</text>
-<rect x="260" y="322" rx="6" ry="6" width="9" height="24" fill="#2f6fed"/>
-<text class="value" x="279" y="339">10</text>
-<text class="label" x="24" y="381">2024-04</text>
-<rect x="260" y="364" rx="6" ry="6" width="19" height="24" fill="#2f6fed"/>
-<text class="value" x="289" y="381">21</text>
-<text class="label" x="24" y="423">2024-05</text>
-<rect x="260" y="406" rx="6" ry="6" width="74" height="24" fill="#2f6fed"/>
-<text class="value" x="344" y="423">80</text>
-<text class="label" x="24" y="465">2024-06</text>
-<rect x="260" y="448" rx="6" ry="6" width="123" height="24" fill="#2f6fed"/>
-<text class="value" x="393" y="465">133</text>
-<text class="label" x="24" y="507">2024-07</text>
-<rect x="260" y="490" rx="6" ry="6" width="92" height="24" fill="#2f6fed"/>
-<text class="value" x="362" y="507">100</text>
-<text class="label" x="24" y="549">2024-08</text>
-<rect x="260" y="532" rx="6" ry="6" width="139" height="24" fill="#2f6fed"/>
-<text class="value" x="409" y="549">150</text>
-<text class="label" x="24" y="591">2024-09</text>
-<rect x="260" y="574" rx="6" ry="6" width="151" height="24" fill="#2f6fed"/>
-<text class="value" x="421" y="591">163</text>
-<text class="label" x="24" y="633">2024-10</text>
-<rect x="260" y="616" rx="6" ry="6" width="135" height="24" fill="#2f6fed"/>
-<text class="value" x="405" y="633">146</text>
-<text class="label" x="24" y="675">2024-11</text>
-<rect x="260" y="658" rx="6" ry="6" width="103" height="24" fill="#2f6fed"/>
-<text class="value" x="373" y="675">112</text>
-<text class="label" x="24" y="717">2024-12</text>
-<rect x="260" y="700" rx="6" ry="6" width="122" height="24" fill="#2f6fed"/>
-<text class="value" x="392" y="717">132</text>
-<text class="label" x="24" y="759">2025-01</text>
-<rect x="260" y="742" rx="6" ry="6" width="28" height="24" fill="#2f6fed"/>
-<text class="value" x="298" y="759">31</text>
-<text class="label" x="24" y="801">2025-02</text>
-<rect x="260" y="784" rx="6" ry="6" width="296" height="24" fill="#2f6fed"/>
-<text class="value" x="566" y="801">320</text>
-<text class="label" x="24" y="843">2025-03</text>
-<rect x="260" y="826" rx="6" ry="6" width="351" height="24" fill="#2f6fed"/>
-<text class="value" x="621" y="843">379</text>
-<text class="label" x="24" y="885">2025-04</text>
-<rect x="260" y="868" rx="6" ry="6" width="658" height="24" fill="#2f6fed"/>
-<text class="value" x="928" y="885">710</text>
-<text class="label" x="24" y="927">2025-05</text>
-<rect x="260" y="910" rx="6" ry="6" width="359" height="24" fill="#2f6fed"/>
-<text class="value" x="629" y="927">388</text>
-<text class="label" x="24" y="969">2025-06</text>
-<rect x="260" y="952" rx="6" ry="6" width="288" height="24" fill="#2f6fed"/>
-<text class="value" x="558" y="969">311</text>
-<text class="label" x="24" y="1011">2025-07</text>
-<rect x="260" y="994" rx="6" ry="6" width="800" height="24" fill="#2f6fed"/>
-<text class="value" x="1070" y="1011">863</text>
-<text class="label" x="24" y="1053">2025-08</text>
-<rect x="260" y="1036" rx="6" ry="6" width="246" height="24" fill="#2f6fed"/>
-<text class="value" x="516" y="1053">266</text>
-<text class="label" x="24" y="1095">2025-09</text>
-<rect x="260" y="1078" rx="6" ry="6" width="324" height="24" fill="#2f6fed"/>
-<text class="value" x="594" y="1095">350</text>
-<text class="label" x="24" y="1137">2025-10</text>
-<rect x="260" y="1120" rx="6" ry="6" width="454" height="24" fill="#2f6fed"/>
-<text class="value" x="724" y="1137">490</text>
-<text class="label" x="24" y="1179">2025-12</text>
-<rect x="260" y="1162" rx="6" ry="6" width="277" height="24" fill="#2f6fed"/>
-<text class="value" x="547" y="1179">299</text>
-<text class="label" x="24" y="1221">2026-01</text>
-<rect x="260" y="1204" rx="6" ry="6" width="149" height="24" fill="#2f6fed"/>
-<text class="value" x="419" y="1221">161</text>
-<text class="label" x="24" y="1263">2026-02</text>
-<rect x="260" y="1246" rx="6" ry="6" width="235" height="24" fill="#2f6fed"/>
-<text class="value" x="505" y="1263">254</text>
-<text class="label" x="24" y="1305">2026-03</text>
-<rect x="260" y="1288" rx="6" ry="6" width="183" height="24" fill="#2f6fed"/>
-<text class="value" x="453" y="1305">198</text>
+<defs>
+<linearGradient id="barFill" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="#0f766e"/>
+<stop offset="100%" stop-color="#d97706"/>
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="1100" height="1430" rx="28" ry="28" fill="#fffaf4"/>
+<text class="title" x="30" y="44">Коммиты по месяцам</text>
+<text class="subtitle" x="30" y="68">Динамика подтверждённой активности в локальном архиве.</text>
+<text class="label" x="30" y="103">2023-09</text>
+<rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="86" rx="8" ry="8" width="579" height="24" fill="url(#barFill)"/>
+<text class="value" x="891" y="103">663</text>
+<text class="label" x="30" y="147">2023-10</text>
+<rect x="300" y="130" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="130" rx="8" ry="8" width="256" height="24" fill="url(#barFill)"/>
+<text class="value" x="568" y="147">294</text>
+<text class="label" x="30" y="191">2023-11</text>
+<rect x="300" y="174" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="174" rx="8" ry="8" width="354" height="24" fill="url(#barFill)"/>
+<text class="value" x="666" y="191">406</text>
+<text class="label" x="30" y="235">2023-12</text>
+<rect x="300" y="218" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="218" rx="8" ry="8" width="403" height="24" fill="url(#barFill)"/>
+<text class="value" x="715" y="235">462</text>
+<text class="label" x="30" y="279">2024-01</text>
+<rect x="300" y="262" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="262" rx="8" ry="8" width="112" height="24" fill="url(#barFill)"/>
+<text class="value" x="424" y="279">129</text>
+<text class="label" x="30" y="323">2024-02</text>
+<rect x="300" y="306" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="306" rx="8" ry="8" width="126" height="24" fill="url(#barFill)"/>
+<text class="value" x="438" y="323">145</text>
+<text class="label" x="30" y="367">2024-03</text>
+<rect x="300" y="350" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="350" rx="8" ry="8" width="8" height="24" fill="url(#barFill)"/>
+<text class="value" x="320" y="367">10</text>
+<text class="label" x="30" y="411">2024-04</text>
+<rect x="300" y="394" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="394" rx="8" ry="8" width="18" height="24" fill="url(#barFill)"/>
+<text class="value" x="330" y="411">21</text>
+<text class="label" x="30" y="455">2024-05</text>
+<rect x="300" y="438" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="438" rx="8" ry="8" width="69" height="24" fill="url(#barFill)"/>
+<text class="value" x="381" y="455">80</text>
+<text class="label" x="30" y="499">2024-06</text>
+<rect x="300" y="482" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="482" rx="8" ry="8" width="116" height="24" fill="url(#barFill)"/>
+<text class="value" x="428" y="499">133</text>
+<text class="label" x="30" y="543">2024-07</text>
+<rect x="300" y="526" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="526" rx="8" ry="8" width="87" height="24" fill="url(#barFill)"/>
+<text class="value" x="399" y="543">100</text>
+<text class="label" x="30" y="587">2024-08</text>
+<rect x="300" y="570" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="570" rx="8" ry="8" width="131" height="24" fill="url(#barFill)"/>
+<text class="value" x="443" y="587">150</text>
+<text class="label" x="30" y="631">2024-09</text>
+<rect x="300" y="614" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="614" rx="8" ry="8" width="142" height="24" fill="url(#barFill)"/>
+<text class="value" x="454" y="631">163</text>
+<text class="label" x="30" y="675">2024-10</text>
+<rect x="300" y="658" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="658" rx="8" ry="8" width="127" height="24" fill="url(#barFill)"/>
+<text class="value" x="439" y="675">146</text>
+<text class="label" x="30" y="719">2024-11</text>
+<rect x="300" y="702" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="702" rx="8" ry="8" width="97" height="24" fill="url(#barFill)"/>
+<text class="value" x="409" y="719">112</text>
+<text class="label" x="30" y="763">2024-12</text>
+<rect x="300" y="746" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="746" rx="8" ry="8" width="115" height="24" fill="url(#barFill)"/>
+<text class="value" x="427" y="763">132</text>
+<text class="label" x="30" y="807">2025-01</text>
+<rect x="300" y="790" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="790" rx="8" ry="8" width="27" height="24" fill="url(#barFill)"/>
+<text class="value" x="339" y="807">31</text>
+<text class="label" x="30" y="851">2025-02</text>
+<rect x="300" y="834" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="834" rx="8" ry="8" width="279" height="24" fill="url(#barFill)"/>
+<text class="value" x="591" y="851">320</text>
+<text class="label" x="30" y="895">2025-03</text>
+<rect x="300" y="878" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="878" rx="8" ry="8" width="331" height="24" fill="url(#barFill)"/>
+<text class="value" x="643" y="895">379</text>
+<text class="label" x="30" y="939">2025-04</text>
+<rect x="300" y="922" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="922" rx="8" ry="8" width="620" height="24" fill="url(#barFill)"/>
+<text class="value" x="932" y="939">710</text>
+<text class="label" x="30" y="983">2025-05</text>
+<rect x="300" y="966" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="966" rx="8" ry="8" width="338" height="24" fill="url(#barFill)"/>
+<text class="value" x="650" y="983">388</text>
+<text class="label" x="30" y="1027">2025-06</text>
+<rect x="300" y="1010" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1010" rx="8" ry="8" width="271" height="24" fill="url(#barFill)"/>
+<text class="value" x="583" y="1027">311</text>
+<text class="label" x="30" y="1071">2025-07</text>
+<rect x="300" y="1054" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1054" rx="8" ry="8" width="754" height="24" fill="url(#barFill)"/>
+<text class="value" x="1066" y="1071">863</text>
+<text class="label" x="30" y="1115">2025-08</text>
+<rect x="300" y="1098" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1098" rx="8" ry="8" width="232" height="24" fill="url(#barFill)"/>
+<text class="value" x="544" y="1115">266</text>
+<text class="label" x="30" y="1159">2025-09</text>
+<rect x="300" y="1142" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1142" rx="8" ry="8" width="305" height="24" fill="url(#barFill)"/>
+<text class="value" x="617" y="1159">350</text>
+<text class="label" x="30" y="1203">2025-10</text>
+<rect x="300" y="1186" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1186" rx="8" ry="8" width="428" height="24" fill="url(#barFill)"/>
+<text class="value" x="740" y="1203">490</text>
+<text class="label" x="30" y="1247">2025-12</text>
+<rect x="300" y="1230" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1230" rx="8" ry="8" width="261" height="24" fill="url(#barFill)"/>
+<text class="value" x="573" y="1247">299</text>
+<text class="label" x="30" y="1291">2026-01</text>
+<rect x="300" y="1274" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1274" rx="8" ry="8" width="140" height="24" fill="url(#barFill)"/>
+<text class="value" x="452" y="1291">161</text>
+<text class="label" x="30" y="1335">2026-02</text>
+<rect x="300" y="1318" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1318" rx="8" ry="8" width="221" height="24" fill="url(#barFill)"/>
+<text class="value" x="533" y="1335">254</text>
+<text class="label" x="30" y="1379">2026-03</text>
+<rect x="300" y="1362" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="1362" rx="8" ry="8" width="172" height="24" fill="url(#barFill)"/>
+<text class="value" x="484" y="1379">198</text>
 </svg>

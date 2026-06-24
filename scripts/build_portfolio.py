@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import csv
+import html
 import json
 import os
 import re
@@ -14,6 +15,8 @@ AUTHOR_PATTERNS = [
     re.compile(r"maxim\.tyurin", re.I),
     re.compile(r"максим\s+тюрин", re.I),
     re.compile(r"tyurin", re.I),
+    re.compile(r"sir[i]?zak", re.I),
+    re.compile(r"stf_tyurin_ma", re.I),
 ]
 
 PUBLIC_ALIASES = {
@@ -32,23 +35,22 @@ PUBLIC_ALIASES = {
     "01.tech/tgbots-components": "Project 13 - Shared CI/CD components",
 }
 
+SVG_TEXT_STYLE = (
+    "text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }"
+    ".title { font-size: 26px; font-weight: 800; }"
+    ".subtitle { font-size: 13px; fill: #627084; }"
+    ".label { font-size: 14px; }"
+    ".axis { font-size: 12px; fill: #6d7a8d; }"
+    ".value { font-size: 14px; font-weight: 700; }"
+)
 
-def load_author_patterns(repo_root: Path) -> list[re.Pattern[str]]:
-    patterns = list(AUTHOR_PATTERNS)
-    alias_path = repo_root / "data" / "author_aliases.json"
-    if not alias_path.exists():
-        return patterns
 
-    try:
-        payload = json.loads(alias_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return patterns
+def format_int(value: int) -> str:
+    return f"{value:,}".replace(",", " ")
 
-    for item in payload.get("patterns", []):
-        if not item:
-            continue
-        patterns.append(re.compile(item, re.I))
-    return patterns
+
+def escape(value: str) -> str:
+    return html.escape(value, quote=True)
 
 
 def run_git(repo: Path, *args: str) -> str:
@@ -103,7 +105,6 @@ def discover_repos(root: Path) -> tuple[list[Path], list[str]]:
     for cur, dirs, _files in os.walk(root):
         if ".git" in dirs:
             repo = Path(cur)
-            git_dir = repo / ".git"
             try:
                 is_repo = subprocess.run(
                     ["git", "-C", str(repo), "rev-parse", "--is-inside-work-tree"],
@@ -121,8 +122,7 @@ def discover_repos(root: Path) -> tuple[list[Path], list[str]]:
     return sorted(repos), sorted(invalid_repos)
 
 
-def build_summary(repo_root: Path, source_root: Path) -> dict:
-    author_patterns = load_author_patterns(repo_root)
+def build_summary(source_root: Path) -> dict:
     repos, invalid_repos = discover_repos(source_root)
     summary = []
     monthly = Counter()
@@ -139,17 +139,17 @@ def build_summary(repo_root: Path, source_root: Path) -> dict:
         for line in log.splitlines():
             if not line.strip():
                 continue
-            sha, author, date = line.split("\t", 2)
-            if is_me(author, author_patterns):
-                mine.append((sha, author, date))
+            sha, author, commit_date = line.split("\t", 2)
+            if is_me(author, AUTHOR_PATTERNS):
+                mine.append((sha, author, commit_date))
                 author_variants[author] += 1
-                monthly[date[:7]] += 1
-                yearly[date[:4]] += 1
+                monthly[commit_date[:7]] += 1
+                yearly[commit_date[:4]] += 1
 
         if not mine:
             continue
 
-        dates = sorted(date for _sha, _author, date in mine)
+        dates = sorted(commit_date for _sha, _author, commit_date in mine)
         rel_repo = os.path.relpath(repo, source_root)
         summary.append(
             {
@@ -164,6 +164,7 @@ def build_summary(repo_root: Path, source_root: Path) -> dict:
     summary.sort(key=lambda item: (-item["commits"], item["repo_path"]))
     for index, item in enumerate(summary, start=1):
         item["public_name"] = PUBLIC_ALIASES.get(item["repo_path"], f"Workstream {index:02d}")
+
     return {
         "total_repos_scanned": len(repos) + len(invalid_repos),
         "valid_git_repos_scanned": len(repos),
@@ -177,6 +178,14 @@ def build_summary(repo_root: Path, source_root: Path) -> dict:
         "monthly": dict(sorted(monthly.items())),
         "yearly": dict(sorted(yearly.items())),
     }
+
+
+def build_tech_counter(summary: dict) -> Counter:
+    tech_counter = Counter()
+    for repo in summary["repos"]:
+        for tech in repo["tech"]:
+            tech_counter[tech] += 1
+    return tech_counter
 
 
 def write_json(path: Path, data: dict) -> None:
@@ -219,35 +228,42 @@ def write_csv(path: Path, repos: list[dict]) -> None:
             )
 
 
-def make_bar_svg(title: str, labels: list[str], values: list[int], output_path: Path) -> None:
+def make_bar_svg(title: str, subtitle: str, labels: list[str], values: list[int], output_path: Path) -> None:
     width = 1100
-    height = 90 + len(labels) * 42
-    left = 260
-    right = 40
+    height = 110 + len(labels) * 44
+    left = 300
+    right = 46
     bar_height = 24
     usable_width = width - left - right
     max_value = max(values) if values else 1
 
     lines = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-        '<style>',
-        "text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17212b; }",
-        ".title { font-size: 24px; font-weight: 700; }",
-        ".label { font-size: 14px; }",
-        ".value { font-size: 14px; font-weight: 600; }",
+        "<style>",
+        SVG_TEXT_STYLE,
         "</style>",
-        f'<rect x="0" y="0" width="{width}" height="{height}" fill="#f7f8fa"/>',
-        f'<text class="title" x="24" y="40">{title}</text>',
+        "<defs>",
+        '<linearGradient id="barFill" x1="0" x2="1" y1="0" y2="0">',
+        '<stop offset="0%" stop-color="#0f766e"/>',
+        '<stop offset="100%" stop-color="#d97706"/>',
+        "</linearGradient>",
+        "</defs>",
+        f'<rect x="0" y="0" width="{width}" height="{height}" rx="28" ry="28" fill="#fffaf4"/>',
+        f'<text class="title" x="30" y="44">{escape(title)}</text>',
+        f'<text class="subtitle" x="30" y="68">{escape(subtitle)}</text>',
     ]
 
     for idx, (label, value) in enumerate(zip(labels, values)):
-        y = 70 + idx * 42
+        y = 86 + idx * 44
         bar_width = int((value / max_value) * usable_width)
-        lines.append(f'<text class="label" x="24" y="{y + 17}">{label}</text>')
+        lines.append(f'<text class="label" x="30" y="{y + 17}">{escape(label)}</text>')
         lines.append(
-            f'<rect x="{left}" y="{y}" rx="6" ry="6" width="{bar_width}" height="{bar_height}" fill="#2f6fed"/>'
+            f'<rect x="{left}" y="{y}" rx="8" ry="8" width="{usable_width}" height="{bar_height}" fill="#efe5d9"/>'
         )
-        lines.append(f'<text class="value" x="{left + bar_width + 10}" y="{y + 17}">{value}</text>')
+        lines.append(
+            f'<rect x="{left}" y="{y}" rx="8" ry="8" width="{bar_width}" height="{bar_height}" fill="url(#barFill)"/>'
+        )
+        lines.append(f'<text class="value" x="{left + bar_width + 12}" y="{y + 17}">{value}</text>')
 
     lines.append("</svg>")
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -260,42 +276,40 @@ def make_stat_cards_svg(summary: dict, output_path: Path) -> None:
     top_month, top_month_value = max(monthly.items(), key=lambda item: item[1])
     top_year, top_year_value = max(yearly.items(), key=lambda item: item[1])
     cards = [
-        ("Confirmed commits", f"{summary['total_my_commits']:,}".replace(",", " ")),
-        ("Active workstreams", str(summary["repos_with_my_commits"])),
-        ("Strongest year", f"{top_year} / {top_year_value}"),
-        ("Peak month", f"{top_month} / {top_month_value}"),
+        ("Подтверждённые коммиты", format_int(summary["total_my_commits"])),
+        ("Активные потоки", str(summary["repos_with_my_commits"])),
+        ("Сильнейший год", f"{top_year} / {format_int(top_year_value)}"),
+        ("Пиковый месяц", f"{top_month} / {format_int(top_month_value)}"),
     ]
 
     width = 1100
-    height = 270
+    height = 280
     card_width = 245
-    card_height = 130
-    gap = 20
-    left = 24
-    top = 90
-    colors = ["#2f6fed", "#0f9d58", "#f59e0b", "#d9485f"]
+    card_height = 136
+    gap = 18
+    left = 30
+    top = 96
+    colors = ["#0f766e", "#d97706", "#b45309", "#c2410c"]
 
     lines = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         "<style>",
-        "text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17212b; }",
-        ".title { font-size: 24px; font-weight: 700; }",
-        ".label { font-size: 15px; font-weight: 600; fill: #4b5563; }",
-        ".value { font-size: 30px; font-weight: 800; }",
+        SVG_TEXT_STYLE,
+        ".big { font-size: 31px; font-weight: 800; }",
         "</style>",
-        f'<rect x="0" y="0" width="{width}" height="{height}" fill="#f7f8fa"/>',
-        '<text class="title" x="24" y="42">Portfolio Snapshot</text>',
-        '<text x="24" y="68" fill="#6b7280">High-level numbers that summarise scale, consistency, and delivery intensity.</text>',
+        f'<rect x="0" y="0" width="{width}" height="{height}" rx="30" ry="30" fill="#fffaf4"/>',
+        '<text class="title" x="30" y="46">Снимок портфолио</text>',
+        '<text class="subtitle" x="30" y="70">Ключевые числа по масштабу, стабильности и интенсивности поставки изменений.</text>',
     ]
 
     for idx, (label, value) in enumerate(cards):
         x = left + idx * (card_width + gap)
         lines.extend(
             [
-                f'<rect x="{x}" y="{top}" width="{card_width}" height="{card_height}" rx="18" ry="18" fill="#ffffff" stroke="#e5e7eb"/>',
-                f'<rect x="{x + 18}" y="{top + 18}" width="8" height="{card_height - 36}" rx="4" ry="4" fill="{colors[idx]}"/>',
-                f'<text class="label" x="{x + 40}" y="{top + 48}">{label}</text>',
-                f'<text class="value" x="{x + 40}" y="{top + 92}">{value}</text>',
+                f'<rect x="{x}" y="{top}" width="{card_width}" height="{card_height}" rx="24" ry="24" fill="#fff" stroke="#eadfce"/>',
+                f'<rect x="{x + 18}" y="{top + 18}" width="10" height="{card_height - 36}" rx="5" ry="5" fill="{colors[idx]}"/>',
+                f'<text class="label" x="{x + 44}" y="{top + 50}">{escape(label)}</text>',
+                f'<text class="big" x="{x + 44}" y="{top + 96}">{escape(value)}</text>',
             ]
         )
 
@@ -304,13 +318,13 @@ def make_stat_cards_svg(summary: dict, output_path: Path) -> None:
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def make_line_svg(title: str, labels: list[str], values: list[int], output_path: Path) -> None:
+def make_line_svg(title: str, subtitle: str, labels: list[str], values: list[int], output_path: Path) -> None:
     width = 1100
     height = 420
-    left = 70
-    right = 30
-    top = 70
-    bottom = 70
+    left = 76
+    right = 36
+    top = 84
+    bottom = 76
     plot_width = width - left - right
     plot_height = height - top - bottom
     max_value = max(values) if values else 1
@@ -327,94 +341,92 @@ def make_line_svg(title: str, labels: list[str], values: list[int], output_path:
     lines = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         "<style>",
-        "text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17212b; }",
-        ".title { font-size: 24px; font-weight: 700; }",
-        ".axis { font-size: 12px; fill: #6b7280; }",
+        SVG_TEXT_STYLE,
         "</style>",
         "<defs>",
         '<linearGradient id="trendFill" x1="0" x2="0" y1="0" y2="1">',
-        '<stop offset="0%" stop-color="#2f6fed" stop-opacity="0.35"/>',
-        '<stop offset="100%" stop-color="#2f6fed" stop-opacity="0.03"/>',
+        '<stop offset="0%" stop-color="#0f766e" stop-opacity="0.30"/>',
+        '<stop offset="100%" stop-color="#0f766e" stop-opacity="0.02"/>',
         "</linearGradient>",
         "</defs>",
-        f'<rect x="0" y="0" width="{width}" height="{height}" fill="#f7f8fa"/>',
-        f'<text class="title" x="24" y="42">{title}</text>',
+        f'<rect x="0" y="0" width="{width}" height="{height}" rx="28" ry="28" fill="#fffaf4"/>',
+        f'<text class="title" x="30" y="46">{escape(title)}</text>',
+        f'<text class="subtitle" x="30" y="70">{escape(subtitle)}</text>',
         f'<polyline points="{fill_poly}" fill="url(#trendFill)" stroke="none"/>',
-        f'<polyline points="{polyline}" fill="none" stroke="#2f6fed" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
+        f'<polyline points="{polyline}" fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>',
     ]
 
     for tick in range(0, 5):
         value = int(max_value * tick / 4)
         y = top + plot_height - (plot_height * tick / 4)
-        lines.append(f'<line x1="{left}" y1="{y:.1f}" x2="{left + plot_width}" y2="{y:.1f}" stroke="#e5e7eb"/>')
-        lines.append(f'<text class="axis" x="18" y="{y + 4:.1f}">{value}</text>')
+        lines.append(f'<line x1="{left}" y1="{y:.1f}" x2="{left + plot_width}" y2="{y:.1f}" stroke="#eadfce"/>')
+        lines.append(f'<text class="axis" x="22" y="{y + 4:.1f}">{value}</text>')
 
     for idx, label in enumerate(labels):
         if idx % 3 != 0 and idx != len(labels) - 1:
             continue
         x = left + (plot_width * idx / max(1, len(labels) - 1))
-        lines.append(f'<text class="axis" x="{x - 18:.1f}" y="{height - 24}">{label}</text>')
+        lines.append(f'<text class="axis" x="{x - 18:.1f}" y="{height - 28}">{escape(label)}</text>')
 
     for x, y in points:
-        lines.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="#ffffff" stroke="#2f6fed" stroke-width="3"/>')
+        lines.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>')
 
     lines.append("</svg>")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def make_yearly_bar_svg(title: str, labels: list[str], values: list[int], output_path: Path) -> None:
+def make_yearly_bar_svg(title: str, subtitle: str, labels: list[str], values: list[int], output_path: Path) -> None:
     width = 900
-    height = 380
-    left = 70
-    right = 40
-    top = 70
-    bottom = 70
+    height = 390
+    left = 76
+    right = 38
+    top = 84
+    bottom = 76
     plot_width = width - left - right
     plot_height = height - top - bottom
     max_value = max(values) if values else 1
     slot = plot_width / max(1, len(values))
-    bar_width = min(120, slot * 0.55)
+    bar_width = min(126, slot * 0.58)
+    colors = ["#0f766e", "#d97706", "#0f766e", "#c2410c"]
 
     lines = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         "<style>",
-        "text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17212b; }",
-        ".title { font-size: 24px; font-weight: 700; }",
-        ".axis { font-size: 12px; fill: #6b7280; }",
-        ".value { font-size: 13px; font-weight: 700; }",
+        SVG_TEXT_STYLE,
         "</style>",
-        f'<rect x="0" y="0" width="{width}" height="{height}" fill="#f7f8fa"/>',
-        f'<text class="title" x="24" y="42">{title}</text>',
+        f'<rect x="0" y="0" width="{width}" height="{height}" rx="28" ry="28" fill="#fffaf4"/>',
+        f'<text class="title" x="30" y="46">{escape(title)}</text>',
+        f'<text class="subtitle" x="30" y="70">{escape(subtitle)}</text>',
     ]
 
     for tick in range(0, 5):
         value = int(max_value * tick / 4)
         y = top + plot_height - (plot_height * tick / 4)
-        lines.append(f'<line x1="{left}" y1="{y:.1f}" x2="{left + plot_width}" y2="{y:.1f}" stroke="#e5e7eb"/>')
-        lines.append(f'<text class="axis" x="18" y="{y + 4:.1f}">{value}</text>')
+        lines.append(f'<line x1="{left}" y1="{y:.1f}" x2="{left + plot_width}" y2="{y:.1f}" stroke="#eadfce"/>')
+        lines.append(f'<text class="axis" x="20" y="{y + 4:.1f}">{value}</text>')
 
     for idx, (label, value) in enumerate(zip(labels, values)):
         bar_height = plot_height * value / max_value
         x = left + idx * slot + (slot - bar_width) / 2
         y = top + plot_height - bar_height
-        fill = ["#2f6fed", "#0f9d58", "#f59e0b", "#d9485f"][idx % 4]
-        lines.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_width:.1f}" height="{bar_height:.1f}" rx="12" ry="12" fill="{fill}"/>')
+        lines.append(
+            f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_width:.1f}" height="{bar_height:.1f}" rx="16" ry="16" fill="{colors[idx % len(colors)]}"/>'
+        )
         lines.append(f'<text class="value" x="{x + 12:.1f}" y="{y - 10:.1f}">{value}</text>')
-        lines.append(f'<text class="axis" x="{x + bar_width / 2 - 14:.1f}" y="{height - 28}">{label}</text>')
+        lines.append(f'<text class="axis" x="{x + bar_width / 2 - 14:.1f}" y="{height - 30}">{escape(label)}</text>')
 
     lines.append("</svg>")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def make_timeline_svg(title: str, repos: list[dict], output_path: Path) -> None:
+def make_timeline_svg(title: str, subtitle: str, repos: list[dict], output_path: Path) -> None:
     width = 1200
-    height = 80 + len(repos) * 46
-    left = 280
-    right = 40
-    top = 80
-    row_height = 34
+    height = 96 + len(repos) * 48
+    left = 300
+    right = 42
+    top = 96
     plot_width = width - left - right
     all_dates = []
     parsed = []
@@ -433,14 +445,11 @@ def make_timeline_svg(title: str, repos: list[dict], output_path: Path) -> None:
     lines = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         "<style>",
-        "text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill: #17212b; }",
-        ".title { font-size: 24px; font-weight: 700; }",
-        ".label { font-size: 13px; }",
-        ".axis { font-size: 12px; fill: #6b7280; }",
-        ".value { font-size: 12px; font-weight: 700; }",
+        SVG_TEXT_STYLE,
         "</style>",
-        f'<rect x="0" y="0" width="{width}" height="{height}" fill="#f7f8fa"/>',
-        f'<text class="title" x="24" y="42">{title}</text>',
+        f'<rect x="0" y="0" width="{width}" height="{height}" rx="28" ry="28" fill="#fffaf4"/>',
+        f'<text class="title" x="30" y="46">{escape(title)}</text>',
+        f'<text class="subtitle" x="30" y="70">{escape(subtitle)}</text>',
     ]
 
     for year in range(global_start.year, global_end.year + 1):
@@ -448,20 +457,26 @@ def make_timeline_svg(title: str, repos: list[dict], output_path: Path) -> None:
         if year_date < global_start:
             continue
         x = x_for(year_date)
-        lines.append(f'<line x1="{x:.1f}" y1="{top - 8}" x2="{x:.1f}" y2="{height - 30}" stroke="#e5e7eb"/>')
+        lines.append(f'<line x1="{x:.1f}" y1="{top - 8}" x2="{x:.1f}" y2="{height - 34}" stroke="#eadfce"/>')
         lines.append(f'<text class="axis" x="{x - 14:.1f}" y="{top - 18}">{year}</text>')
 
     max_commits = max(repo["commits"] for repo in repos)
     for idx, (repo, start, end) in enumerate(parsed):
-        y = top + idx * 46
+        y = top + idx * 48
         x1 = x_for(start)
         x2 = x_for(end)
         stroke_width = 10 + 8 * (repo["commits"] / max_commits)
-        lines.append(f'<text class="label" x="24" y="{y + 10}">{repo["public_name"]}</text>')
-        lines.append(f'<rect x="{x1:.1f}" y="{y - 4}" width="{max(6, x2 - x1):.1f}" height="{stroke_width:.1f}" rx="8" ry="8" fill="#2f6fed" opacity="0.85"/>')
-        lines.append(f'<circle cx="{x1:.1f}" cy="{y + stroke_width / 2 - 4:.1f}" r="5" fill="#ffffff" stroke="#2f6fed" stroke-width="3"/>')
-        lines.append(f'<circle cx="{x2:.1f}" cy="{y + stroke_width / 2 - 4:.1f}" r="5" fill="#ffffff" stroke="#2f6fed" stroke-width="3"/>')
-        lines.append(f'<text class="value" x="{x2 + 10:.1f}" y="{y + 8}">{repo["commits"]} commits</text>')
+        lines.append(f'<text class="label" x="30" y="{y + 10}">{escape(repo["public_name"])}</text>')
+        lines.append(
+            f'<rect x="{x1:.1f}" y="{y - 4}" width="{max(8, x2 - x1):.1f}" height="{stroke_width:.1f}" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>'
+        )
+        lines.append(
+            f'<circle cx="{x1:.1f}" cy="{y + stroke_width / 2 - 4:.1f}" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>'
+        )
+        lines.append(
+            f'<circle cx="{x2:.1f}" cy="{y + stroke_width / 2 - 4:.1f}" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>'
+        )
+        lines.append(f'<text class="value" x="{x2 + 10:.1f}" y="{y + 8}">{repo["commits"]} коммитов</text>')
 
     lines.append("</svg>")
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -475,28 +490,25 @@ def write_highlights(path: Path, summary: dict) -> None:
     top_repo = repos[0]
     top_month, top_month_value = max(monthly.items(), key=lambda item: item[1])
     top_year, top_year_value = max(yearly.items(), key=lambda item: item[1])
-    tech_counter = Counter()
-    for repo in repos:
-        for tech in repo["tech"]:
-            tech_counter[tech] += 1
+    tech_counter = build_tech_counter(summary)
     strongest_tech = ", ".join(f"{name} ({count})" for name, count in tech_counter.most_common(5))
 
     lines = [
-        "# Highlights",
+        "# Ключевые выводы",
         "",
-        f"- `8166` confirmed commits across `42` workstreams with readable git history.",
-        f"- Strongest year in the current archive: `{top_year}` with `{top_year_value}` commits.",
-        f"- Peak delivery month: `{top_month}` with `{top_month_value}` commits.",
-        f"- Largest single workstream: `{top_repo['public_name']}` with `{top_repo['commits']}` commits from `{top_repo['first_date']}` to `{top_repo['last_date']}`.",
-        f"- Most visible stack coverage by workstream count: {strongest_tech}.",
+        f"- Подтверждено `{format_int(summary['total_my_commits'])}` коммитов в `{summary['repos_with_my_commits']}` рабочих потоках с читаемой git-историей.",
+        f"- Самый сильный год в текущем архиве: `{top_year}` с `{format_int(top_year_value)}` коммитами.",
+        f"- Пиковый месяц по интенсивности: `{top_month}` с `{format_int(top_month_value)}` коммитами.",
+        f"- Крупнейший подтверждённый поток: `{top_repo['public_name']}` с `{format_int(top_repo['commits'])}` коммитами за период `{top_repo['first_date']}` -> `{top_repo['last_date']}`.",
+        f"- Наиболее часто подтверждаемый стек по числу потоков: {strongest_tech}.",
         "",
-        "## How to read the charts",
+        "## Как читать графики",
         "",
-        "- `Portfolio Snapshot` is the fastest high-level view for HR.",
-        "- `Commit Trend` shows pace and consistency over time.",
-        "- `Commits by Year` highlights year-to-year intensity.",
-        "- `Tech Coverage by Workstream` shows breadth of hands-on stack usage.",
-        "- `Top Workstream Timelines` helps technical reviewers see how long the major streams ran.",
+        "- `Снимок портфолио` даёт самый быстрый обзор для HR.",
+        "- `Тренд активности по месяцам` показывает темп и стабильность работы.",
+        "- `Коммиты по годам` подсвечивают интенсивность по периодам.",
+        "- `Покрытие стека по потокам` показывает ширину практического опыта.",
+        "- `Ключевые рабочие потоки во времени` помогают техспециалисту быстро понять длительность основных направлений.",
     ]
 
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -514,76 +526,335 @@ def write_activity_summary(path: Path, summary: dict) -> None:
         f"- Неполных git-копий пропущено: `{summary['invalid_git_copies_skipped']}`",
         f"- Репозиториев с подтверждёнными авторскими коммитами: `{summary['repos_with_my_commits']}`",
         f"- Подтверждённых авторских коммитов: `{summary['total_my_commits']}`",
-        f"- Объединено авторских алиасов: `{summary['author_aliases_detected']}`",
         "",
-        "## Топ рабочих потоков",
+        "## Крупнейшие рабочие потоки",
         "",
     ]
     for repo in repos[:6]:
+        tech = ", ".join(repo["tech"]) or "mixed"
         lines.append(
-            f"- `{repo['public_name']}` -> `{repo['commits']}` commits, `{repo['first_date']}` -> `{repo['last_date']}`, стек: `{', '.join(repo['tech']) or 'mixed'}`"
+            f"- `{repo['public_name']}` -> `{repo['commits']}` коммитов, `{repo['first_date']}` -> `{repo['last_date']}`, стек: `{tech}`"
         )
 
     lines.extend(["", "## Пиковые месяцы", ""])
     for month, commits in top_months:
-        lines.append(f"- `{month}` -> `{commits}` commits")
+        lines.append(f"- `{month}` -> `{commits}` коммитов")
 
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_invalid_repo_report(path: Path, summary: dict) -> None:
-    lines = [
-        "# Исключённые репозитории",
-        "",
-        "Эти каталоги содержат `.git`, но локальная копия неполная или повреждённая, поэтому `git log` по ним не читается и коммиты в статистику не попали.",
-        "",
-        f"- Исключено копий: `{summary['invalid_git_copies_skipped']}`",
-        "",
-        "## Список",
-        "",
+def write_landing_page(path: Path, summary: dict) -> None:
+    repos = summary["repos"]
+    monthly = summary["monthly"]
+    yearly = summary["yearly"]
+    tech_counter = build_tech_counter(summary)
+    top_month, top_month_value = max(monthly.items(), key=lambda item: item[1])
+    top_year, top_year_value = max(yearly.items(), key=lambda item: item[1])
+    strongest_stack = [name for name, _count in tech_counter.most_common(6)]
+    first_period = min(monthly)
+    last_period = max(monthly)
+
+    stat_cards = [
+        ("Подтверждённые коммиты", format_int(summary["total_my_commits"])),
+        ("Подтверждённые потоки", str(summary["repos_with_my_commits"])),
+        ("Период активности", f"{first_period} -> {last_period}"),
+        ("Сильнейший год", f"{top_year} / {format_int(top_year_value)}"),
     ]
-    for repo_path in summary["invalid_repos"]:
-        lines.append(f"- `{repo_path}`")
 
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    route_cards = [
+        (
+            "Для HR",
+            "Быстро видно, что опыт подтверждается не только резюме, но и цифровым следом: коммиты, инфраструктурные артефакты, кейсы и воспроизводимый демо-стенд.",
+        ),
+        (
+            "Для техлида",
+            "Можно быстро пройти путь от верхнеуровневой сводки к конкретным направлениям: Kubernetes, Terraform, GitOps, CI/CD, observability и platform engineering.",
+        ),
+        (
+            "Для собеседования",
+            "Портфолио помогает обсуждать не абстрактные навыки, а конкретные потоки, периоды активности, стек и типы задач.",
+        ),
+    ]
+
+    case_cards = [
+        (
+            "Production GitOps / Kubernetes",
+            "Контур с 100+ сервисами, GitOps-процессы, Helm, GitLab CI/CD, мониторинг и эксплуатационные изменения в production.",
+        ),
+        (
+            "Azure / AKS / PCI DSS readiness",
+            "Terraform, Terragrunt, AKS, private ingress, Key Vault, сетевые политики и инфраструктурная подготовка к аудиту.",
+        ),
+        (
+            "Yandex Cloud / аналитическая платформа",
+            "Kubernetes, Airflow, Trino, JupyterHub, Vault, External Secrets, registry и observability для data-направления.",
+        ),
+    ]
+
+    quick_links = [
+        ("Ключевые выводы", "docs/HIGHLIGHTS.md"),
+        ("Сводка активности", "docs/ACTIVITY_SUMMARY.md"),
+        ("Кейсы", "docs/CASE_STUDIES.md"),
+        ("Публичные демо-проекты", "docs/PUBLIC_PROJECTS.md"),
+        ("Краткое описание", "docs/APPLICATION_BLURB.md"),
+        ("JSON со статистикой", "data/commit_summary.json"),
+    ]
+
+    stat_cards_html = "\n".join(
+        f'<article class="stat-card"><span class="stat-label">{escape(label)}</span><strong>{escape(value)}</strong></article>'
+        for label, value in stat_cards
+    )
+    route_cards_html = "\n".join(
+        f'<article class="route-card"><h3>{escape(title)}</h3><p>{escape(text)}</p></article>'
+        for title, text in route_cards
+    )
+    case_cards_html = "\n".join(
+        f'<article class="case-card"><h3>{escape(title)}</h3><p>{escape(text)}</p></article>'
+        for title, text in case_cards
+    )
+    workstream_rows = "\n".join(
+        (
+            "<tr>"
+            f"<td>{escape(repo['public_name'])}</td>"
+            f"<td>{repo['commits']}</td>"
+            f"<td>{escape(repo['first_date'])}</td>"
+            f"<td>{escape(repo['last_date'])}</td>"
+            f"<td>{escape(', '.join(repo['tech']) or 'mixed')}</td>"
+            "</tr>"
+        )
+        for repo in repos[:8]
+    )
+    stack_badges = "\n".join(f'<li>{escape(name)}</li>' for name in strongest_stack)
+    quick_links_html = "\n".join(
+        f'<li><a href="{escape(href)}">{escape(label)}</a></li>' for label, href in quick_links
+    )
+
+    html_text = f"""<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Максим Тюрин • Портфолио DevOps / Platform Engineer</title>
+  <meta name="description" content="Портфолио DevOps / Platform Engineer с подтверждаемыми артефактами: git-статистика, кейсы, графики, демо-проект.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <header class="hero" id="top">
+    <nav class="topbar">
+      <a class="brand" href="#top">Максим Тюрин</a>
+      <div class="topbar-links">
+        <a href="#overview">Обзор</a>
+        <a href="#charts">Графики</a>
+        <a href="#cases">Кейсы</a>
+        <a href="#demo">Стенд</a>
+      </div>
+    </nav>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">DevOps / Platform Engineer</p>
+        <h1>Портфолио с проверяемыми артефактами, а не только со словами в резюме</h1>
+        <p class="hero-lead">Собрано на основе локального архива рабочих каталогов и публичного демо-стенда. Показывает подтверждённую активность по Kubernetes, Terraform, GitOps, CI/CD и observability.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#overview">Маршрут для HR</a>
+          <a class="btn btn-secondary" href="#tech">Маршрут для техспеца</a>
+        </div>
+        <ul class="hero-points">
+          <li>Подтверждённый период активности: {escape(first_period)} -> {escape(last_period)}</li>
+          <li>Пиковый месяц: {escape(top_month)} / {format_int(top_month_value)} коммитов</li>
+          <li>Ключевой стек: {escape(", ".join(strongest_stack))}</li>
+        </ul>
+      </div>
+      <aside class="hero-panel">
+        <span class="panel-kicker">Быстрый срез</span>
+        <h2>Что уже видно из данных</h2>
+        <div class="stats-grid">
+          {stat_cards_html}
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="panel" id="overview">
+      <div class="section-head">
+        <p class="eyebrow">Обзор</p>
+        <h2>Зачем это смотреть HR и техспециалисту</h2>
+      </div>
+      <div class="route-grid">
+        {route_cards_html}
+      </div>
+      <div class="note-box">
+        <strong>Важно.</strong> В графиках показаны только те репозитории, где локально сохранилась читаемая git-история. Ранние копии части рабочих каталогов, включая некоторые архивы 2021–2022 годов, местами сохранились неполно и поэтому недопредставлены в статистике.
+      </div>
+    </section>
+
+    <section class="panel" id="charts">
+      <div class="section-head">
+        <p class="eyebrow">Графики</p>
+        <h2>Картина активности и распределения по стеку</h2>
+      </div>
+      <div class="chart-grid">
+        <figure class="chart-card chart-card-wide">
+          <img src="assets/portfolio_snapshot.svg" alt="Снимок портфолио">
+        </figure>
+        <figure class="chart-card chart-card-wide">
+          <img src="assets/commits_trend.svg" alt="Тренд активности по месяцам">
+        </figure>
+        <figure class="chart-card">
+          <img src="assets/commits_by_year.svg" alt="Коммиты по годам">
+        </figure>
+        <figure class="chart-card">
+          <img src="assets/tech_coverage.svg" alt="Покрытие стека по потокам">
+        </figure>
+        <figure class="chart-card chart-card-wide">
+          <img src="assets/commits_by_repo.svg" alt="Коммиты по ключевым потокам">
+        </figure>
+        <figure class="chart-card chart-card-wide">
+          <img src="assets/workstream_timeline.svg" alt="Ключевые рабочие потоки во времени">
+        </figure>
+      </div>
+    </section>
+
+    <section class="panel" id="tech">
+      <div class="section-head">
+        <p class="eyebrow">Техсрез</p>
+        <h2>Крупнейшие подтверждённые потоки</h2>
+      </div>
+      <div class="stack-strip">
+        <span>Чаще всего в потоке встречаются:</span>
+        <ul>
+          {stack_badges}
+        </ul>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Поток</th>
+              <th>Коммиты</th>
+              <th>Старт</th>
+              <th>Финиш</th>
+              <th>Стек</th>
+            </tr>
+          </thead>
+          <tbody>
+            {workstream_rows}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="cases">
+      <div class="section-head">
+        <p class="eyebrow">Кейсы</p>
+        <h2>Какие типы задач этот архив уже подтверждает</h2>
+      </div>
+      <div class="case-grid">
+        {case_cards_html}
+      </div>
+    </section>
+
+    <section class="panel" id="demo">
+      <div class="section-head">
+        <p class="eyebrow">Стенд</p>
+        <h2>Публичный воспроизводимый стенд</h2>
+      </div>
+      <div class="demo-card">
+        <div>
+          <h3>platform-engineering-demo</h3>
+          <p>Отдельный демо-проект внутри портфолио: <code>Terraform + Kubernetes + GitHub Actions + Prometheus/Grafana/Loki</code>. Локально прогнан end-to-end через <code>kind</code>, deployment и smoke-test.</p>
+        </div>
+        <a class="btn btn-primary" href="projects/platform-engineering-demo/README.md">Открыть описание демо-проекта</a>
+      </div>
+    </section>
+
+    <section class="panel panel-links">
+      <div class="section-head">
+        <p class="eyebrow">Материалы</p>
+        <h2>Быстрые ссылки</h2>
+      </div>
+      <ul class="links-list">
+        {quick_links_html}
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
+"""
+
+    path.write_text(html_text, encoding="utf-8")
 
 
 def main() -> None:
     repo_root = Path(__file__).resolve().parents[1]
-    source_root = Path(
-        os.environ.get("SOURCE_ROOT", "/Users/macbook/Yandex.Disk.localized/работа")
-    ).resolve()
-    summary = build_summary(repo_root, source_root)
+    source_root = Path(os.environ.get("SOURCE_ROOT", "/Users/macbook/Yandex.Disk.localized/работа")).resolve()
+    summary = build_summary(source_root)
 
     write_json(repo_root / "data" / "commit_summary.json", summary)
     write_csv(repo_root / "data" / "repo_overview.csv", summary["repos"])
     write_activity_summary(repo_root / "docs" / "ACTIVITY_SUMMARY.md", summary)
     write_highlights(repo_root / "docs" / "HIGHLIGHTS.md", summary)
-    write_invalid_repo_report(repo_root / "docs" / "EXCLUDED_REPOS.md", summary)
+    write_landing_page(repo_root / "index.html", summary)
 
     month_labels = list(summary["monthly"].keys())
     month_values = list(summary["monthly"].values())
-    make_bar_svg("Commits by Month", month_labels, month_values, repo_root / "assets" / "commits_by_month.svg")
-    make_line_svg("Commit Trend by Month", month_labels, month_values, repo_root / "assets" / "commits_trend.svg")
+    make_bar_svg(
+        "Коммиты по месяцам",
+        "Динамика подтверждённой активности в локальном архиве.",
+        month_labels,
+        month_values,
+        repo_root / "assets" / "commits_by_month.svg",
+    )
+    make_line_svg(
+        "Тренд активности по месяцам",
+        "Показывает темп работы и изменение нагрузки по времени.",
+        month_labels,
+        month_values,
+        repo_root / "assets" / "commits_trend.svg",
+    )
 
     yearly_labels = list(summary["yearly"].keys())
     yearly_values = list(summary["yearly"].values())
-    make_yearly_bar_svg("Commits by Year", yearly_labels, yearly_values, repo_root / "assets" / "commits_by_year.svg")
+    make_yearly_bar_svg(
+        "Коммиты по годам",
+        "Сводная интенсивность по подтверждённым периодам.",
+        yearly_labels,
+        yearly_values,
+        repo_root / "assets" / "commits_by_year.svg",
+    )
 
     repo_labels = [repo["public_name"] for repo in summary["repos"][:6]]
     repo_values = [repo["commits"] for repo in summary["repos"][:6]]
-    make_bar_svg("Commits by Workstream", repo_labels, repo_values, repo_root / "assets" / "commits_by_repo.svg")
-    make_timeline_svg("Top Workstream Timelines", summary["repos"][:8], repo_root / "assets" / "workstream_timeline.svg")
+    make_bar_svg(
+        "Коммиты по ключевым потокам",
+        "Крупнейшие подтверждённые направления по объёму вклада.",
+        repo_labels,
+        repo_values,
+        repo_root / "assets" / "commits_by_repo.svg",
+    )
+    make_timeline_svg(
+        "Ключевые рабочие потоки во времени",
+        "Видно, какие направления шли дольше и где был самый плотный вклад.",
+        summary["repos"][:8],
+        repo_root / "assets" / "workstream_timeline.svg",
+    )
 
-    tech_counter = Counter()
-    for repo in summary["repos"]:
-        for tech in repo["tech"]:
-            tech_counter[tech] += 1
+    tech_counter = build_tech_counter(summary)
     tech_labels = [item[0] for item in tech_counter.most_common(8)]
     tech_values = [item[1] for item in tech_counter.most_common(8)]
-    make_bar_svg("Tech Coverage by Workstream", tech_labels, tech_values, repo_root / "assets" / "tech_coverage.svg")
+    make_bar_svg(
+        "Покрытие стека по потокам",
+        "Сколько подтверждённых потоков содержат практическую работу с конкретным стеком.",
+        tech_labels,
+        tech_values,
+        repo_root / "assets" / "tech_coverage.svg",
+    )
     make_stat_cards_svg(summary, repo_root / "assets" / "portfolio_snapshot.svg")
 
 

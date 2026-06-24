@@ -1,22 +1,22 @@
-# Platform Engineering Demo
+# Демо-стенд platform engineering
 
-A portfolio-grade demo repository that proves practical work across:
+Демонстрационный проект для портфолио, который показывает практическую работу сразу по нескольким направлениям:
 
-- Terraform-driven platform bootstrap
-- Kubernetes application delivery
-- GitHub-based CI/CD
-- Metrics and logs with Prometheus, Grafana, and Loki
+- bootstrap платформы через Terraform;
+- доставка приложения в Kubernetes;
+- CI/CD на GitHub Actions;
+- метрики и логи через Prometheus, Grafana и Loki.
 
-This repo is intentionally local-first. It uses a disposable `kind` cluster so the whole flow can run on a laptop or inside GitHub Actions without cloud credentials.
+Репозиторий специально сделан как local-first демо. Он использует одноразовый `kind`-кластер, поэтому весь сценарий можно поднять на ноутбуке или в GitHub Actions без облачных учётных данных.
 
-## What This Demonstrates
+## Что это демонстрирует
 
-- Terraform managing platform add-ons through Helm
-- Kubernetes manifests for a production-shaped service
-- CI/CD that validates the repo and performs a smoke deploy
-- Observability wired into the application, not bolted on later
+- Terraform управляет платформенными add-on'ами через Helm;
+- Kubernetes manifests описывают приложение в production-shaped виде;
+- CI/CD не декоративный, а реально проверяет репозиторий и делает smoke deploy;
+- observability встроена в приложение, а не добавлена постфактум.
 
-## Architecture
+## Архитектура
 
 ```mermaid
 flowchart LR
@@ -32,7 +32,7 @@ flowchart LR
     KPS --> GRAFANA[Grafana]
 ```
 
-## Repo Layout
+## Структура репозитория
 
 ```text
 .
@@ -45,9 +45,9 @@ flowchart LR
 └── Makefile
 ```
 
-## Local Quick Start
+## Быстрый локальный старт
 
-Prerequisites:
+Требования:
 
 - `docker`
 - `kind`
@@ -55,7 +55,7 @@ Prerequisites:
 - `helm`
 - `terraform`
 
-Bootstrap the cluster and platform:
+Поднять кластер и платформу:
 
 ```bash
 make kind-up
@@ -64,29 +64,29 @@ make app-deploy
 make smoke
 ```
 
-`make kind-up` exports a dedicated kubeconfig into `.tmp/kubeconfig`, so the demo does not depend on whatever is already in your personal `~/.kube/config`.
-`make tf-apply` also bootstraps the required Helm repositories into an isolated local cache under `.tmp/helm`, so it does not inherit broken global Helm repo settings from your workstation.
+`make kind-up` экспортирует отдельный kubeconfig в `.tmp/kubeconfig`, поэтому демо не зависит от состояния вашего `~/.kube/config`.
+`make tf-apply` также инициализирует Helm-репозитории в изолированном локальном кеше `.tmp/helm`, чтобы не наследовать сломанные глобальные настройки рабочего окружения.
 
-Open Grafana:
+Открыть Grafana:
 
 ```bash
 make grafana
 ```
 
-Default Grafana login:
+Логин по умолчанию:
 
 - user: `admin`
 - password: `admin123`
 
-Open Prometheus:
+Открыть Prometheus:
 
 ```bash
 make prometheus
 ```
 
-## CI/CD Flow
+## Как устроен CI/CD
 
-The GitHub Actions pipeline does two jobs:
+GitHub Actions pipeline состоит из двух jobs:
 
 1. `validate`
    - `terraform fmt -check`
@@ -94,26 +94,26 @@ The GitHub Actions pipeline does two jobs:
    - `kubectl kustomize` render check
 
 2. `smoke`
-   - creates an ephemeral `kind` cluster
-   - builds the app image
-   - loads the image into `kind`
-   - applies Terraform platform resources
-   - deploys the app manifests
-   - verifies health and metrics
+   - создаёт временный `kind`-кластер
+   - собирает образ приложения
+   - загружает образ в `kind`
+   - применяет Terraform-ресурсы платформы
+   - деплоит manifests приложения
+   - проверяет health и metrics
 
-## Notes About Local kind
+## Нюансы локального kind
 
-- The repo was validated end-to-end on a local `kind` cluster.
-- The included HPA object is production-shaped, but plain `kind` does not ship resource metrics by default. The workload still deploys correctly; autoscaling signals become active once the cluster exposes the metrics API.
+- Репозиторий прогнан end-to-end на локальном `kind`-кластере.
+- `HPA` здесь production-shaped, но обычный `kind` не отдаёт resource metrics из коробки. Приложение при этом разворачивается корректно; autoscaling становится активным, когда в кластере появляется metrics API.
 
-## Why This Is Structured This Way
+## Почему структура именно такая
 
-- `Terraform` owns namespaces and platform services.
-- `Kubernetes manifests` own the application workload.
-- `GitHub Actions` proves the repo is runnable and not decorative.
-- `kind` keeps the demo portable and cheap.
+- `Terraform` отвечает за namespaces и платформенные сервисы.
+- `Kubernetes manifests` отвечают за само приложение.
+- `GitHub Actions` подтверждают, что репозиторий рабочий, а не декоративный.
+- `kind` делает демо переносимым и дешёвым в запуске.
 
-## Useful Commands
+## Полезные команды
 
 ```bash
 make fmt
@@ -127,9 +127,9 @@ make prometheus
 make kind-down
 ```
 
-## Next Extensions
+## Дальше можно расширять
 
-- Add Argo CD for GitOps pull-based delivery
-- Add policy checks with OPA or Kyverno
-- Add alert rules and synthetic checks
-- Add a managed-cloud variant for EKS or AKS
+- добавить Argo CD для pull-based GitOps delivery;
+- добавить policy checks через OPA или Kyverno;
+- добавить alert rules и synthetic checks;
+- добавить managed-cloud вариант для EKS или AKS.
