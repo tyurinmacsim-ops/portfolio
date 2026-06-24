@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сопоставление резюме и портфолио • Портфолио</title>
+  <meta name="description" content="Как читать резюме вместе с git-данными, графиками и non-git evidence.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Сопоставление резюме и портфолио</h1>
+        <p class="content-lead">Как читать резюме вместе с git-данными, графиками и non-git evidence.</p>
+      </header>
+      <article class="prose">
+        <h1>Сопоставление резюме и портфолио</h1>
+<p>Этот раздел нужен, чтобы читать портфолио правильно: что именно подтверждается git-историей, что подтверждается рабочими артефактами, и как это соотносится с резюме.</p>
+<h2>Короткий вывод</h2>
+<ul>
+<li>Коммерческий DevOps-опыт с <code>2021</code> года заявлен в резюме и логично выстроен по карьерной траектории: <code>SWAPP -&gt; xero -&gt; 01.tech -&gt; Hilbert Team</code>.</li>
+<li>Наиболее сильное цифровое подтверждение в текущем архиве относится к периоду <code>2023-09 -&gt; 2026-03</code>, где читаемая git-история даёт <code>8 166</code> коммитов в <code>42</code> рабочих потоках.</li>
+<li>Более ранний период <code>2021-2022</code> не опровергается портфолио, но в локальной выгрузке хуже подтверждён именно git-объектами, потому что часть старых рабочих копий сохранилась как неполные <code>.git</code>-скелеты.</li>
+<li>Поэтому корректная формулировка такая: <code>резюме показывает полную карьерную линию с 2021 года, а портфолио даёт сильное цифровое подтверждение прежде всего по периоду 2023-2026 и отдельным non-git артефактам</code>.</li>
+</ul>
+<h2>Сопоставление по местам работы</h2>
+<h2>01.tech | Сентябрь 2023 — Ноябрь 2025</h2>
+<ul>
+<li>В резюме: AWS / EKS, Kubernetes, Helm, GitLab CI/CD, ArgoCD, FluxCD, Terraform, Terragrunt, очереди, базы, observability, 100+ микросервисов.</li>
+<li>В портфолио подтверждается напрямую:</li>
+<li><code>8 166</code> подтверждённых коммитов в архиве, где основной массив приходится именно на период <code>2023-09 -&gt; 2025-10</code>;</li>
+<li>крупные потоки <code>GitOps / FluxCD</code>, <code>Ops automation / Ansible + Terraform</code>, <code>ArgoCD delivery platform</code>, <code>Helm chart fleet</code>, <code>GitLab templates</code>;</li>
+<li>графики активности, покрытия стека, таймлайны и demo-стенд;</li>
+<li>отдельный backup/restore toolkit как non-git evidence.</li>
+<li>Вывод: это самый сильный и лучше всего подтверждённый период в портфолио.</li>
+</ul>
+<h2>Hilbert Team | Декабрь 2025 — Март 2026</h2>
+<ul>
+<li>В резюме: Yandex Cloud, Kubernetes, Terraform/Terragrunt, GitLab CI/CD, Helm, monitoring, alerting, базы и брокеры.</li>
+<li>В портфолио подтверждается:</li>
+<li>потоки конца <code>2025</code> и <code>2026</code>, включая <code>Access management platform</code>, <code>Kubernetes platform box</code> и related workstreams;</li>
+<li>стек <code>GitLab CI</code>, <code>Kubernetes</code>, <code>Terraform</code>, <code>Terragrunt</code>;</li>
+<li>кейс про Yandex Cloud / аналитическую платформу.</li>
+<li>Вывод: период подтверждён, но объём цифрового следа ниже, чем у 01.tech, потому что он короче по длительности.</li>
+</ul>
+<h2>xero | Июль 2022 — Август 2023</h2>
+<ul>
+<li>В резюме: Azure / AKS / PCI DSS, Terraform/Terragrunt, FluxCD, GitLab CI, private ingress, audit trail, security.</li>
+<li>В портфолио подтверждается косвенно и содержательно:</li>
+<li>кейс <code>Azure / AKS / PCI DSS readiness</code>;</li>
+<li>стек и сценарии в описании работ соответствуют последующим подтверждённым паттернам в архиве;</li>
+<li>часть ранних рабочих копий за этот период в архиве сохранилась неполно, поэтому прямой git-след слабее.</li>
+<li>Вывод: период можно и нужно оставлять в резюме, но на собеседовании честно говорить, что по локальной выгрузке он подтверждён не так полно, как 01.tech.</li>
+</ul>
+<h2>SWAPP Protocol | Ноябрь 2021 — Июнь 2022</h2>
+<ul>
+<li>В резюме: AWS, Hetzner, Terraform, Ansible, Docker, Kubernetes, Proxmox, Cloudflare, PostgreSQL, MySQL, Redis, ClickHouse.</li>
+<li>В портфолио:</li>
+<li>текущая локальная выгрузка не даёт сильного прямого git-подтверждения по этому периоду;</li>
+<li>проблема не в отсутствии опыта как такового, а в том, что старые локальные <code>.git</code>-копии в архиве сохранились неполно.</li>
+<li>Вывод: <code>2021</code> как старт коммерческого DevOps-опыта в резюме заявлять можно, но нельзя говорить, что этот период полно подтверждён git-графиками.</li>
+</ul>
+<h2>Что говорить, если спросят: «Почему самих рабочих реп нет?»</h2>
+<ul>
+<li><code>Рабочие репозитории и код заказчиков приватные, поэтому я не публикую их содержимое. Вместо этого собрал публичное портфолио с обезличенной статистикой, графиками активности, картой стека, кейсами и отдельными воспроизводимыми demo-артефактами.</code></li>
+<li><code>Там, где локально сохранилась читаемая git-история, я показываю агрегированную commit-статистику. Там, где история не сохранилась полностью, я показываю non-git evidence: структуру рабочих артефактов, backup/restore toolkit, manifests, automation scripts.</code></li>
+<li><code>То есть портфолио не заменяет приватные репозитории один-в-один, а подтверждает, что описанный в резюме стек и тип задач действительно были в работе.</code></li>
+</ul>
+<h2>Как интерпретировать период 2021-2022</h2>
+<ul>
+<li>Период <code>2021-2022</code> в резюме отражает начало коммерческого DevOps-направления.</li>
+<li>В текущем локальном архиве этот период подтверждён слабее, чем <code>2023-2026</code>, именно по причине неполной сохранности старых <code>.git</code>-данных.</li>
+<li>Поэтому портфолио следует читать как <code>сильное цифровое подтверждение по 2023-2026</code> и <code>частичное содержательное подтверждение по более раннему периоду через артефакты и карьерную логику</code>.</li>
+</ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

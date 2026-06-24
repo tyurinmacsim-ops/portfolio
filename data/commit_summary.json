@@ -1,7 +1,7 @@
 {
   "total_repos_scanned": 108,
-  "valid_git_repos_scanned": 69,
-  "invalid_git_copies_skipped": 39,
+  "valid_git_repos_scanned": 76,
+  "invalid_git_copies_skipped": 32,
   "repos_with_my_commits": 42,
   "total_my_commits": 8166,
   "author_aliases_detected": 6,

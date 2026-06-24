@@ -604,6 +604,7 @@ CONTENT_PAGE_MAP = {
     "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
     "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
     "docs/ARTIFACT_EVIDENCE.md": "pages/artifact-evidence.html",
+    "docs/RESUME_PORTFOLIO_MAP.md": "pages/resume-portfolio-map.html",
     "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
 }
 
@@ -761,6 +762,7 @@ def write_content_pages(repo_root: Path) -> None:
         "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
         "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
         "docs/ARTIFACT_EVIDENCE.md": ("Дополнительные артефакты", "Подтверждения по рабочим материалам без читаемой git-истории."),
+        "docs/RESUME_PORTFOLIO_MAP.md": ("Сопоставление резюме и портфолио", "Как читать резюме вместе с git-данными, графиками и non-git evidence."),
         "projects/platform-engineering-demo/README.md": (
             "Демо-стенд platform engineering",
             "Воспроизводимый Terraform + Kubernetes + observability стенд.",
@@ -890,6 +892,7 @@ def write_landing_page(path: Path, summary: dict) -> None:
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
+        ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
     ]

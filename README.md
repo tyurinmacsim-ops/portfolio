@@ -17,6 +17,7 @@
 - [Кейсы](docs/CASE_STUDIES.md)
 - [Публичные демо-проекты](docs/PUBLIC_PROJECTS.md)
 - [Дополнительные артефакты](docs/ARTIFACT_EVIDENCE.md)
+- [Сопоставление резюме и портфолио](docs/RESUME_PORTFOLIO_MAP.md)
 - [Краткое описание](docs/APPLICATION_BLURB.md)
 - [JSON со статистикой](data/commit_summary.json)
 
