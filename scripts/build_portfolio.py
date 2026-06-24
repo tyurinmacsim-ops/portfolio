@@ -954,7 +954,7 @@ def write_landing_page(path: Path, summary: dict) -> None:
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">DevOps / Platform Engineer</p>
-        <h1>Портфолио с проверяемыми артефактами, а не только со словами в резюме</h1>
+        <h1>DevOps / Platform Engineer: подтверждённый опыт, кейсы и артефакты</h1>
         <p class="hero-lead">Собрано на основе локального архива рабочих каталогов и публичного демо-стенда. Показывает подтверждённую активность по Kubernetes, Terraform, GitOps, CI/CD и observability.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#overview">Маршрут для HR</a>
