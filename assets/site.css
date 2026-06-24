@@ -774,6 +774,48 @@ tbody td {
   border-color: rgba(15, 118, 110, 0.26);
 }
 
+.site-footer {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+
+.site-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(234, 223, 206, 0.92);
+  background: rgba(255, 253, 249, 0.72);
+  box-shadow: 0 8px 30px rgba(18, 32, 51, 0.06);
+}
+
+.site-footer-inner strong,
+.site-footer-inner span,
+.site-footer-links a {
+  display: block;
+}
+
+.site-footer-inner strong {
+  font-size: 1rem;
+}
+
+.site-footer-inner span,
+.site-footer-links a {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.site-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -815,7 +857,8 @@ tbody td {
 
 @media (max-width: 760px) {
   .hero,
-  .page {
+  .page,
+  .site-footer {
     padding-left: 16px;
     padding-right: 16px;
   }
@@ -846,5 +889,15 @@ tbody td {
   .hero-links,
   .artifact-actions {
     flex-direction: column;
+  }
+
+  .site-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-footer-links {
+    flex-direction: column;
+    gap: 8px;
   }
 }

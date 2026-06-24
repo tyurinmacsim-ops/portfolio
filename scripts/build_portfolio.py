@@ -1178,6 +1178,10 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
             "Написать письмо",
         ),
     ]
+    footer_links = [
+        ("Telegram", CONTACT_TELEGRAM_URL, CONTACT_TELEGRAM),
+        ("Email", f"mailto:{CONTACT_EMAIL}", CONTACT_EMAIL),
+    ]
 
     stat_cards_html = "\n".join(
         f'<article class="stat-card"><span class="stat-label">{escape(label)}</span><strong>{escape(value)}</strong></article>'
@@ -1277,6 +1281,10 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
             "</article>"
         )
         for label, value, text, href, cta in contact_cards
+    )
+    footer_links_html = " ".join(
+        f'<a href="{escape(href)}">{escape(label)}: {escape(value)}</a>'
+        for label, href, value in footer_links
     )
 
     html_text = f"""<!doctype html>
@@ -1501,6 +1509,17 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
       </ul>
     </section>
   </main>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        <strong>Максим Тюрин</strong>
+        <span>DevOps / Platform Engineer • Пермь</span>
+      </div>
+      <div class="site-footer-links">
+        {footer_links_html}
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
 """
