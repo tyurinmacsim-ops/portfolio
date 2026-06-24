@@ -55,6 +55,40 @@
 <li><a href="../artifacts/backup-automation/backup-k8s/files/restore_backups.py">backup-k8s/files/restore_backups.py</a></li>
 <li><a href="../artifacts/backup-automation/backup-mongo-k8s/files/daily_backups_mongodb.py">backup-mongo-k8s/files/daily_backups_mongodb.py</a></li>
 </ul>
+<h2>Следующие артефакты, которые можно публиковать в redacted-виде</h2>
+<p>Ниже перечислены не исходные рабочие репозитории, а типы технических артефактов, которые можно безопасно вынести в публичное портфолио после обезличивания.</p>
+<h3>1. GitLab CI template bundle</h3>
+<ul>
+<li>Что можно показать: reusable <code>.gitlab-ci</code> templates для <code>docker build/push</code>, manual jobs, release rules, job inheritance через <code>extends</code>.</li>
+<li>Что это подтверждает: практическую работу с <code>GitLab CI/CD</code>, шаблонизацией пайплайнов, сборкой контейнеров и регламентом выкладки.</li>
+<li>Что обязательно вычищать: имена сервисов, registry paths, project labels, внутренние runner tags, URL и внутренние naming conventions.</li>
+</ul>
+<h3>2. Vault + Kubernetes secret delivery bundle</h3>
+<ul>
+<li>Что можно показать: <code>SecretProviderClass</code>, service account binding, pod manifests для <code>Vault CSI</code> / injector, а также обезличенный <code>Terraform</code>-lab для <code>Yandex Cloud Kubernetes</code>.</li>
+<li>Что это подтверждает: работу с <code>Vault</code>, <code>Kubernetes</code>, <code>CSI</code>, service accounts, IaC и доставкой секретов в workload.</li>
+<li>Что обязательно вычищать: реальные secret paths, namespace naming, cloud IDs, <code>.env</code>, <code>.tfstate</code>, сертификаты, PDF-материалы и любые внутренние инструкции.</li>
+</ul>
+<h3>3. Helm observability bundle</h3>
+<ul>
+<li>Что можно показать: redacted <code>values.yaml</code>, <code>Chart.yaml</code>, exporter configs, service monitor patterns, security context и типовые настройки для monitoring stack.</li>
+<li>Что это подтверждает: практическую работу с <code>Helm</code>, <code>Prometheus</code> ecosystem, exporters, chart values и эксплуатационной конфигурацией Kubernetes-сервисов.</li>
+<li>Что обязательно вычищать: домены, внутренние endpoints, tenant naming, alert routing details и любые кастомные интеграции, ведущие на внутренние системы.</li>
+</ul>
+<h3>4. Terraform / Ansible infrastructure patterns</h3>
+<ul>
+<li>Что можно показать: обезличенные модули, сетевые шаблоны, node group definitions, inventory patterns, bootstrap logic.</li>
+<li>Что это подтверждает: <code>Terraform</code>, <code>Terragrunt</code>, <code>Ansible</code>, сетевую и кластерную автоматизацию, повторяемые инфраструктурные паттерны.</li>
+<li>Что обязательно вычищать: state files, inventories с IP/FQDN, client/resource names, IAM identities, backend-конфигурацию и provider credentials.</li>
+</ul>
+<h2>Что принципиально не публикуется</h2>
+<ul>
+<li>чужая commit-история и авторство других инженеров;</li>
+<li>клиентские названия проектов, домены, namespaces и registry paths;</li>
+<li><code>.env</code>, <code>.tfstate</code>, kubeconfig, inventories, сертификаты и access-данные;</li>
+<li>внутренние презентации, PDF, runbooks и документы, по которым можно восстановить контекст заказчика;</li>
+<li>полный рабочий репозиторий, если его ценность для портфолио можно показать через 2-5 обезличенных файлов.</li>
+</ul>
       </article>
     </section>
   </main>

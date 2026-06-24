@@ -839,6 +839,47 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             else:
                 lines.append(f"- `{item}`")
 
+    lines.extend(
+        [
+            "",
+            "## Следующие артефакты, которые можно публиковать в redacted-виде",
+            "",
+            "Ниже перечислены не исходные рабочие репозитории, а типы технических артефактов, которые можно безопасно вынести в публичное портфолио после обезличивания.",
+            "",
+            "### 1. GitLab CI template bundle",
+            "",
+            "- Что можно показать: reusable `.gitlab-ci` templates для `docker build/push`, manual jobs, release rules, job inheritance через `extends`.",
+            "- Что это подтверждает: практическую работу с `GitLab CI/CD`, шаблонизацией пайплайнов, сборкой контейнеров и регламентом выкладки.",
+            "- Что обязательно вычищать: имена сервисов, registry paths, project labels, внутренние runner tags, URL и внутренние naming conventions.",
+            "",
+            "### 2. Vault + Kubernetes secret delivery bundle",
+            "",
+            "- Что можно показать: `SecretProviderClass`, service account binding, pod manifests для `Vault CSI` / injector, а также обезличенный `Terraform`-lab для `Yandex Cloud Kubernetes`.",
+            "- Что это подтверждает: работу с `Vault`, `Kubernetes`, `CSI`, service accounts, IaC и доставкой секретов в workload.",
+            "- Что обязательно вычищать: реальные secret paths, namespace naming, cloud IDs, `.env`, `.tfstate`, сертификаты, PDF-материалы и любые внутренние инструкции.",
+            "",
+            "### 3. Helm observability bundle",
+            "",
+            "- Что можно показать: redacted `values.yaml`, `Chart.yaml`, exporter configs, service monitor patterns, security context и типовые настройки для monitoring stack.",
+            "- Что это подтверждает: практическую работу с `Helm`, `Prometheus` ecosystem, exporters, chart values и эксплуатационной конфигурацией Kubernetes-сервисов.",
+            "- Что обязательно вычищать: домены, внутренние endpoints, tenant naming, alert routing details и любые кастомные интеграции, ведущие на внутренние системы.",
+            "",
+            "### 4. Terraform / Ansible infrastructure patterns",
+            "",
+            "- Что можно показать: обезличенные модули, сетевые шаблоны, node group definitions, inventory patterns, bootstrap logic.",
+            "- Что это подтверждает: `Terraform`, `Terragrunt`, `Ansible`, сетевую и кластерную автоматизацию, повторяемые инфраструктурные паттерны.",
+            "- Что обязательно вычищать: state files, inventories с IP/FQDN, client/resource names, IAM identities, backend-конфигурацию и provider credentials.",
+            "",
+            "## Что принципиально не публикуется",
+            "",
+            "- чужая commit-история и авторство других инженеров;",
+            "- клиентские названия проектов, домены, namespaces и registry paths;",
+            "- `.env`, `.tfstate`, kubeconfig, inventories, сертификаты и access-данные;",
+            "- внутренние презентации, PDF, runbooks и документы, по которым можно восстановить контекст заказчика;",
+            "- полный рабочий репозиторий, если его ценность для портфолио можно показать через 2-5 обезличенных файлов.",
+        ]
+    )
+
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
