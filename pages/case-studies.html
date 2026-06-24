@@ -47,6 +47,14 @@
 <li>Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.</li>
 <li>Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.</li>
 </ul>
+<h2>4. Backup / Restore automation toolkit</h2>
+<ul>
+<li>Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.</li>
+<li>Подтверждающие артефакты: Python-скрипты <code>daily_backups_lambda.py</code>, <code>restore_backups.py</code>, <code>daily_backups_mongodb.py</code>, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.</li>
+<li>Что делал: автоматизация backup/restore контуров для PostgreSQL, MariaDB и MongoDB, интеграция с <code>AWS S3</code>, <code>Secrets Manager</code>, <code>Slack</code>-оповещением и Kubernetes CronJob.</li>
+<li>Что это доказывает: опыт не только в CI/CD и k8s delivery, но и в data operations, backup policy, recovery workflow и эксплуатационных сценариях вокруг stateful сервисов.</li>
+<li>Результат: отдельный воспроизводимый слой доказательств по backup automation, даже там, где в архиве не сохранилась читаемая git-история.</li>
+</ul>
       </article>
     </section>
   </main>

@@ -21,3 +21,11 @@
 - Что делал: сопровождение Kubernetes-кластера, CI/CD и GitOps-процессов, эксплуатация Airflow / Trino / JupyterHub / GitLab Runner, работа с Vault / External Secrets, ingress, registry и observability.
 - Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.
 - Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.
+
+## 4. Backup / Restore automation toolkit
+
+- Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.
+- Подтверждающие артефакты: Python-скрипты `daily_backups_lambda.py`, `restore_backups.py`, `daily_backups_mongodb.py`, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.
+- Что делал: автоматизация backup/restore контуров для PostgreSQL, MariaDB и MongoDB, интеграция с `AWS S3`, `Secrets Manager`, `Slack`-оповещением и Kubernetes CronJob.
+- Что это доказывает: опыт не только в CI/CD и k8s delivery, но и в data operations, backup policy, recovery workflow и эксплуатационных сценариях вокруг stateful сервисов.
+- Результат: отдельный воспроизводимый слой доказательств по backup automation, даже там, где в архиве не сохранилась читаемая git-история.

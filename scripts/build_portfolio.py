@@ -35,6 +35,13 @@ PUBLIC_ALIASES = {
     "01.tech/tgbots-components": "Project 13 - Shared CI/CD components",
 }
 
+BACKUP_ARTIFACT_ROOT = Path(
+    os.environ.get(
+        "BACKUP_ARTIFACT_ROOT",
+        "/Users/macbook/Yandex.Disk.localized/работа/01.tech/sckript-program/db-backup",
+    )
+).resolve()
+
 SVG_TEXT_STYLE = (
     "text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }"
     ".title { font-size: 26px; font-weight: 800; }"
@@ -186,6 +193,52 @@ def build_tech_counter(summary: dict) -> Counter:
         for tech in repo["tech"]:
             tech_counter[tech] += 1
     return tech_counter
+
+
+def analyze_backup_artifact(root: Path) -> dict | None:
+    if not root.exists():
+        return None
+
+    counts = {
+        "Python": 0,
+        "Shell": 0,
+        "YAML": 0,
+        "Dockerfile": 0,
+        "Env files": 0,
+        "Kustomize": 0,
+    }
+    python_files = []
+    shell_files = []
+    yaml_files = []
+
+    for file_path in root.rglob("*"):
+        if not file_path.is_file():
+            continue
+        low = file_path.name.lower()
+        rel = str(file_path.relative_to(root))
+        if file_path.suffix == ".py":
+            counts["Python"] += 1
+            python_files.append(rel)
+        if file_path.suffix == ".sh":
+            counts["Shell"] += 1
+            shell_files.append(rel)
+        if file_path.suffix in {".yml", ".yaml"}:
+            counts["YAML"] += 1
+            yaml_files.append(rel)
+        if low == "dockerfile":
+            counts["Dockerfile"] += 1
+        if low == ".env":
+            counts["Env files"] += 1
+        if low == "kustomization.yaml":
+            counts["Kustomize"] += 1
+
+    return {
+        "root": str(root),
+        "counts": counts,
+        "python_files": python_files,
+        "shell_files": shell_files,
+        "yaml_files": yaml_files,
+    }
 
 
 def write_json(path: Path, data: dict) -> None:
@@ -550,6 +603,7 @@ CONTENT_PAGE_MAP = {
     "docs/CASE_STUDIES.md": "pages/case-studies.html",
     "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
     "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
+    "docs/ARTIFACT_EVIDENCE.md": "pages/artifact-evidence.html",
     "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
 }
 
@@ -706,6 +760,7 @@ def write_content_pages(repo_root: Path) -> None:
         "docs/CASE_STUDIES.md": ("Кейсы и результаты", "Типовые задачи и результаты, которые уже подтверждаются архивом."),
         "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
         "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
+        "docs/ARTIFACT_EVIDENCE.md": ("Дополнительные артефакты", "Подтверждения по рабочим материалам без читаемой git-истории."),
         "projects/platform-engineering-demo/README.md": (
             "Демо-стенд platform engineering",
             "Воспроизводимый Terraform + Kubernetes + observability стенд.",
@@ -728,6 +783,53 @@ def write_content_pages(repo_root: Path) -> None:
         body_html = markdown_to_html(source_path.read_text(encoding="utf-8"), href_resolver=resolve_href)
         title, subtitle = page_titles[source]
         write_content_page(target_path, title, subtitle, body_html)
+
+
+def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
+    lines = [
+        "# Дополнительные артефакты без git-истории",
+        "",
+        "Этот раздел не смешивается с commit-графиками. Здесь вынесены рабочие материалы, у которых в локальном архиве нет читаемой `.git`-истории, но сама структура артефактов подтверждает тип задач и стек.",
+        "",
+    ]
+
+    if not artifact:
+        lines.append("- Каталог с дополнительными артефактами не найден в текущем окружении сборки.")
+    else:
+        counts = artifact["counts"]
+        lines.extend(
+            [
+                "## Backup / Restore Automation Toolkit",
+                "",
+                f"- Источник: `{artifact['root']}`",
+                "- Тип подтверждения: non-git evidence по рабочему каталогу.",
+                "- Что подтверждает: практическую работу с backup/restore automation, Kubernetes CronJob, Dockerized utilities, S3/AWS, Secrets Manager, Slack alerting, PostgreSQL, MariaDB и MongoDB.",
+                "",
+                "## Состав артефакта",
+                "",
+                f"- Python-скрипты: `{counts['Python']}`",
+                f"- Shell-скрипты: `{counts['Shell']}`",
+                f"- YAML manifests: `{counts['YAML']}`",
+                f"- Dockerfiles: `{counts['Dockerfile']}`",
+                f"- Env files: `{counts['Env files']}`",
+                f"- Kustomize overlays: `{counts['Kustomize']}`",
+                "",
+                "## Что видно по содержимому",
+                "",
+                "- Python-скрипты реализуют backup и restore сценарии с логированием, Slack-оповещением и работой через AWS Secrets Manager / S3.",
+                "- В каталоге есть Kubernetes-манифесты для cron-based backup/restore джобов.",
+                "- Есть отдельные shell-сценарии для миграций и ручного экспорта баз.",
+                "- Это хороший артефакт не про «настроил кластер», а про эксплуатацию данных, резервное копирование и recovery-процессы.",
+                "",
+                "## Ключевые файлы",
+                "",
+            ]
+        )
+        for item in artifact["python_files"]:
+            lines.append(f"- `{item}`")
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def write_landing_page(path: Path, summary: dict) -> None:
@@ -776,6 +878,10 @@ def write_landing_page(path: Path, summary: dict) -> None:
             "Yandex Cloud / аналитическая платформа",
             "Kubernetes, Airflow, Trino, JupyterHub, Vault, External Secrets, registry и observability для data-направления.",
         ),
+        (
+            "Backup / Restore Automation",
+            "Отдельный рабочий toolkit без git-истории: Python backup/restore скрипты, Kubernetes CronJob, Docker utility-образы, S3/AWS, Slack alerting, PostgreSQL, MariaDB и MongoDB.",
+        ),
     ]
 
     quick_links = [
@@ -783,6 +889,7 @@ def write_landing_page(path: Path, summary: dict) -> None:
         ("Сводка активности", "pages/activity-summary.html"),
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
+        ("Дополнительные артефакты", "pages/artifact-evidence.html"),
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
     ]
@@ -898,6 +1005,9 @@ def write_landing_page(path: Path, summary: dict) -> None:
         <figure class="chart-card">
           <img src="assets/tech_coverage.svg" alt="Покрытие стека по потокам">
         </figure>
+        <figure class="chart-card">
+          <img src="assets/backup_artifact_map.svg" alt="Состав backup automation toolkit">
+        </figure>
         <figure class="chart-card chart-card-wide">
           <img src="assets/commits_by_repo.svg" alt="Коммиты по ключевым потокам">
         </figure>
@@ -981,11 +1091,13 @@ def main() -> None:
     repo_root = Path(__file__).resolve().parents[1]
     source_root = Path(os.environ.get("SOURCE_ROOT", "/Users/macbook/Yandex.Disk.localized/работа")).resolve()
     summary = build_summary(source_root)
+    backup_artifact = analyze_backup_artifact(BACKUP_ARTIFACT_ROOT)
 
     write_json(repo_root / "data" / "commit_summary.json", summary)
     write_csv(repo_root / "data" / "repo_overview.csv", summary["repos"])
     write_activity_summary(repo_root / "docs" / "ACTIVITY_SUMMARY.md", summary)
     write_highlights(repo_root / "docs" / "HIGHLIGHTS.md", summary)
+    write_artifact_evidence(repo_root / "docs" / "ARTIFACT_EVIDENCE.md", backup_artifact)
     write_landing_page(repo_root / "index.html", summary)
     write_content_pages(repo_root)
     (repo_root / ".nojekyll").write_text("", encoding="utf-8")
@@ -1043,6 +1155,16 @@ def main() -> None:
         tech_values,
         repo_root / "assets" / "tech_coverage.svg",
     )
+    if backup_artifact:
+        artifact_labels = list(backup_artifact["counts"].keys())
+        artifact_values = list(backup_artifact["counts"].values())
+        make_bar_svg(
+            "Состав backup automation toolkit",
+            "Отдельный рабочий артефакт без git-истории, вынесенный в портфолио как non-git evidence.",
+            artifact_labels,
+            artifact_values,
+            repo_root / "assets" / "backup_artifact_map.svg",
+        )
     make_stat_cards_svg(summary, repo_root / "assets" / "portfolio_snapshot.svg")
 
 

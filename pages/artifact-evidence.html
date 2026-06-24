@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дополнительные артефакты • Портфолио</title>
+  <meta name="description" content="Подтверждения по рабочим материалам без читаемой git-истории.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Дополнительные артефакты</h1>
+        <p class="content-lead">Подтверждения по рабочим материалам без читаемой git-истории.</p>
+      </header>
+      <article class="prose">
+        <h1>Дополнительные артефакты без git-истории</h1>
+<p>Этот раздел не смешивается с commit-графиками. Здесь вынесены рабочие материалы, у которых в локальном архиве нет читаемой <code>.git</code>-истории, но сама структура артефактов подтверждает тип задач и стек.</p>
+<h2>Backup / Restore Automation Toolkit</h2>
+<ul>
+<li>Источник: <code>/Users/macbook/Yandex.Disk.localized/работа/01.tech/sckript-program/db-backup</code></li>
+<li>Тип подтверждения: non-git evidence по рабочему каталогу.</li>
+<li>Что подтверждает: практическую работу с backup/restore automation, Kubernetes CronJob, Dockerized utilities, S3/AWS, Secrets Manager, Slack alerting, PostgreSQL, MariaDB и MongoDB.</li>
+</ul>
+<h2>Состав артефакта</h2>
+<ul>
+<li>Python-скрипты: <code>3</code></li>
+<li>Shell-скрипты: <code>6</code></li>
+<li>YAML manifests: <code>15</code></li>
+<li>Dockerfiles: <code>3</code></li>
+<li>Env files: <code>3</code></li>
+<li>Kustomize overlays: <code>2</code></li>
+</ul>
+<h2>Что видно по содержимому</h2>
+<ul>
+<li>Python-скрипты реализуют backup и restore сценарии с логированием, Slack-оповещением и работой через AWS Secrets Manager / S3.</li>
+<li>В каталоге есть Kubernetes-манифесты для cron-based backup/restore джобов.</li>
+<li>Есть отдельные shell-сценарии для миграций и ручного экспорта баз.</li>
+<li>Это хороший артефакт не про «настроил кластер», а про эксплуатацию данных, резервное копирование и recovery-процессы.</li>
+</ul>
+<h2>Ключевые файлы</h2>
+<ul>
+<li><code>backup-k8s/files/daily_backups_lambda.py</code></li>
+<li><code>backup-k8s/files/restore_backups.py</code></li>
+<li><code>backup-mongo-k8s/files/daily_backups_mongodb.py</code></li>
+</ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
