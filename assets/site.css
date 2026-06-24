@@ -37,6 +37,12 @@ a {
   text-decoration: none;
 }
 
+.prose a,
+.links-list a,
+.topbar-links a {
+  color: inherit;
+}
+
 code {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.92em;
@@ -242,6 +248,109 @@ code {
   padding: 0 24px 56px;
   display: grid;
   gap: 22px;
+}
+
+.content-shell {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 18px 56px;
+}
+
+.content-panel {
+  background: var(--surface);
+  border: 1px solid rgba(234, 223, 206, 0.92);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  padding: 26px 28px 34px;
+}
+
+.content-nav {
+  margin-bottom: 18px;
+}
+
+.content-head h1 {
+  margin: 10px 0 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.content-lead {
+  margin: 14px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.prose {
+  margin-top: 28px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  margin: 1.8em 0 0.6em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.prose h1 {
+  font-size: 2rem;
+}
+
+.prose h2 {
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  font-size: 1.2rem;
+}
+
+.prose p {
+  margin: 0.9em 0;
+  color: var(--muted);
+}
+
+.prose ul {
+  margin: 0.8em 0 1.1em;
+  padding-left: 1.2rem;
+}
+
+.prose li {
+  margin: 0.35em 0;
+  color: var(--muted);
+}
+
+.prose pre {
+  margin: 1em 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  border-radius: 18px;
+  background: #1d2a33;
+  color: #eff6ff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.prose pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+
+.prose code {
+  color: var(--accent);
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(15, 118, 110, 0.24);
+  text-underline-offset: 0.18em;
 }
 
 .panel {

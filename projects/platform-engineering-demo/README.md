@@ -88,18 +88,20 @@ make prometheus
 
 GitHub Actions pipeline состоит из двух jobs:
 
-1. `validate`
-   - `terraform fmt -check`
-   - `terraform validate`
-   - `kubectl kustomize` render check
+### `validate`
 
-2. `smoke`
-   - создаёт временный `kind`-кластер
-   - собирает образ приложения
-   - загружает образ в `kind`
-   - применяет Terraform-ресурсы платформы
-   - деплоит manifests приложения
-   - проверяет health и metrics
+- `terraform fmt -check`
+- `terraform validate`
+- `kubectl kustomize` render check
+
+### `smoke`
+
+- создаёт временный `kind`-кластер
+- собирает образ приложения
+- загружает образ в `kind`
+- применяет Terraform-ресурсы платформы
+- деплоит manifests приложения
+- проверяет health и metrics
 
 ## Нюансы локального kind
 

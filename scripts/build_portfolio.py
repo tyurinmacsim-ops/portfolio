@@ -544,6 +544,192 @@ def write_activity_summary(path: Path, summary: dict) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+CONTENT_PAGE_MAP = {
+    "docs/HIGHLIGHTS.md": "pages/highlights.html",
+    "docs/ACTIVITY_SUMMARY.md": "pages/activity-summary.html",
+    "docs/CASE_STUDIES.md": "pages/case-studies.html",
+    "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
+    "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
+    "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
+}
+
+
+def inline_markdown(text: str, href_resolver=None) -> str:
+    text = escape(text)
+    text = re.sub(r"`([^`]+)`", r"<code>\1</code>", text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", text)
+
+    def replace_link(match: re.Match[str]) -> str:
+        label = match.group(1)
+        target = match.group(2)
+        href = href_resolver(target) if href_resolver else CONTENT_PAGE_MAP.get(target, target)
+        return f'<a href="{escape(href)}">{escape(label)}</a>'
+
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", replace_link, text)
+    return text
+
+
+def markdown_to_html(markdown_text: str, href_resolver=None) -> str:
+    lines = markdown_text.splitlines()
+    parts: list[str] = []
+    in_list = False
+    in_code = False
+    code_lines: list[str] = []
+    paragraph: list[str] = []
+
+    def flush_paragraph() -> None:
+        nonlocal paragraph
+        if paragraph:
+            parts.append(f"<p>{inline_markdown(' '.join(paragraph), href_resolver=href_resolver)}</p>")
+            paragraph = []
+
+    def flush_list() -> None:
+        nonlocal in_list
+        if in_list:
+            parts.append("</ul>")
+            in_list = False
+
+    for raw_line in lines:
+        line = raw_line.rstrip("\n")
+        stripped = line.strip()
+
+        if stripped.startswith("```"):
+            flush_paragraph()
+            flush_list()
+            if in_code:
+                code_html = escape("\n".join(code_lines))
+                parts.append(f"<pre><code>{code_html}</code></pre>")
+                code_lines = []
+                in_code = False
+            else:
+                in_code = True
+            continue
+
+        if in_code:
+            code_lines.append(line)
+            continue
+
+        if not stripped:
+            flush_paragraph()
+            flush_list()
+            continue
+
+        if stripped.startswith("# "):
+            flush_paragraph()
+            flush_list()
+            parts.append(f"<h1>{inline_markdown(stripped[2:], href_resolver=href_resolver)}</h1>")
+            continue
+
+        if stripped.startswith("## "):
+            flush_paragraph()
+            flush_list()
+            parts.append(f"<h2>{inline_markdown(stripped[3:], href_resolver=href_resolver)}</h2>")
+            continue
+
+        if stripped.startswith("### "):
+            flush_paragraph()
+            flush_list()
+            parts.append(f"<h3>{inline_markdown(stripped[4:], href_resolver=href_resolver)}</h3>")
+            continue
+
+        if stripped.startswith("- "):
+            flush_paragraph()
+            if not in_list:
+                parts.append("<ul>")
+                in_list = True
+            parts.append(f"<li>{inline_markdown(stripped[2:], href_resolver=href_resolver)}</li>")
+            continue
+
+        numbered = re.match(r"^\d+\.\s+(.*)$", stripped)
+        if numbered:
+            flush_paragraph()
+            if not in_list:
+                parts.append("<ul>")
+                in_list = True
+            parts.append(f"<li>{inline_markdown(numbered.group(1), href_resolver=href_resolver)}</li>")
+            continue
+
+        paragraph.append(stripped)
+
+    flush_paragraph()
+    flush_list()
+    if in_code:
+        code_html = escape("\n".join(code_lines))
+        parts.append(f"<pre><code>{code_html}</code></pre>")
+
+    return "\n".join(parts)
+
+
+def write_content_page(path: Path, title: str, subtitle: str, body_html: str) -> None:
+    page_html = f"""<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{escape(title)} • Портфолио</title>
+  <meta name="description" content="{escape(subtitle)}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>{escape(title)}</h1>
+        <p class="content-lead">{escape(subtitle)}</p>
+      </header>
+      <article class="prose">
+        {body_html}
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+"""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(page_html, encoding="utf-8")
+
+
+def write_content_pages(repo_root: Path) -> None:
+    page_titles = {
+        "docs/HIGHLIGHTS.md": ("Ключевые выводы", "Краткая выжимка по подтверждённой активности и стеку."),
+        "docs/ACTIVITY_SUMMARY.md": ("Сводка активности", "Числа, периоды и крупнейшие рабочие потоки."),
+        "docs/CASE_STUDIES.md": ("Кейсы и результаты", "Типовые задачи и результаты, которые уже подтверждаются архивом."),
+        "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
+        "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
+        "projects/platform-engineering-demo/README.md": (
+            "Демо-стенд platform engineering",
+            "Воспроизводимый Terraform + Kubernetes + observability стенд.",
+        ),
+    }
+
+    for source, target in CONTENT_PAGE_MAP.items():
+        source_path = repo_root / source
+        if not source_path.exists():
+            continue
+        target_path = repo_root / target
+
+        def resolve_href(link_target: str) -> str:
+            normalized = os.path.normpath(os.path.join(os.path.dirname(source), link_target)).replace("\\", "/")
+            mapped = CONTENT_PAGE_MAP.get(normalized) or CONTENT_PAGE_MAP.get(link_target)
+            if mapped:
+                return os.path.relpath(repo_root / mapped, target_path.parent)
+            return link_target
+
+        body_html = markdown_to_html(source_path.read_text(encoding="utf-8"), href_resolver=resolve_href)
+        title, subtitle = page_titles[source]
+        write_content_page(target_path, title, subtitle, body_html)
+
+
 def write_landing_page(path: Path, summary: dict) -> None:
     repos = summary["repos"]
     monthly = summary["monthly"]
@@ -593,11 +779,11 @@ def write_landing_page(path: Path, summary: dict) -> None:
     ]
 
     quick_links = [
-        ("Ключевые выводы", "docs/HIGHLIGHTS.md"),
-        ("Сводка активности", "docs/ACTIVITY_SUMMARY.md"),
-        ("Кейсы", "docs/CASE_STUDIES.md"),
-        ("Публичные демо-проекты", "docs/PUBLIC_PROJECTS.md"),
-        ("Краткое описание", "docs/APPLICATION_BLURB.md"),
+        ("Ключевые выводы", "pages/highlights.html"),
+        ("Сводка активности", "pages/activity-summary.html"),
+        ("Кейсы", "pages/case-studies.html"),
+        ("Публичные демо-проекты", "pages/public-projects.html"),
+        ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
     ]
 
@@ -770,7 +956,7 @@ def write_landing_page(path: Path, summary: dict) -> None:
           <h3>platform-engineering-demo</h3>
           <p>Отдельный демо-проект внутри портфолио: <code>Terraform + Kubernetes + GitHub Actions + Prometheus/Grafana/Loki</code>. Локально прогнан end-to-end через <code>kind</code>, deployment и smoke-test.</p>
         </div>
-        <a class="btn btn-primary" href="projects/platform-engineering-demo/README.md">Открыть описание демо-проекта</a>
+        <a class="btn btn-primary" href="pages/platform-engineering-demo.html">Открыть описание демо-проекта</a>
       </div>
     </section>
 
@@ -801,6 +987,8 @@ def main() -> None:
     write_activity_summary(repo_root / "docs" / "ACTIVITY_SUMMARY.md", summary)
     write_highlights(repo_root / "docs" / "HIGHLIGHTS.md", summary)
     write_landing_page(repo_root / "index.html", summary)
+    write_content_pages(repo_root)
+    (repo_root / ".nojekyll").write_text("", encoding="utf-8")
 
     month_labels = list(summary["monthly"].keys())
     month_values = list(summary["monthly"].values())
