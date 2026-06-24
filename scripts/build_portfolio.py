@@ -641,6 +641,7 @@ CONTENT_PAGE_MAP = {
     "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
     "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
     "docs/ARTIFACT_EVIDENCE.md": "pages/artifact-evidence.html",
+    "docs/RESUME_PUBLIC.md": "pages/resume.html",
     "docs/RESUME_PORTFOLIO_MAP.md": "pages/resume-portfolio-map.html",
     "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
 }
@@ -799,6 +800,7 @@ def write_content_pages(repo_root: Path) -> None:
         "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
         "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
         "docs/ARTIFACT_EVIDENCE.md": ("Дополнительные артефакты", "Подтверждения по рабочим материалам без читаемой git-истории."),
+        "docs/RESUME_PUBLIC.md": ("Резюме", "Краткая публичная версия резюме для HR и технического интервью."),
         "docs/RESUME_PORTFOLIO_MAP.md": ("Сопоставление резюме и портфолио", "Как читать резюме вместе с git-данными, графиками и non-git evidence."),
         "projects/platform-engineering-demo/README.md": (
             "Демо-стенд platform engineering",
@@ -1151,13 +1153,17 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
     ]
 
     quick_links = [
+        ("Резюме", "pages/resume.html"),
         ("Ключевые выводы", "pages/highlights.html"),
         ("Сводка активности", "pages/activity-summary.html"),
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
+<<<<<<< HEAD
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
+=======
+>>>>>>> 0363d08 (Add resume to portfolio evidence map)
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
@@ -1179,6 +1185,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         ),
     ]
     footer_links = [
+        ("Резюме", "pages/resume.html", "открыть"),
         ("Telegram", CONTACT_TELEGRAM_URL, CONTACT_TELEGRAM),
         ("Email", f"mailto:{CONTACT_EMAIL}", CONTACT_EMAIL),
     ]
@@ -1493,7 +1500,6 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         <p class="eyebrow">Контакты</p>
         <h2>Связаться напрямую</h2>
       </div>
-      <div class="section-note">Сайт открыт публично. По прямой ссылке он доступен сразу, а в поиске может появляться по мере индексации поисковиками.</div>
       <div class="contact-grid">
         {contact_cards_html}
       </div>
