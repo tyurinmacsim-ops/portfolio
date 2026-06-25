@@ -11,32 +11,32 @@ text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { 
 <rect x="0" y="0" width="1100" height="418" rx="28" ry="28" fill="#fffaf4"/>
 <text class="title" x="30" y="44">Покрытие стека по потокам</text>
 <text class="subtitle" x="30" y="68">Сколько подтверждённых потоков содержат практическую работу с конкретным стеком.</text>
-<text class="label" x="30" y="103">GitLab CI</text>
+<text class="label" x="30" y="103">Kubernetes</text>
 <rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
 <rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="url(#barFill)"/>
-<text class="value" x="1066" y="103">26</text>
-<text class="label" x="30" y="147">Kubernetes</text>
+<text class="value" x="1066" y="103">27</text>
+<text class="label" x="30" y="147">GitLab CI</text>
 <rect x="300" y="130" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
-<rect x="300" y="130" rx="8" ry="8" width="696" height="24" fill="url(#barFill)"/>
-<text class="value" x="1008" y="147">24</text>
+<rect x="300" y="130" rx="8" ry="8" width="754" height="24" fill="url(#barFill)"/>
+<text class="value" x="1066" y="147">27</text>
 <text class="label" x="30" y="191">Helm</text>
 <rect x="300" y="174" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
-<rect x="300" y="174" rx="8" ry="8" width="551" height="24" fill="url(#barFill)"/>
-<text class="value" x="863" y="191">19</text>
+<rect x="300" y="174" rx="8" ry="8" width="586" height="24" fill="url(#barFill)"/>
+<text class="value" x="898" y="191">21</text>
 <text class="label" x="30" y="235">Terraform</text>
 <rect x="300" y="218" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
-<rect x="300" y="218" rx="8" ry="8" width="261" height="24" fill="url(#barFill)"/>
-<text class="value" x="573" y="235">9</text>
-<text class="label" x="30" y="279">Docker</text>
+<rect x="300" y="218" rx="8" ry="8" width="335" height="24" fill="url(#barFill)"/>
+<text class="value" x="647" y="235">12</text>
+<text class="label" x="30" y="279">Ansible</text>
 <rect x="300" y="262" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
-<rect x="300" y="262" rx="8" ry="8" width="145" height="24" fill="url(#barFill)"/>
-<text class="value" x="457" y="279">5</text>
-<text class="label" x="30" y="323">Terragrunt</text>
+<rect x="300" y="262" rx="8" ry="8" width="195" height="24" fill="url(#barFill)"/>
+<text class="value" x="507" y="279">7</text>
+<text class="label" x="30" y="323">Docker</text>
 <rect x="300" y="306" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
-<rect x="300" y="306" rx="8" ry="8" width="116" height="24" fill="url(#barFill)"/>
-<text class="value" x="428" y="323">4</text>
-<text class="label" x="30" y="367">Ansible</text>
+<rect x="300" y="306" rx="8" ry="8" width="139" height="24" fill="url(#barFill)"/>
+<text class="value" x="451" y="323">5</text>
+<text class="label" x="30" y="367">Terragrunt</text>
 <rect x="300" y="350" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
-<rect x="300" y="350" rx="8" ry="8" width="87" height="24" fill="url(#barFill)"/>
-<text class="value" x="399" y="367">3</text>
+<rect x="300" y="350" rx="8" ry="8" width="111" height="24" fill="url(#barFill)"/>
+<text class="value" x="423" y="367">4</text>
 </svg>

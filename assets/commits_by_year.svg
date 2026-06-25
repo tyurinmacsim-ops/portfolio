@@ -15,16 +15,19 @@ text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { 
 <text class="axis" x="20" y="145.5">3305</text>
 <line x1="76" y1="84.0" x2="862" y2="84.0" stroke="#eadfce"/>
 <text class="axis" x="20" y="88.0">4407</text>
-<rect x="117.3" y="218.8" width="114.0" height="95.2" rx="16" ry="16" fill="#0f766e"/>
-<text class="value" x="129.3" y="208.8">1825</text>
-<text class="axis" x="160.2" y="360">2023</text>
-<rect x="313.8" y="245.1" width="114.0" height="68.9" rx="16" ry="16" fill="#d97706"/>
-<text class="value" x="325.8" y="235.1">1321</text>
-<text class="axis" x="356.8" y="360">2024</text>
-<rect x="510.3" y="84.0" width="114.0" height="230.0" rx="16" ry="16" fill="#0f766e"/>
-<text class="value" x="522.3" y="74.0">4407</text>
-<text class="axis" x="553.2" y="360">2025</text>
-<rect x="706.8" y="282.0" width="114.0" height="32.0" rx="16" ry="16" fill="#c2410c"/>
-<text class="value" x="718.8" y="272.0">613</text>
-<text class="axis" x="749.8" y="360">2026</text>
+<rect x="109.0" y="307.0" width="91.2" height="7.0" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="121.0" y="297.0">134</text>
+<text class="axis" x="140.6" y="360">2022</text>
+<rect x="266.2" y="211.0" width="91.2" height="103.0" rx="16" ry="16" fill="#d97706"/>
+<text class="value" x="278.2" y="201.0">1974</text>
+<text class="axis" x="297.8" y="360">2023</text>
+<rect x="423.4" y="245.1" width="91.2" height="68.9" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="435.4" y="235.1">1321</text>
+<text class="axis" x="455.0" y="360">2024</text>
+<rect x="580.6" y="84.0" width="91.2" height="230.0" rx="16" ry="16" fill="#c2410c"/>
+<text class="value" x="592.6" y="74.0">4407</text>
+<text class="axis" x="612.2" y="360">2025</text>
+<rect x="737.8" y="282.0" width="91.2" height="32.0" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="749.8" y="272.0">613</text>
+<text class="axis" x="769.4" y="360">2026</text>
 </svg>

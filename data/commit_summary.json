@@ -1,10 +1,10 @@
 {
-  "total_repos_scanned": 108,
-  "valid_git_repos_scanned": 76,
-  "invalid_git_copies_skipped": 32,
-  "repos_with_my_commits": 42,
-  "total_my_commits": 8166,
-  "author_aliases_detected": 6,
+  "total_repos_scanned": 143,
+  "valid_git_repos_scanned": 115,
+  "invalid_git_copies_skipped": 28,
+  "repos_with_my_commits": 49,
+  "total_my_commits": 8449,
+  "author_aliases_detected": 10,
   "repos": [
     {
       "public_name": "Project 07 - ArgoCD delivery platform",
@@ -67,6 +67,16 @@
       ]
     },
     {
+      "public_name": "Workstream 07",
+      "commits": 126,
+      "first_date": "2023-08-21",
+      "last_date": "2023-09-01",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
       "public_name": "Project 11 - Kubernetes platform box",
       "commits": 122,
       "first_date": "2026-03-02",
@@ -88,7 +98,7 @@
       ]
     },
     {
-      "public_name": "Workstream 09",
+      "public_name": "Workstream 10",
       "commits": 115,
       "first_date": "2025-12-16",
       "last_date": "2026-02-27",
@@ -118,17 +128,6 @@
       ]
     },
     {
-      "public_name": "Workstream 12",
-      "commits": 63,
-      "first_date": "2025-12-02",
-      "last_date": "2025-12-03",
-      "tech": [
-        "GitLab CI",
-        "Helm",
-        "Kubernetes"
-      ]
-    },
-    {
       "public_name": "Workstream 13",
       "commits": 63,
       "first_date": "2025-12-02",
@@ -141,13 +140,33 @@
     },
     {
       "public_name": "Workstream 14",
+      "commits": 63,
+      "first_date": "2025-12-02",
+      "last_date": "2025-12-03",
+      "tech": [
+        "GitLab CI",
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 15",
       "commits": 59,
       "first_date": "2026-01-29",
       "last_date": "2026-02-27",
       "tech": []
     },
     {
-      "public_name": "Workstream 15",
+      "public_name": "Workstream 16",
+      "commits": 55,
+      "first_date": "2022-09-14",
+      "last_date": "2022-10-13",
+      "tech": [
+        "Ansible"
+      ]
+    },
+    {
+      "public_name": "Workstream 17",
       "commits": 54,
       "first_date": "2025-04-16",
       "last_date": "2025-10-24",
@@ -157,7 +176,7 @@
       ]
     },
     {
-      "public_name": "Workstream 16",
+      "public_name": "Workstream 18",
       "commits": 50,
       "first_date": "2026-03-03",
       "last_date": "2026-03-16",
@@ -168,7 +187,7 @@
       ]
     },
     {
-      "public_name": "Workstream 17",
+      "public_name": "Workstream 19",
       "commits": 48,
       "first_date": "2025-12-19",
       "last_date": "2026-02-25",
@@ -178,7 +197,7 @@
       ]
     },
     {
-      "public_name": "Workstream 18",
+      "public_name": "Workstream 20",
       "commits": 34,
       "first_date": "2025-12-19",
       "last_date": "2026-02-19",
@@ -188,7 +207,7 @@
       ]
     },
     {
-      "public_name": "Workstream 19",
+      "public_name": "Workstream 21",
       "commits": 32,
       "first_date": "2025-07-25",
       "last_date": "2025-09-02",
@@ -197,7 +216,7 @@
       ]
     },
     {
-      "public_name": "Workstream 20",
+      "public_name": "Workstream 22",
       "commits": 31,
       "first_date": "2025-12-02",
       "last_date": "2025-12-08",
@@ -207,7 +226,7 @@
       ]
     },
     {
-      "public_name": "Workstream 21",
+      "public_name": "Workstream 23",
       "commits": 30,
       "first_date": "2025-12-04",
       "last_date": "2025-12-05",
@@ -223,7 +242,7 @@
       "tech": []
     },
     {
-      "public_name": "Workstream 23",
+      "public_name": "Workstream 25",
       "commits": 27,
       "first_date": "2025-03-17",
       "last_date": "2025-10-22",
@@ -232,7 +251,18 @@
       ]
     },
     {
-      "public_name": "Workstream 24",
+      "public_name": "Workstream 26",
+      "commits": 27,
+      "first_date": "2022-06-30",
+      "last_date": "2022-07-10",
+      "tech": [
+        "Ansible",
+        "GitLab CI",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 27",
       "commits": 24,
       "first_date": "2025-12-02",
       "last_date": "2025-12-03",
@@ -242,7 +272,7 @@
       ]
     },
     {
-      "public_name": "Workstream 25",
+      "public_name": "Workstream 28",
       "commits": 23,
       "first_date": "2025-12-17",
       "last_date": "2026-02-27",
@@ -254,7 +284,46 @@
       ]
     },
     {
-      "public_name": "Workstream 26",
+      "public_name": "Workstream 29",
+      "commits": 23,
+      "first_date": "2023-09-01",
+      "last_date": "2023-09-02",
+      "tech": [
+        "Helm",
+        "Kubernetes"
+      ]
+    },
+    {
+      "public_name": "Workstream 30",
+      "commits": 18,
+      "first_date": "2022-06-28",
+      "last_date": "2022-07-06",
+      "tech": [
+        "Ansible",
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Workstream 31",
+      "commits": 18,
+      "first_date": "2022-06-28",
+      "last_date": "2022-07-06",
+      "tech": [
+        "Ansible",
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Workstream 32",
+      "commits": 16,
+      "first_date": "2022-07-28",
+      "last_date": "2022-08-17",
+      "tech": [
+        "Terraform"
+      ]
+    },
+    {
+      "public_name": "Workstream 33",
       "commits": 15,
       "first_date": "2025-12-24",
       "last_date": "2025-12-29",
@@ -264,7 +333,7 @@
       ]
     },
     {
-      "public_name": "Workstream 27",
+      "public_name": "Workstream 34",
       "commits": 12,
       "first_date": "2025-12-22",
       "last_date": "2026-02-25",
@@ -274,7 +343,7 @@
       ]
     },
     {
-      "public_name": "Workstream 28",
+      "public_name": "Workstream 35",
       "commits": 12,
       "first_date": "2025-12-26",
       "last_date": "2025-12-29",
@@ -295,7 +364,7 @@
       ]
     },
     {
-      "public_name": "Workstream 30",
+      "public_name": "Workstream 37",
       "commits": 11,
       "first_date": "2026-03-11",
       "last_date": "2026-03-12",
@@ -315,7 +384,7 @@
       ]
     },
     {
-      "public_name": "Workstream 32",
+      "public_name": "Workstream 39",
       "commits": 10,
       "first_date": "2026-01-27",
       "last_date": "2026-02-27",
@@ -325,7 +394,7 @@
       ]
     },
     {
-      "public_name": "Workstream 33",
+      "public_name": "Workstream 40",
       "commits": 8,
       "first_date": "2026-03-11",
       "last_date": "2026-03-12",
@@ -335,7 +404,7 @@
       ]
     },
     {
-      "public_name": "Workstream 34",
+      "public_name": "Workstream 41",
       "commits": 7,
       "first_date": "2025-12-17",
       "last_date": "2025-12-26",
@@ -345,7 +414,7 @@
       ]
     },
     {
-      "public_name": "Workstream 35",
+      "public_name": "Workstream 42",
       "commits": 4,
       "first_date": "2025-12-02",
       "last_date": "2025-12-02",
@@ -356,7 +425,7 @@
       ]
     },
     {
-      "public_name": "Workstream 36",
+      "public_name": "Workstream 43",
       "commits": 4,
       "first_date": "2025-12-03",
       "last_date": "2025-12-03",
@@ -367,7 +436,7 @@
       ]
     },
     {
-      "public_name": "Workstream 37",
+      "public_name": "Workstream 44",
       "commits": 3,
       "first_date": "2026-03-11",
       "last_date": "2026-03-11",
@@ -378,7 +447,7 @@
       ]
     },
     {
-      "public_name": "Workstream 38",
+      "public_name": "Workstream 45",
       "commits": 2,
       "first_date": "2026-03-11",
       "last_date": "2026-03-11",
@@ -388,7 +457,7 @@
       ]
     },
     {
-      "public_name": "Workstream 39",
+      "public_name": "Workstream 46",
       "commits": 2,
       "first_date": "2026-03-12",
       "last_date": "2026-03-12",
@@ -399,7 +468,7 @@
       ]
     },
     {
-      "public_name": "Workstream 40",
+      "public_name": "Workstream 47",
       "commits": 2,
       "first_date": "2026-01-16",
       "last_date": "2026-01-16",
@@ -411,7 +480,7 @@
       ]
     },
     {
-      "public_name": "Workstream 41",
+      "public_name": "Workstream 48",
       "commits": 2,
       "first_date": "2026-01-16",
       "last_date": "2026-01-16",
@@ -421,7 +490,7 @@
       ]
     },
     {
-      "public_name": "Workstream 42",
+      "public_name": "Workstream 49",
       "commits": 1,
       "first_date": "2025-12-04",
       "last_date": "2025-12-04",
@@ -431,7 +500,13 @@
     }
   ],
   "monthly": {
-    "2023-09": 663,
+    "2022-06": 3,
+    "2022-07": 61,
+    "2022-08": 15,
+    "2022-09": 1,
+    "2022-10": 54,
+    "2023-08": 125,
+    "2023-09": 687,
     "2023-10": 294,
     "2023-11": 406,
     "2023-12": 462,
@@ -463,7 +538,8 @@
     "2026-03": 198
   },
   "yearly": {
-    "2023": 1825,
+    "2022": 134,
+    "2023": 1974,
     "2024": 1321,
     "2025": 4407,
     "2026": 613
