@@ -6,9 +6,11 @@ import json
 import os
 import re
 import subprocess
+import zipfile
 from collections import Counter
 from datetime import date
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 
 AUTHOR_PATTERNS = [
@@ -47,6 +49,98 @@ SITE_URL = "https://tyurinmacsim-ops.github.io/portfolio/"
 CONTACT_EMAIL = "tyurinmacsim@gmail.com"
 CONTACT_TELEGRAM = "@Max_Tyrin"
 CONTACT_TELEGRAM_URL = "https://t.me/Max_Tyrin"
+SKILLS_MATRIX_PATH = Path(
+    os.environ.get("SKILLS_MATRIX_PATH", "/Users/macbook/Downloads/Skills DevOps.xlsx")
+).resolve()
+
+SKILL_FOCUS_AREAS = [
+    (
+        "Kubernetes / platform delivery",
+        "Сильный слой по контейнерной платформе, релизам и runtime-эксплуатации.",
+        [
+            "kubernetes",
+            "Helm charts",
+            "ArgoCD",
+            "cert-manager",
+            "docker",
+            "docker-compose",
+            "nginx",
+            "kustomize",
+            "external secrets operator",
+        ],
+    ),
+    (
+        "Terraform / automation / CI",
+        "Наиболее плотный core-набор под реальную DevOps-работу: IaC, shell, Git, CI/CD и ручная автоматизация.",
+        [
+            "terraform",
+            "ansible",
+            "bash scripting",
+            "Python",
+            "git",
+            "gitlab",
+            "gitlab-ci",
+            "github actions",
+            "ssh",
+            "systemd",
+        ],
+    ),
+    (
+        "Observability / SRE",
+        "Хорошо читается production-мониторинг: метрики, алерты, exporters и эксплуатационная диагностика.",
+        [
+            "prometheus",
+            "grafana",
+            "alert manager",
+            "victoria metrics",
+            "node exporter",
+            "fluent bit",
+            "zabbix",
+            "sentry",
+        ],
+    ),
+    (
+        "Stateful services / data ops",
+        "Подтверждается не только деплой, но и эксплуатация баз, очередей, backup/restore и S3-процессов.",
+        [
+            "postgresql",
+            "redis",
+            "mongodb",
+            "rabbitmq",
+            "kafka",
+            "clickhouse",
+            "mysql",
+            "s3",
+        ],
+    ),
+    (
+        "Vault / security / network basics",
+        "Есть рабочий слой по секретам, TLS, сетевым и хостовым настройкам, без попытки раздувать профиль до security engineer.",
+        [
+            "hashicorp vault",
+            "cert-manager",
+            "cloudflare",
+            "iptables / nftables",
+            "sysctl",
+            "strongswan",
+        ],
+    ),
+]
+
+CORE_SKILL_GRAPH = [
+    "terraform",
+    "kubernetes",
+    "Linux",
+    "docker",
+    "gitlab-ci",
+    "git",
+    "prometheus",
+    "grafana",
+    "ansible",
+    "hashicorp vault",
+    "postgresql",
+    "Python",
+]
 
 SVG_TEXT_STYLE = (
     "text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }"
@@ -276,6 +370,118 @@ def analyze_public_toolkit(root: Path) -> dict | None:
             counts["ci_files"] += 1
 
     return counts
+
+
+def _load_shared_strings(archive: zipfile.ZipFile) -> list[str]:
+    if "xl/sharedStrings.xml" not in archive.namelist():
+        return []
+    ns = {"a": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    root = ET.fromstring(archive.read("xl/sharedStrings.xml"))
+    shared = []
+    for item in root.findall("a:si", ns):
+        parts = [node.text or "" for node in item.iter("{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t")]
+        shared.append("".join(parts))
+    return shared
+
+
+def _xlsx_cell_value(cell: ET.Element, shared_strings: list[str]) -> str:
+    ns = {"a": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    cell_type = cell.attrib.get("t")
+    value_node = cell.find("a:v", ns)
+    if cell_type == "s" and value_node is not None:
+        return shared_strings[int(value_node.text)]
+    if cell_type == "inlineStr":
+        return "".join(node.text or "" for node in cell.iter("{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t"))
+    if value_node is not None and value_node.text is not None:
+        return value_node.text
+    return ""
+
+
+def read_skill_matrix(path: Path) -> list[dict] | None:
+    if not path.exists():
+        return None
+
+    rows: dict[int, dict[str, str]] = {}
+    with zipfile.ZipFile(path) as archive:
+        shared_strings = _load_shared_strings(archive)
+        root = ET.fromstring(archive.read("xl/worksheets/sheet1.xml"))
+
+    for cell in root.iter("{http://schemas.openxmlformats.org/spreadsheetml/2006/main}c"):
+        ref = cell.attrib.get("r", "")
+        col = "".join(ch for ch in ref if ch.isalpha())
+        row_digits = "".join(ch for ch in ref if ch.isdigit())
+        if not col or not row_digits:
+            continue
+        row_number = int(row_digits)
+        rows.setdefault(row_number, {})[col] = _xlsx_cell_value(cell, shared_strings)
+
+    skills = []
+    for row_number in sorted(rows):
+        if row_number < 16:
+            continue
+        tech = rows[row_number].get("A", "").strip()
+        raw_score = rows[row_number].get("B", "").strip()
+        if not tech or not raw_score:
+            continue
+        try:
+            score = int(float(raw_score))
+        except ValueError:
+            continue
+        skills.append({"technology": tech, "score": score})
+    return skills or None
+
+
+def build_skill_profile(skills: list[dict] | None) -> dict | None:
+    if not skills:
+        return None
+
+    score_by_tech = {item["technology"].casefold(): item["score"] for item in skills}
+    total = len(skills)
+    score_bands = Counter(item["score"] for item in skills)
+    hands_on = sum(1 for item in skills if item["score"] >= 5)
+    production = sum(1 for item in skills if item["score"] >= 7)
+    confident = sum(1 for item in skills if item["score"] >= 8)
+    top_confident = [item["technology"] for item in sorted(skills, key=lambda item: (-item["score"], item["technology"])) if item["score"] >= 8][:12]
+    top_production = [item["technology"] for item in sorted(skills, key=lambda item: (-item["score"], item["technology"])) if item["score"] == 7][:12]
+
+    focus_areas = []
+    for title, text, tech_names in SKILL_FOCUS_AREAS:
+        found = []
+        for name in tech_names:
+            key = name.casefold()
+            if key in score_by_tech:
+                found.append((name, score_by_tech[key]))
+        if not found:
+            continue
+        average = round(sum(score for _name, score in found) / len(found), 1)
+        tags = [f"{name} {score}/10" for name, score in sorted(found, key=lambda item: (-item[1], item[0]))[:5]]
+        focus_areas.append(
+            {
+                "title": title,
+                "text": text,
+                "average": average,
+                "tags": tags,
+            }
+        )
+
+    core_graph = []
+    for name in CORE_SKILL_GRAPH:
+        score = score_by_tech.get(name.casefold())
+        if score is not None:
+            core_graph.append((name, score))
+
+    return {
+        "total": total,
+        "average": round(sum(item["score"] for item in skills) / total, 2),
+        "hands_on": hands_on,
+        "production": production,
+        "confident": confident,
+        "score_bands": {score: score_bands.get(score, 0) for score in range(1, 11)},
+        "top_confident": top_confident,
+        "top_production": top_production,
+        "focus_areas": focus_areas,
+        "core_graph": core_graph,
+    }
 
 
 def write_json(path: Path, data: dict) -> None:
@@ -634,6 +840,65 @@ def write_activity_summary(path: Path, summary: dict) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def write_skills_assessment(path: Path, profile: dict | None) -> None:
+    lines = [
+        "# Матрица навыков DevOps",
+        "",
+        "Раздел построен по заполненному опроснику на `100` технологий. Это self-assessment, но он полезен не средним баллом, а тем, что даёт честный профиль сильных и слабых зон.",
+        "",
+    ]
+
+    if not profile:
+        lines.append("- Файл с матрицей навыков не найден в локальном окружении сборки.")
+    else:
+        bands = profile["score_bands"]
+        lines.extend(
+            [
+                f"- Всего технологий в опроснике: `{profile['total']}`",
+                f"- На уровне `5+` (уверенная hands-on работа): `{profile['hands_on']}`",
+                f"- На уровне `7+` (production-эксплуатация): `{profile['production']}`",
+                f"- На уровне `8/10`: `{profile['confident']}`",
+                f"- Средний балл по всей матрице: `{profile['average']}`",
+                "",
+                "## Как это читать правильно",
+                "",
+                "- Это не попытка показать «знаю всё». Низкие оценки по нерелевантным для профиля инструментам оставлены специально, чтобы не размывать картину.",
+                "- Реальный центр тяжести смещён в `Kubernetes`, `Terraform`, `Linux`, `Docker`, `GitLab CI/CD`, `Prometheus/Grafana`, `Vault`, `PostgreSQL`, `Redis`, `Python` и смежную эксплуатацию.",
+                "- Матрицу стоит читать вместе с публичными артефактами: backup/restore toolkit, k8s-box и демо-стендом.",
+                "",
+                "## Распределение оценок",
+                "",
+                f"- `1-2/10`: `{bands[1] + bands[2]}` технологий",
+                f"- `3-4/10`: `{bands[3] + bands[4]}` технологий",
+                f"- `5-6/10`: `{bands[5] + bands[6]}` технологий",
+                f"- `7-8/10`: `{bands[7] + bands[8]}` технологий",
+                f"- `9-10/10`: `{bands[9] + bands[10]}` технологий",
+                "",
+                "## Самые сильные технологии",
+                "",
+                f"- `8/10`: `{', '.join(profile['top_confident'])}`",
+                f"- `7/10`: `{', '.join(profile['top_production'])}`",
+                "",
+                "## Фокус-зоны",
+                "",
+            ]
+        )
+        for area in profile["focus_areas"]:
+            lines.extend(
+                [
+                    f"### {area['title']}",
+                    "",
+                    f"- Средний балл по зоне: `{area['average']}/10`",
+                    f"- Что видно: {area['text']}",
+                    f"- Опорные технологии: `{', '.join(area['tags'])}`",
+                    "",
+                ]
+            )
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 CONTENT_PAGE_MAP = {
     "docs/HIGHLIGHTS.md": "pages/highlights.html",
     "docs/ACTIVITY_SUMMARY.md": "pages/activity-summary.html",
@@ -641,6 +906,7 @@ CONTENT_PAGE_MAP = {
     "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
     "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
     "docs/ARTIFACT_EVIDENCE.md": "pages/artifact-evidence.html",
+    "docs/SKILLS_ASSESSMENT.md": "pages/skills-assessment.html",
     "docs/RESUME_PUBLIC.md": "pages/resume.html",
     "docs/RESUME_PORTFOLIO_MAP.md": "pages/resume-portfolio-map.html",
     "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
@@ -800,6 +1066,7 @@ def write_content_pages(repo_root: Path) -> None:
         "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
         "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
         "docs/ARTIFACT_EVIDENCE.md": ("Дополнительные артефакты", "Подтверждения по рабочим материалам без читаемой git-истории."),
+        "docs/SKILLS_ASSESSMENT.md": ("Матрица навыков", "Выжимка и графики по заполненному DevOps-опроснику."),
         "docs/RESUME_PUBLIC.md": ("Резюме", "Краткая публичная версия резюме для HR и технического интервью."),
         "docs/RESUME_PORTFOLIO_MAP.md": ("Сопоставление резюме и портфолио", "Как читать резюме вместе с git-данными, графиками и non-git evidence."),
         "projects/platform-engineering-demo/README.md": (
@@ -932,7 +1199,13 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, k8s_box_artifact: dict | None) -> None:
+def write_landing_page(
+    path: Path,
+    summary: dict,
+    backup_artifact: dict | None,
+    k8s_box_artifact: dict | None,
+    skills_profile: dict | None,
+) -> None:
     repos = summary["repos"]
     monthly = summary["monthly"]
     yearly = summary["yearly"]
@@ -1152,19 +1425,6 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         },
     ]
 
-    quick_links = [
-        ("Резюме", "pages/resume.html"),
-        ("Ключевые выводы", "pages/highlights.html"),
-        ("Сводка активности", "pages/activity-summary.html"),
-        ("Кейсы", "pages/case-studies.html"),
-        ("Публичные демо-проекты", "pages/public-projects.html"),
-        ("Дополнительные артефакты", "pages/artifact-evidence.html"),
-        ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
-        ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
-        ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
-        ("Краткое описание", "pages/application-blurb.html"),
-        ("JSON со статистикой", "data/commit_summary.json"),
-    ]
     contact_cards = [
         (
             "Telegram",
@@ -1221,6 +1481,98 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         )
         for card in case_cards
     )
+    skills_result_cards_html = ""
+    skills_focus_cards_html = ""
+    skills_section_html = ""
+    skills_chart_cards_html = ""
+    skills_nav_link = ""
+    skills_hero_link = ""
+    skills_quick_links: list[tuple[str, str]] = []
+    if skills_profile:
+        skills_cards = [
+            (
+                str(skills_profile["total"]),
+                "технологий в опроснике",
+                "Полная матрица оставлена без подгона под вакансию, чтобы профиль выглядел честно.",
+            ),
+            (
+                str(skills_profile["hands_on"]),
+                "технологий на 5+",
+                "Это слой, где уже есть hands-on работа, а не только чтение документации.",
+            ),
+            (
+                str(skills_profile["production"]),
+                "технологий на 7+",
+                "Production-уровень сосредоточен вокруг core DevOps, platform engineering и эксплуатационного стека.",
+            ),
+            (
+                str(skills_profile["confident"]),
+                "технологий на 8/10",
+                "Наиболее уверенный слой: Terraform, Kubernetes, Linux, Docker, GitLab CI/CD, Prometheus и смежные инструменты.",
+            ),
+        ]
+        skills_result_cards_html = "\n".join(
+            (
+                '<article class="result-card">'
+                f'<strong>{escape(value)}</strong>'
+                f'<span>{escape(label)}</span>'
+                f'<p>{escape(text)}</p>'
+                "</article>"
+            )
+            for value, label, text in skills_cards
+        )
+        skills_focus_cards_html = "\n".join(
+            (
+                '<article class="stack-card">'
+                f'<div class="stack-card-head"><h3>{escape(area["title"])}</h3><span>{escape(str(area["average"]))}/10</span></div>'
+                f'<p>{escape(area["text"])}</p>'
+                '<ul class="stack-areas">'
+                + "".join(f"<li>{escape(tag)}</li>" for tag in area["tags"])
+                + "</ul>"
+                + "</article>"
+            )
+            for area in skills_profile["focus_areas"]
+        )
+        skills_section_html = f"""
+    <section class="panel" id="skills">
+      <div class="section-head">
+        <p class="eyebrow">Матрица навыков</p>
+        <h2>Выжимка из заполненного DevOps-опросника</h2>
+      </div>
+      <div class="section-note">Здесь важен не средний балл по всем <code>100</code> инструментам, а профиль сильных зон. Низкие оценки по нерелевантным технологиям сохранены намеренно и не замазаны.</div>
+      <div class="result-grid">
+        {skills_result_cards_html}
+      </div>
+      <div class="stack-grid">
+        {skills_focus_cards_html}
+      </div>
+    </section>
+"""
+        skills_chart_cards_html = """
+        <figure class="chart-card">
+          <img src="assets/skills_score_distribution.svg" alt="Распределение оценок по DevOps-опроснику">
+        </figure>
+        <figure class="chart-card chart-card-wide">
+          <img src="assets/skills_core_stack.svg" alt="Ключевые технологии из skill-матрицы">
+        </figure>
+"""
+        skills_nav_link = '\n        <a href="#skills">Навыки</a>'
+        skills_hero_link = '\n          <a href="pages/skills-assessment.html">Матрица навыков</a>'
+        skills_quick_links = [("Матрица навыков", "pages/skills-assessment.html")]
+    quick_links = [
+        ("Резюме", "pages/resume.html"),
+        ("Ключевые выводы", "pages/highlights.html"),
+        ("Сводка активности", "pages/activity-summary.html"),
+        ("Кейсы", "pages/case-studies.html"),
+        ("Публичные демо-проекты", "pages/public-projects.html"),
+        ("Дополнительные артефакты", "pages/artifact-evidence.html"),
+        *skills_quick_links,
+        ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
+        ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
+        ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
+        ("Краткое описание", "pages/application-blurb.html"),
+        ("JSON со статистикой", "data/commit_summary.json"),
+    ]
     timeline_items_html = "\n".join(
         (
             '<article class="timeline-card">'
@@ -1314,6 +1666,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         <a href="#overview">Обзор</a>
         <a href="#results">Результаты</a>
         <a href="#stack">Стек</a>
+        {skills_nav_link}
         <a href="#charts">Графики</a>
         <a href="#timeline">Таймлайн</a>
         <a href="#artifacts">Артефакты</a>
@@ -1335,6 +1688,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
           <a href="artifacts/k8s-box/README.md">K8s-box</a>
           <a href="pages/platform-engineering-demo.html">Demo stand</a>
+          {skills_hero_link}
           <a href="{CONTACT_TELEGRAM_URL}">{CONTACT_TELEGRAM}</a>
           <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>
         </div>
@@ -1389,6 +1743,8 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
       </div>
     </section>
 
+{skills_section_html}
+
     <section class="panel" id="charts">
       <div class="section-head">
         <p class="eyebrow">Графики</p>
@@ -1410,6 +1766,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         <figure class="chart-card">
           <img src="assets/backup_artifact_map.svg" alt="Состав backup automation toolkit">
         </figure>
+{skills_chart_cards_html}
         <figure class="chart-card chart-card-wide">
           <img src="assets/commits_by_repo.svg" alt="Коммиты по ключевым потокам">
         </figure>
@@ -1535,14 +1892,16 @@ def main() -> None:
     source_root = Path(os.environ.get("SOURCE_ROOT", "/Users/macbook/Yandex.Disk.localized/работа")).resolve()
     summary = build_summary(source_root)
     backup_artifact = analyze_backup_artifact(BACKUP_ARTIFACT_ROOT)
+    skills_profile = build_skill_profile(read_skill_matrix(SKILLS_MATRIX_PATH))
 
     write_json(repo_root / "data" / "commit_summary.json", summary)
     write_csv(repo_root / "data" / "repo_overview.csv", summary["repos"])
     write_activity_summary(repo_root / "docs" / "ACTIVITY_SUMMARY.md", summary)
     write_highlights(repo_root / "docs" / "HIGHLIGHTS.md", summary)
     write_artifact_evidence(repo_root / "docs" / "ARTIFACT_EVIDENCE.md", backup_artifact)
+    write_skills_assessment(repo_root / "docs" / "SKILLS_ASSESSMENT.md", skills_profile)
     k8s_box_artifact = analyze_public_toolkit(repo_root / K8S_BOX_PUBLIC_ROOT)
-    write_landing_page(repo_root / "index.html", summary, backup_artifact, k8s_box_artifact)
+    write_landing_page(repo_root / "index.html", summary, backup_artifact, k8s_box_artifact, skills_profile)
     write_content_pages(repo_root)
     (repo_root / ".nojekyll").write_text("", encoding="utf-8")
     (repo_root / "robots.txt").write_text(
@@ -1558,6 +1917,8 @@ def main() -> None:
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/case-studies.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/public-projects.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/artifact-evidence.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/skills-assessment.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/resume.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/resume-portfolio-map.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/platform-engineering-demo.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/artifacts/backup-automation/README.md</loc></url>
@@ -1629,6 +1990,25 @@ def main() -> None:
             artifact_labels,
             artifact_values,
             repo_root / "assets" / "backup_artifact_map.svg",
+        )
+    if skills_profile:
+        distribution_labels = [f"{score}/10" for score in range(1, 11)]
+        distribution_values = [skills_profile["score_bands"][score] for score in range(1, 11)]
+        make_yearly_bar_svg(
+            "Распределение оценок по опроснику",
+            "Честная skill-матрица на 100 технологий: сильный профиль сосредоточен в релевантных DevOps-зонах, а нерелевантные инструменты не завышались.",
+            distribution_labels,
+            distribution_values,
+            repo_root / "assets" / "skills_score_distribution.svg",
+        )
+        core_labels = [label for label, _value in skills_profile["core_graph"]]
+        core_values = [value for _label, value in skills_profile["core_graph"]]
+        make_bar_svg(
+            "Ключевые технологии из skill-матрицы",
+            "Те инструменты, которые лучше всего совпадают с резюме, git-архивом и публичными артефактами.",
+            core_labels,
+            core_values,
+            repo_root / "assets" / "skills_core_stack.svg",
         )
     make_stat_cards_svg(summary, repo_root / "assets" / "portfolio_snapshot.svg")
 

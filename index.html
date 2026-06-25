@@ -21,6 +21,8 @@
         <a href="#overview">Обзор</a>
         <a href="#results">Результаты</a>
         <a href="#stack">Стек</a>
+        
+        <a href="#skills">Навыки</a>
         <a href="#charts">Графики</a>
         <a href="#timeline">Таймлайн</a>
         <a href="#artifacts">Артефакты</a>
@@ -42,6 +44,8 @@
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
           <a href="artifacts/k8s-box/README.md">K8s-box</a>
           <a href="pages/platform-engineering-demo.html">Demo stand</a>
+          
+          <a href="pages/skills-assessment.html">Матрица навыков</a>
           <a href="https://t.me/Max_Tyrin">@Max_Tyrin</a>
           <a href="mailto:tyurinmacsim@gmail.com">tyurinmacsim@gmail.com</a>
         </div>
@@ -110,6 +114,29 @@
       </div>
     </section>
 
+
+    <section class="panel" id="skills">
+      <div class="section-head">
+        <p class="eyebrow">Матрица навыков</p>
+        <h2>Выжимка из заполненного DevOps-опросника</h2>
+      </div>
+      <div class="section-note">Здесь важен не средний балл по всем <code>100</code> инструментам, а профиль сильных зон. Низкие оценки по нерелевантным технологиям сохранены намеренно и не замазаны.</div>
+      <div class="result-grid">
+        <article class="result-card"><strong>100</strong><span>технологий в опроснике</span><p>Полная матрица оставлена без подгона под вакансию, чтобы профиль выглядел честно.</p></article>
+<article class="result-card"><strong>43</strong><span>технологий на 5+</span><p>Это слой, где уже есть hands-on работа, а не только чтение документации.</p></article>
+<article class="result-card"><strong>26</strong><span>технологий на 7+</span><p>Production-уровень сосредоточен вокруг core DevOps, platform engineering и эксплуатационного стека.</p></article>
+<article class="result-card"><strong>12</strong><span>технологий на 8/10</span><p>Наиболее уверенный слой: Terraform, Kubernetes, Linux, Docker, GitLab CI/CD, Prometheus и смежные инструменты.</p></article>
+      </div>
+      <div class="stack-grid">
+        <article class="stack-card"><div class="stack-card-head"><h3>Kubernetes / platform delivery</h3><span>6.9/10</span></div><p>Сильный слой по контейнерной платформе, релизам и runtime-эксплуатации.</p><ul class="stack-areas"><li>Helm charts 8/10</li><li>docker 8/10</li><li>kubernetes 8/10</li><li>ArgoCD 7/10</li><li>cert-manager 7/10</li></ul></article>
+<article class="stack-card"><div class="stack-card-head"><h3>Terraform / automation / CI</h3><span>7.4/10</span></div><p>Наиболее плотный core-набор под реальную DevOps-работу: IaC, shell, Git, CI/CD и ручная автоматизация.</p><ul class="stack-areas"><li>bash scripting 8/10</li><li>git 8/10</li><li>gitlab 8/10</li><li>gitlab-ci 8/10</li><li>ssh 8/10</li></ul></article>
+<article class="stack-card"><div class="stack-card-head"><h3>Observability / SRE</h3><span>6.2/10</span></div><p>Хорошо читается production-мониторинг: метрики, алерты, exporters и эксплуатационная диагностика.</p><ul class="stack-areas"><li>grafana 8/10</li><li>prometheus 8/10</li><li>alert manager 7/10</li><li>node exporter 7/10</li><li>victoria metrics 7/10</li></ul></article>
+<article class="stack-card"><div class="stack-card-head"><h3>Stateful services / data ops</h3><span>6.2/10</span></div><p>Подтверждается не только деплой, но и эксплуатация баз, очередей, backup/restore и S3-процессов.</p><ul class="stack-areas"><li>postgresql 7/10</li><li>redis 7/10</li><li>s3 7/10</li><li>clickhouse 6/10</li><li>kafka 6/10</li></ul></article>
+<article class="stack-card"><div class="stack-card-head"><h3>Vault / security / network basics</h3><span>5.8/10</span></div><p>Есть рабочий слой по секретам, TLS, сетевым и хостовым настройкам, без попытки раздувать профиль до security engineer.</p><ul class="stack-areas"><li>cert-manager 7/10</li><li>hashicorp vault 7/10</li><li>cloudflare 6/10</li><li>iptables / nftables 6/10</li><li>sysctl 6/10</li></ul></article>
+      </div>
+    </section>
+
+
     <section class="panel" id="charts">
       <div class="section-head">
         <p class="eyebrow">Графики</p>
@@ -131,6 +158,14 @@
         <figure class="chart-card">
           <img src="assets/backup_artifact_map.svg" alt="Состав backup automation toolkit">
         </figure>
+
+        <figure class="chart-card">
+          <img src="assets/skills_score_distribution.svg" alt="Распределение оценок по DevOps-опроснику">
+        </figure>
+        <figure class="chart-card chart-card-wide">
+          <img src="assets/skills_core_stack.svg" alt="Ключевые технологии из skill-матрицы">
+        </figure>
+
         <figure class="chart-card chart-card-wide">
           <img src="assets/commits_by_repo.svg" alt="Коммиты по ключевым потокам">
         </figure>
@@ -257,6 +292,7 @@
 <li><a href="pages/case-studies.html">Кейсы</a></li>
 <li><a href="pages/public-projects.html">Публичные демо-проекты</a></li>
 <li><a href="pages/artifact-evidence.html">Дополнительные артефакты</a></li>
+<li><a href="pages/skills-assessment.html">Матрица навыков</a></li>
 <li><a href="artifacts/backup-automation/README.md">Backup automation toolkit</a></li>
 <li><a href="artifacts/k8s-box/README.md">K8s-box toolkit</a></li>
 <li><a href="pages/resume-portfolio-map.html">Сопоставление резюме и портфолио</a></li>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Матрица навыков • Портфолио</title>
+  <meta name="description" content="Выжимка и графики по заполненному DevOps-опроснику.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Матрица навыков</h1>
+        <p class="content-lead">Выжимка и графики по заполненному DevOps-опроснику.</p>
+      </header>
+      <article class="prose">
+        <h1>Матрица навыков DevOps</h1>
+<p>Раздел построен по заполненному опроснику на <code>100</code> технологий. Это self-assessment, но он полезен не средним баллом, а тем, что даёт честный профиль сильных и слабых зон.</p>
+<ul>
+<li>Всего технологий в опроснике: <code>100</code></li>
+<li>На уровне <code>5+</code> (уверенная hands-on работа): <code>43</code></li>
+<li>На уровне <code>7+</code> (production-эксплуатация): <code>26</code></li>
+<li>На уровне <code>8/10</code>: <code>12</code></li>
+<li>Средний балл по всей матрице: <code>4.29</code></li>
+</ul>
+<h2>Как это читать правильно</h2>
+<ul>
+<li>Это не попытка показать «знаю всё». Низкие оценки по нерелевантным для профиля инструментам оставлены специально, чтобы не размывать картину.</li>
+<li>Реальный центр тяжести смещён в <code>Kubernetes</code>, <code>Terraform</code>, <code>Linux</code>, <code>Docker</code>, <code>GitLab CI/CD</code>, <code>Prometheus/Grafana</code>, <code>Vault</code>, <code>PostgreSQL</code>, <code>Redis</code>, <code>Python</code> и смежную эксплуатацию.</li>
+<li>Матрицу стоит читать вместе с публичными артефактами: backup/restore toolkit, k8s-box и демо-стендом.</li>
+</ul>
+<h2>Распределение оценок</h2>
+<ul>
+<li><code>1-2/10</code>: <code>29</code> технологий</li>
+<li><code>3-4/10</code>: <code>28</code> технологий</li>
+<li><code>5-6/10</code>: <code>17</code> технологий</li>
+<li><code>7-8/10</code>: <code>26</code> технологий</li>
+<li><code>9-10/10</code>: <code>0</code> технологий</li>
+</ul>
+<h2>Самые сильные технологии</h2>
+<ul>
+<li><code>8/10</code>: <code>Helm charts, Linux, bash scripting, docker, git, gitlab, gitlab-ci, grafana, kubernetes, prometheus, ssh, terraform</code></li>
+<li><code>7/10</code>: <code>ArgoCD, Python, alert manager, ansible, cert-manager, docker-compose, hashicorp vault, nginx, node exporter, postgresql, redis, s3</code></li>
+</ul>
+<h2>Фокус-зоны</h2>
+<h3>Kubernetes / platform delivery</h3>
+<ul>
+<li>Средний балл по зоне: <code>6.9/10</code></li>
+<li>Что видно: Сильный слой по контейнерной платформе, релизам и runtime-эксплуатации.</li>
+<li>Опорные технологии: <code>Helm charts 8/10, docker 8/10, kubernetes 8/10, ArgoCD 7/10, cert-manager 7/10</code></li>
+</ul>
+<h3>Terraform / automation / CI</h3>
+<ul>
+<li>Средний балл по зоне: <code>7.4/10</code></li>
+<li>Что видно: Наиболее плотный core-набор под реальную DevOps-работу: IaC, shell, Git, CI/CD и ручная автоматизация.</li>
+<li>Опорные технологии: <code>bash scripting 8/10, git 8/10, gitlab 8/10, gitlab-ci 8/10, ssh 8/10</code></li>
+</ul>
+<h3>Observability / SRE</h3>
+<ul>
+<li>Средний балл по зоне: <code>6.2/10</code></li>
+<li>Что видно: Хорошо читается production-мониторинг: метрики, алерты, exporters и эксплуатационная диагностика.</li>
+<li>Опорные технологии: <code>grafana 8/10, prometheus 8/10, alert manager 7/10, node exporter 7/10, victoria metrics 7/10</code></li>
+</ul>
+<h3>Stateful services / data ops</h3>
+<ul>
+<li>Средний балл по зоне: <code>6.2/10</code></li>
+<li>Что видно: Подтверждается не только деплой, но и эксплуатация баз, очередей, backup/restore и S3-процессов.</li>
+<li>Опорные технологии: <code>postgresql 7/10, redis 7/10, s3 7/10, clickhouse 6/10, kafka 6/10</code></li>
+</ul>
+<h3>Vault / security / network basics</h3>
+<ul>
+<li>Средний балл по зоне: <code>5.8/10</code></li>
+<li>Что видно: Есть рабочий слой по секретам, TLS, сетевым и хостовым настройкам, без попытки раздувать профиль до security engineer.</li>
+<li>Опорные технологии: <code>cert-manager 7/10, hashicorp vault 7/10, cloudflare 6/10, iptables / nftables 6/10, sysctl 6/10</code></li>
+</ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
