@@ -1341,6 +1341,13 @@ def write_landing_page(
             "link": ("Открыть кейсы", "pages/case-studies.html"),
         },
         {
+            "title": "Массовые Telegram-рассылки / большие очереди",
+            "result": "очереди до 10 млн сообщений и high-throughput фоновые контуры",
+            "stack": ["Telegram", "Redis", "RabbitMQ", "Kafka", "Kubernetes", "observability"],
+            "text": "Не история про входящий high-RPS web, а про асинхронную массовую доставку: backlog, retries, rate limits, worker scaling и устойчивость dispatch-процессов.",
+            "link": ("Открыть кейс", "pages/case-studies.html"),
+        },
+        {
             "title": "Azure / AKS / PCI DSS readiness",
             "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
             "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
@@ -1389,7 +1396,7 @@ def write_landing_page(
             "period": "сен 2023 - ноя 2025",
             "title": "AWS / EKS / 100+ microservices",
             "meta": "~2.3 года",
-            "text": "Production-платформа с интенсивным релизным циклом: GitLab CI/CD, ArgoCD, FluxCD, EKS, observability, data services и backup automation.",
+            "text": "Production-платформа с интенсивным релизным циклом и асинхронными Telegram-контурами: GitLab CI/CD, ArgoCD, FluxCD, EKS, observability, data services, большие очереди и backup automation.",
             "tags": ["AWS", "EKS", "GitOps", "Helm", "observability"],
         },
         {

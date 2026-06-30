@@ -33,21 +33,30 @@
 <li>Что это доказывает: практическую работу с <code>Kubernetes</code>, <code>Helm</code>, <code>FluxCD</code>, <code>Ansible</code>, <code>Terraform</code>, <code>GitLab CI</code>, эксплуатацией сервисов и production-процессами.</li>
 <li>Результат: повышение частоты релизов, снижение доли ручных операций и улучшение эксплуатационной предсказуемости.</li>
 </ul>
-<h2>2. Azure / AKS / PCI DSS readiness</h2>
+<h2>2. Массовые Telegram-рассылки / большие очереди</h2>
+<ul>
+<li>Контекст: Telegram-платформа с <code>100+</code> микросервисами и асинхронными контурами массовой доставки сообщений.</li>
+<li>Что важно уточнить: это не кейс про десятки тысяч входящих <code>HTTP RPS</code>, а про high-throughput нагрузку на очереди, worker-процессы и dispatch-пайплайны.</li>
+<li>Что делал: сопровождал инфраструктуру batch/dispatch-контуров, участвовал в эксплуатации сервисов с большими очередями, контроле backlog, retries, rate limits, observability и устойчивости фоновых процессов доставки.</li>
+<li>Что можно безопасно заявлять публично: очереди доходили до <code>10 млн</code> сообщений, а основной эксплуатационный фокус был в надёжности асинхронной обработки, масштабировании worker-слоя и разборе узких мест.</li>
+<li>Что это доказывает: опыт не только в обычном <code>CI/CD + Kubernetes</code>, но и в эксплуатации high-throughput систем, где критичны очереди, фоновая обработка, stateful-компоненты, мониторинг и предсказуемость доставки.</li>
+<li>Результат: повышение устойчивости массовых рассылок, уменьшение ручного вмешательства в delivery-процессы и лучшая наблюдаемость проблем в очередях и фоновых задачах.</li>
+</ul>
+<h2>3. Azure / AKS / PCI DSS readiness</h2>
 <ul>
 <li>Контекст: fintech-инфраструктура в Azure.</li>
 <li>Что делал: IaC на <code>Terraform/Terragrunt</code>, GitOps через <code>FluxCD + GitLab CI</code>, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.</li>
 <li>Что это доказывает: опыт не только deployment-задач, но и platform/security-oriented DevOps работы.</li>
 <li>Результат: подготовка инфраструктурного контура к внешнему аудиту, ускорение релизного цикла и снижение эксплуатационных рисков.</li>
 </ul>
-<h2>3. Yandex Cloud / аналитическая платформа</h2>
+<h2>4. Yandex Cloud / аналитическая платформа</h2>
 <ul>
 <li>Контекст: инфраструктура аналитической платформы в Yandex Cloud.</li>
 <li>Что делал: сопровождение Kubernetes-кластера, CI/CD и GitOps-процессов, эксплуатация Airflow / Trino / JupyterHub / GitLab Runner, работа с Vault / External Secrets, ingress, registry и observability.</li>
 <li>Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.</li>
 <li>Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.</li>
 </ul>
-<h2>4. Backup / Restore automation toolkit</h2>
+<h2>5. Backup / Restore automation toolkit</h2>
 <ul>
 <li>Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.</li>
 <li>Подтверждающие артефакты: Python-скрипты <code>daily_backups_lambda.py</code>, <code>restore_backups.py</code>, <code>daily_backups_mongodb.py</code>, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.</li>

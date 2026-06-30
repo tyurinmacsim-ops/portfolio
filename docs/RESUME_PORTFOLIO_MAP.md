@@ -19,6 +19,10 @@
   - крупные потоки `GitOps / FluxCD`, `Ops automation / Ansible + Terraform`, `ArgoCD delivery platform`, `Helm chart fleet`, `GitLab templates`;
   - графики активности, покрытия стека, таймлайны и demo-стенд;
   - отдельный backup/restore toolkit как non-git evidence.
+- Что можно честно добавлять в рассказ про этот период:
+  - это был не только web/microservice production, но и асинхронные Telegram-контуры массовой доставки;
+  - очереди могли доходить до `10 млн` сообщений;
+  - корректная формулировка здесь не `десятки тысяч RPS`, а `high-throughput queue-heavy workload`, где важны backlog, retries, rate limits, worker scaling и observability.
 - Вывод: это самый сильный и лучше всего подтверждённый период в портфолио.
 
 ## Hilbert Team | Декабрь 2025 — Март 2026
