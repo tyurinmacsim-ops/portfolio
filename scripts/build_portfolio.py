@@ -49,6 +49,9 @@ SITE_URL = "https://tyurinmacsim-ops.github.io/portfolio/"
 CONTACT_EMAIL = "tyurinmacsim@gmail.com"
 CONTACT_TELEGRAM = "@Max_Tyrin"
 CONTACT_TELEGRAM_URL = "https://t.me/Max_Tyrin"
+TELEGRAM_BOT_BUNDLE_GITHUB_URL = (
+    "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/telegram-bot-delivery"
+)
 SKILLS_MATRIX_PATH = Path(
     os.environ.get("SKILLS_MATRIX_PATH", "/Users/macbook/Downloads/Skills DevOps.xlsx")
 ).resolve()
@@ -1368,6 +1371,13 @@ def write_landing_page(
             "text": "Toolkit по резервному копированию и восстановлению: backup/restore скрипты, CronJob-процессы, Docker utility-образы и оповещения.",
             "link": ("Открыть backup toolkit", "artifacts/backup-automation/README.md"),
         },
+        {
+            "title": "Telegram Bot Delivery Bundle",
+            "result": "публичный bundle с кодом бота и Kubernetes/GitOps deployment-контуром",
+            "stack": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault", "Istio"],
+            "text": "Sanitized-пакет с кодом Telegram-бота, Dockerfile, PROMPTS.md, values по окружениям, ApplicationSet, Vault secret delivery, ExternalDNS и Istio routing.",
+            "link": ("Открыть bundle", "artifacts/telegram-bot-delivery/README.md"),
+        },
     ]
 
     timeline_items = [
@@ -1429,6 +1439,13 @@ def write_landing_page(
             "tags": ["Terraform", "kind", "Prometheus", "Grafana", "GitHub Actions"],
             "primary": ("Открыть демо", "pages/platform-engineering-demo.html"),
             "secondary": ("Читать README", "projects/platform-engineering-demo/README.md"),
+        },
+        {
+            "title": "Telegram Bot Delivery Bundle",
+            "text": "Публичный bundle с кодом Telegram-бота на Python и рядом deployment-конфигами: Helm values, ArgoCD ApplicationSet, Vault, ExternalDNS и Istio Gateway.",
+            "tags": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault"],
+            "primary": ("Открыть bundle", "artifacts/telegram-bot-delivery/README.md"),
+            "secondary": ("GitHub repo", TELEGRAM_BOT_BUNDLE_GITHUB_URL),
         },
     ]
 
@@ -1576,6 +1593,7 @@ def write_landing_page(
         *skills_quick_links,
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
+        ("Telegram bot bundle", "artifacts/telegram-bot-delivery/README.md"),
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),
@@ -1694,6 +1712,7 @@ def write_landing_page(
         <div class="hero-links">
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
           <a href="artifacts/k8s-box/README.md">K8s-box</a>
+          <a href="artifacts/telegram-bot-delivery/README.md">Telegram bot bundle</a>
           <a href="pages/platform-engineering-demo.html">Demo stand</a>
           {skills_hero_link}
           <a href="{CONTACT_TELEGRAM_URL}">{CONTACT_TELEGRAM}</a>
