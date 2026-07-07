@@ -24,21 +24,29 @@
 - Что это доказывает: опыт не только в эксплуатации Telegram-контуров, но и в их нормальной production-упаковке: конфигурация по окружениям, секьюрная доставка секретов, routing, DNS и воспроизводимый deploy.
 - Почему это важно: такой кейс хорошо ложится на роли, где нужно делать Telegram-ботов и интеграции не как "скрипт на коленке", а как сервис с понятным deployment-процессом.
 
-## 4. Azure / AKS / PCI DSS readiness
+## 4. Migration from ECR to Artifactory registry
+
+- Контекст: часть production-приложений уже работала через `AWS ECR`, при этом новые сервисы и часть существующих нужно было постепенно переводить на `Artifactory` без резкого одномоментного cutover.
+- Что делал: сопровождал поэтапную миграцию registry-контура. Это включало параллельную поддержку `ECR` и `Artifactory`, обновление `ArgoCD Image Updater`, смену `image repository` в values и `ApplicationSet`, добавление `pull secrets`, корректировку CI templates и retag flow для разных сервисов и репозиториев.
+- Что подтверждается артефактами: в `rnd-argocd` видны коммиты и конфиги по переходу на `Artifactory`; в `hr-crm` `ApplicationSet` рядом живут варианты и для `ECR`, и для `Artifactory`; в `tgbot-charts` и `tgbots-components` читается изменение registry, pull secrets и build/deploy шаблонов; в `crane` есть отдельный режим `artifactory-to-ecr`.
+- Что это доказывает: опыт не просто с registry как таковым, а с безопасной миграцией production-сервисов, когда часть системы ещё живёт на старом контуре, а часть уже собирается и выкатывается через новый.
+- Почему это важно: в таких миграциях меняется не только URL образа. Обычно приходится одновременно трогать CI, image updater, naming conventions, доступы к registry, pull secrets и GitOps-конфигурацию.
+
+## 5. Azure / AKS / PCI DSS readiness
 
 - Контекст: fintech-инфраструктура в Azure.
 - Что делал: IaC на `Terraform/Terragrunt`, GitOps через `FluxCD + GitLab CI`, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.
 - Что это доказывает: опыт не только deployment-задач, но и platform/security-oriented DevOps работы.
 - Результат: подготовка инфраструктурного контура к внешнему аудиту, ускорение релизного цикла и снижение эксплуатационных рисков.
 
-## 5. Yandex Cloud / аналитическая платформа
+## 6. Yandex Cloud / аналитическая платформа
 
 - Контекст: инфраструктура аналитической платформы в Yandex Cloud.
 - Что делал: сопровождение Kubernetes-кластера, CI/CD и GitOps-процессов, эксплуатация Airflow / Trino / JupyterHub / GitLab Runner, работа с Vault / External Secrets, ingress, registry и observability.
 - Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.
 - Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.
 
-## 6. Backup / Restore automation toolkit
+## 7. Backup / Restore automation toolkit
 
 - Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.
 - Подтверждающие артефакты: Python-скрипты `daily_backups_lambda.py`, `restore_backups.py`, `daily_backups_mongodb.py`, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.

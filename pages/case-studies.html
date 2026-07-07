@@ -49,21 +49,29 @@
 <li>Что это доказывает: опыт не только в эксплуатации Telegram-контуров, но и в их нормальной production-упаковке: конфигурация по окружениям, секьюрная доставка секретов, routing, DNS и воспроизводимый deploy.</li>
 <li>Почему это важно: такой кейс хорошо ложится на роли, где нужно делать Telegram-ботов и интеграции не как &quot;скрипт на коленке&quot;, а как сервис с понятным deployment-процессом.</li>
 </ul>
-<h2>4. Azure / AKS / PCI DSS readiness</h2>
+<h2>4. Migration from ECR to Artifactory registry</h2>
+<ul>
+<li>Контекст: часть production-приложений уже работала через <code>AWS ECR</code>, при этом новые сервисы и часть существующих нужно было постепенно переводить на <code>Artifactory</code> без резкого одномоментного cutover.</li>
+<li>Что делал: сопровождал поэтапную миграцию registry-контура. Это включало параллельную поддержку <code>ECR</code> и <code>Artifactory</code>, обновление <code>ArgoCD Image Updater</code>, смену <code>image repository</code> в values и <code>ApplicationSet</code>, добавление <code>pull secrets</code>, корректировку CI templates и retag flow для разных сервисов и репозиториев.</li>
+<li>Что подтверждается артефактами: в <code>rnd-argocd</code> видны коммиты и конфиги по переходу на <code>Artifactory</code>; в <code>hr-crm</code> <code>ApplicationSet</code> рядом живут варианты и для <code>ECR</code>, и для <code>Artifactory</code>; в <code>tgbot-charts</code> и <code>tgbots-components</code> читается изменение registry, pull secrets и build/deploy шаблонов; в <code>crane</code> есть отдельный режим <code>artifactory-to-ecr</code>.</li>
+<li>Что это доказывает: опыт не просто с registry как таковым, а с безопасной миграцией production-сервисов, когда часть системы ещё живёт на старом контуре, а часть уже собирается и выкатывается через новый.</li>
+<li>Почему это важно: в таких миграциях меняется не только URL образа. Обычно приходится одновременно трогать CI, image updater, naming conventions, доступы к registry, pull secrets и GitOps-конфигурацию.</li>
+</ul>
+<h2>5. Azure / AKS / PCI DSS readiness</h2>
 <ul>
 <li>Контекст: fintech-инфраструктура в Azure.</li>
 <li>Что делал: IaC на <code>Terraform/Terragrunt</code>, GitOps через <code>FluxCD + GitLab CI</code>, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.</li>
 <li>Что это доказывает: опыт не только deployment-задач, но и platform/security-oriented DevOps работы.</li>
 <li>Результат: подготовка инфраструктурного контура к внешнему аудиту, ускорение релизного цикла и снижение эксплуатационных рисков.</li>
 </ul>
-<h2>5. Yandex Cloud / аналитическая платформа</h2>
+<h2>6. Yandex Cloud / аналитическая платформа</h2>
 <ul>
 <li>Контекст: инфраструктура аналитической платформы в Yandex Cloud.</li>
 <li>Что делал: сопровождение Kubernetes-кластера, CI/CD и GitOps-процессов, эксплуатация Airflow / Trino / JupyterHub / GitLab Runner, работа с Vault / External Secrets, ingress, registry и observability.</li>
 <li>Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.</li>
 <li>Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.</li>
 </ul>
-<h2>6. Backup / Restore automation toolkit</h2>
+<h2>7. Backup / Restore automation toolkit</h2>
 <ul>
 <li>Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.</li>
 <li>Подтверждающие артефакты: Python-скрипты <code>daily_backups_lambda.py</code>, <code>restore_backups.py</code>, <code>daily_backups_mongodb.py</code>, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.</li>
