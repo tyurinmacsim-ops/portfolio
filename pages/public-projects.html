@@ -44,6 +44,35 @@
 <li>техлид может быстро увидеть подход к platform engineering;</li>
 <li>репозиторий можно приложить как прямую ссылку в отклике или реферальной форме.</li>
 </ul>
+<h2>2. Telegram bot delivery bundle</h2>
+<ul>
+<li>Тип артефакта: подтверждаемый рабочий контур по деплою Telegram-сервисов и связанных приложений.</li>
+<li>На чём основан: <code>Helm values</code> для bot-сервисов, <code>ArgoCD ApplicationSet</code>, <code>Vault</code> secret delivery, <code>ExternalDNS</code>, <code>Istio Gateway</code>, GitOps-структура кластеров <code>tgbots-dev</code> / <code>tgbots-prod</code>.</li>
+</ul>
+<h3>Что показывает</h3>
+<ul>
+<li><code>Helm</code> и values-файлы для отдельных bot/app-инстансов;</li>
+<li>GitOps-доставку через <code>ArgoCD ApplicationSet</code>;</li>
+<li>раздельные <code>dev/prod</code> контуры;</li>
+<li>доставку runtime-секретов через <code>Vault</code>;</li>
+<li>автоматическое управление DNS через <code>ExternalDNS</code>;</li>
+<li>входной трафик через <code>Istio Gateway</code> / <code>VirtualService</code>;</li>
+<li>работу не только с одним приложением, а с fleet-подходом для большого числа сервисов.</li>
+</ul>
+<h3>Какие артефакты это подтверждают</h3>
+<ul>
+<li>Telegram-ориентированные values-файлы в рабочем архиве: <code>tgbot-чарты</code> / <code>prod/*.yaml</code></li>
+<li><code>ApplicationSet</code> для <code>tgbots-prod</code> и <code>tgbots-dev</code></li>
+<li>infra-apps для <code>external-dns</code>, <code>gateways</code>, <code>vault-webhook</code>, <code>external-secrets</code></li>
+<li>values с <code>Istio</code>-ingress и <code>Vault</code> annotations для конкретных bot/API-сервисов</li>
+<li>публичный sanitized bundle в репозитории: <a href="../artifacts/telegram-bot-delivery/README.md">artifacts/telegram-bot-delivery</a></li>
+</ul>
+<h3>Почему это важно</h3>
+<ul>
+<li>это показывает не просто &quot;умею писать манифесты&quot;, а понимаю, как довести бот или API-интеграцию до production deployment;</li>
+<li>такой контур хорошо ложится на роли, где нужно собирать Telegram-ботов, интеграции и поддерживать их в рабочем состоянии;</li>
+<li>особенно полезно для вакансий, где ожидают не только код, но и нормальную упаковку, выкладку, конфигурацию и сопровождение.</li>
+</ul>
       </article>
     </section>
   </main>

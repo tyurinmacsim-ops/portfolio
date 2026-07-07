@@ -21,6 +21,7 @@
   - отдельный backup/restore toolkit как non-git evidence.
 - Что можно честно добавлять в рассказ про этот период:
   - это был не только web/microservice production, но и асинхронные Telegram-контуры массовой доставки;
+  - помимо самих Telegram-контуров есть подтверждаемые deployment-артефакты: `Helm` values, `ApplicationSet`, `Vault`-based secret delivery, `ExternalDNS`, `Istio Gateway`;
   - очереди могли доходить до `10 млн` сообщений;
   - корректная формулировка здесь не `десятки тысяч RPS`, а `high-throughput queue-heavy workload`, где важны backlog, retries, rate limits, worker scaling и observability.
 - Вывод: это самый сильный и лучше всего подтверждённый период в портфолио.

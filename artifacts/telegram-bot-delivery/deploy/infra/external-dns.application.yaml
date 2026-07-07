@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd
+spec:
+  project: infra
+  sources:
+    - repoURL: https://kubernetes-sigs.github.io/external-dns/
+      targetRevision: 1.16.0
+      chart: external-dns
+      helm:
+        values: |
+          provider:
+            name: aws
+          aws:
+            zoneType: public
+          policy: sync
+          txtOwnerId: "k8s-prod"
+          domainFilters:
+            - "prod.example.com"
+            - "prod-internal.example.com"
+          sources:
+            - service
+            - ingress
+            - istio-virtualservice
+          serviceAccount:
+            create: true
+            annotations:
+              eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/k8s-prod-external-dns-role
+  destination:
+    namespace: external-dns
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

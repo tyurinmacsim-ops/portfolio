@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: telegram-bot-appset
+spec:
+  goTemplate: true
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: bots-prod
+                  env: prod
+                  chartPath: custom/tgbots/app
+                  chartRevision: tgbots-0.0.9
+                  imageRepoPrefix: registry.example.com/tg-bots/
+          - list:
+              elements:
+                - instance: lead-qualifier-bot
+                  repository: crm/lead-qualifier-bot
+  template:
+    metadata:
+      name: '{{.instance}}'
+      annotations:
+        argocd-image-updater.argoproj.io/image-list: 'app={{ printf "%s%s" .imageRepoPrefix .repository }}'
+        argocd-image-updater.argoproj.io/app.helm.image-name: image.repository
+        argocd-image-updater.argoproj.io/app.helm.image-tag: image.tag
+        argocd-image-updater.argoproj.io/write-back-method: git
+        argocd-image-updater.argoproj.io/write-back-target: 'helmvalues:/{{ .env }}/{{.instance}}.yaml'
+    spec:
+      project: apps
+      sources:
+        - repoURL: "git@example.com/platform/rnd-charts.git"
+          path: "{{.chartPath}}"
+          targetRevision: "{{.chartRevision}}"
+          helm:
+            releaseName: "{{.instance}}"
+            valueFiles:
+              - "$valuesf/{{ .env }}/{{.instance}}.yaml"
+        - repoURL: git@example.com/platform/tgbot-charts.git
+          targetRevision: main
+          ref: valuesf
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: "{{.instance}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

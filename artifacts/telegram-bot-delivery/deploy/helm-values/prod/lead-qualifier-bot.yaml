@@ -1,0 +1,54 @@
+replicaCount: 2
+
+image:
+  repository: registry.example.com/tg-bots/crm/lead-qualifier-bot
+  tag: prod-abcdef12-2048
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: docker-pull-secret
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
+securityContext:
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/bots-prod-k8s-role
+
+podAnnotations:
+  vault.security.banzaicloud.io/vault-addr: https://vault.infra-internal.example.com
+  vault.security.banzaicloud.io/vault-client-timeout: 180s
+  vault.security.banzaicloud.io/vault-path: k8s-prod
+  vault.security.banzaicloud.io/vault-env-from-path: bots-prod/data/common,bot-prod/data/apps/lead-qualifier-bot
+
+ingress:
+  enabled: true
+  istioSelector: external-ingress-gateway
+  host: lead-qualifier-bot.prod.example.com
+  tls:
+    secretName: bots-prod-cert
+    mode: SIMPLE
+    host: lead-qualifier-bot.prod.example.com
+  rules:
+    - from:
+        - source:
+            ipBlocks:
+              - 149.154.160.0/20
+              - 91.108.4.0/22
+      to:
+        - operation:
+            hosts:
+              - lead-qualifier-bot.prod.example.com

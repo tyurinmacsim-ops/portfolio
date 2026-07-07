@@ -17,21 +17,28 @@
 - Что это доказывает: опыт не только в обычном `CI/CD + Kubernetes`, но и в эксплуатации high-throughput систем, где критичны очереди, фоновая обработка, stateful-компоненты, мониторинг и предсказуемость доставки.
 - Результат: повышение устойчивости массовых рассылок, уменьшение ручного вмешательства в delivery-процессы и лучшая наблюдаемость проблем в очередях и фоновых задачах.
 
-## 3. Azure / AKS / PCI DSS readiness
+## 3. Telegram bot deployment stack
+
+- Контекст: отдельные Telegram-боты и связанные API/worker-сервисы, которые нужно было выкатывать как управляемые Kubernetes-приложения в нескольких окружениях.
+- Что делал: работал с `Helm` values для отдельных bot-сервисов, GitOps-структурой кластеров, `ArgoCD ApplicationSet`, доставкой секретов через `Vault`, `ExternalDNS` для доменов и `Istio Gateway` / `VirtualService` для входного трафика.
+- Что это доказывает: опыт не только в эксплуатации Telegram-контуров, но и в их нормальной production-упаковке: конфигурация по окружениям, секьюрная доставка секретов, routing, DNS и воспроизводимый deploy.
+- Почему это важно: такой кейс хорошо ложится на роли, где нужно делать Telegram-ботов и интеграции не как "скрипт на коленке", а как сервис с понятным deployment-процессом.
+
+## 4. Azure / AKS / PCI DSS readiness
 
 - Контекст: fintech-инфраструктура в Azure.
 - Что делал: IaC на `Terraform/Terragrunt`, GitOps через `FluxCD + GitLab CI`, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.
 - Что это доказывает: опыт не только deployment-задач, но и platform/security-oriented DevOps работы.
 - Результат: подготовка инфраструктурного контура к внешнему аудиту, ускорение релизного цикла и снижение эксплуатационных рисков.
 
-## 4. Yandex Cloud / аналитическая платформа
+## 5. Yandex Cloud / аналитическая платформа
 
 - Контекст: инфраструктура аналитической платформы в Yandex Cloud.
 - Что делал: сопровождение Kubernetes-кластера, CI/CD и GitOps-процессов, эксплуатация Airflow / Trino / JupyterHub / GitLab Runner, работа с Vault / External Secrets, ingress, registry и observability.
 - Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.
 - Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.
 
-## 5. Backup / Restore automation toolkit
+## 6. Backup / Restore automation toolkit
 
 - Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.
 - Подтверждающие артефакты: Python-скрипты `daily_backups_lambda.py`, `restore_backups.py`, `daily_backups_mongodb.py`, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.

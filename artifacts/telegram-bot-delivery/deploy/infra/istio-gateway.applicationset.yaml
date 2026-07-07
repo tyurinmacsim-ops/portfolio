@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: istio-gateway-appset
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: external-ingress
+          - name: internal-ingress
+  template:
+    metadata:
+      name: "istio-{{name}}-gateway"
+    spec:
+      project: infra
+      sources:
+        - repoURL: "https://istio-release.storage.googleapis.com/charts"
+          chart: gateway
+          targetRevision: "1.24.3"
+          helm:
+            valueFiles:
+              - "$values/clusters/bots-prod/infra-apps/gateways/values/{{name}}.yaml"
+        - repoURL: "git@example.com/platform/rnd-argocd.git"
+          targetRevision: main
+          ref: values
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: istio-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
