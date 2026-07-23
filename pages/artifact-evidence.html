@@ -64,12 +64,12 @@
 <li>Состав публичной копии: <code>136</code> файлов, включая <code>50</code> Terraform-файлов, <code>20</code> shell-скриптов, <code>10</code> HCL-файлов и <code>31</code> Markdown-документ.</li>
 <li>Что было исключено из публичной копии: <code>.git</code>, <code>.env</code>, <code>.generated</code>, клиентские VPN-конфиги, дублирующие рабочие каталоги и соседний runtime-репозиторий <code>infrastructure</code>.</li>
 </ul>
-<h2>VPS VPN Server</h2>
+<h2>VPS VPN-сервер</h2>
 <ul>
 <li>Источник: личный VPS deployment-артефакт, вынесенный в виде безопасного шаблона.</li>
-<li>Что подтверждает: <code>Docker Compose</code>, <code>Xray</code>, <code>VLESS + WebSocket</code>, <code>Nginx</code> reverse proxy, TLS termination, localhost-only binding и диагностику сквозного соединения.</li>
+<li>Что подтверждает: <code>Docker Compose</code>, <code>Xray</code>, <code>VLESS + WebSocket</code>, обратный прокси <code>Nginx</code>, завершение TLS, localhost-only binding и диагностику сквозного соединения.</li>
 <li>Публичная копия: <a href="../artifacts/vps-vpn-server/README.md">artifacts/vps-vpn-server</a></li>
-<li>Что намеренно исключено: активный домен, IP-адрес, UUID, QR-код, VLESS client URI, access logs, TLS-ключи и все рабочие client profiles.</li>
+<li>Что намеренно исключено: активный домен, IP-адрес, UUID, QR-код, VLESS-ссылка, логи доступа, TLS-ключи и все рабочие клиентские профили.</li>
 </ul>
 <h2>FortiGate / FortiClient VPN в tgbots</h2>
 <ul>

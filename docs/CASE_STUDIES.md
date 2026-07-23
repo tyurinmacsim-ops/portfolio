@@ -1,6 +1,6 @@
 # Кейсы и результаты
 
-## 1. Production GitOps / Kubernetes для multi-service продукта
+## 1. GitOps и Kubernetes для многосервисного продукта
 
 - Контекст: продуктовый контур с `100+` микросервисами в production.
 - Подтверждающие артефакты: коммиты в потоках `GitOps / FluxCD`, `ops`, `Helm releases`, `CI templates`.
@@ -17,14 +17,14 @@
 - Что это доказывает: опыт не только в обычном `CI/CD + Kubernetes`, но и в эксплуатации high-throughput систем, где критичны очереди, фоновая обработка, stateful-компоненты, мониторинг и предсказуемость доставки.
 - Результат: повышение устойчивости массовых рассылок, уменьшение ручного вмешательства в delivery-процессы и лучшая наблюдаемость проблем в очередях и фоновых задачах.
 
-## 3. Telegram bot deployment stack
+## 3. Контур доставки Telegram-ботов
 
 - Контекст: отдельные Telegram-боты и связанные API/worker-сервисы, которые нужно было выкатывать как управляемые Kubernetes-приложения в нескольких окружениях.
 - Что делал: работал с `Helm` values для отдельных bot-сервисов, GitOps-структурой кластеров, `ArgoCD ApplicationSet`, доставкой секретов через `Vault`, `ExternalDNS` для доменов и `Istio Gateway` / `VirtualService` для входного трафика.
 - Что это доказывает: опыт не только в эксплуатации Telegram-контуров, но и в их нормальной production-упаковке: конфигурация по окружениям, секьюрная доставка секретов, routing, DNS и воспроизводимый deploy.
 - Почему это важно: такой кейс хорошо ложится на роли, где нужно делать Telegram-ботов и интеграции не как "скрипт на коленке", а как сервис с понятным deployment-процессом.
 
-## 4. Registry / image delivery в tgbot/tgbots
+## 4. Реестр и доставка образов в tgbot/tgbots
 
 - Контекст: в Telegram-контуре нужно было поддерживать воспроизводимую доставку контейнерных образов через `Helm` и `ArgoCD`, с управлением `image repository`, тегами и доступом к registry.
 - Что делал: сопровождал `ArgoCD Image Updater`, `ApplicationSet`, `image.repository` / `image.tag`, `pull secrets` и связанные build/deploy шаблоны для `tgbot/tgbots`-сервисов.
@@ -32,7 +32,7 @@
 - Что это доказывает: опыт не только с самим Kubernetes-деплоем, но и с реальным release-delivery слоем вокруг registry, image updater, naming conventions и секретов доступа.
 - Почему это важно: в таких задачах меняется не один YAML. Обычно приходится одновременно держать в порядке CI templates, `Helm` values, GitOps-генерацию приложений и доступ к registry.
 
-## 5. Retool / Debezium / migration jobs в tgbot/tgbots
+## 5. Retool, Debezium и задачи миграций в tgbot/tgbots
 
 - Контекст: в зоне `tgbot/tgbots` помимо основного delivery-контура были adjacent-задачи вокруг `Retool`, `Debezium` и migration jobs в chart values.
 - Что делал: участвовал в rollout/support `Retool` в `tgbot`-контуре; сопровождал `Debezium`-компоненты в `rnd-argocd/clusters/tgbots-dev/infra-apps`; работал с `job` / `revertJob`, где вызываются `prod:apply-migrations` и `prod:migration:revert` в `tgbot-сharts`.
@@ -41,7 +41,7 @@
 - Важное уточнение: по самим `chart values` видно наличие `apply/revert` migration flow, но эти файлы не доказывают конкретный движок БД. Поэтому корректная формулировка здесь: `миграции схемы приложения / сервисной БД`, а не жёсткое утверждение про `PostgreSQL` или `MariaDB`.
 - Что это доказывает: опыт не только в стандартном `k8s + CI/CD`, но и в adjacent platform/data tooling внутри Telegram-контура: internal admin tooling, `CDC`-компоненты и контролируемые migration/revert-процессы при релизах.
 
-## 6. Azure / AKS / PCI DSS readiness
+## 6. Azure, AKS и подготовка к PCI DSS
 
 - Контекст: fintech-инфраструктура в Azure.
 - Что делал: IaC на `Terraform/Terragrunt`, GitOps через `FluxCD + GitLab CI`, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.
@@ -55,7 +55,7 @@
 - Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.
 - Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.
 
-## 8. Backup / Restore automation toolkit
+## 8. Набор автоматизации резервного копирования и восстановления
 
 - Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.
 - Подтверждающие артефакты: Python-скрипты `daily_backups_lambda.py`, `restore_backups.py`, `daily_backups_mongodb.py`, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.

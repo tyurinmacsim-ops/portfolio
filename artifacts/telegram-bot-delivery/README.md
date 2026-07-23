@@ -1,4 +1,4 @@
-# Telegram Bot Delivery Bundle
+# Контур доставки Telegram-бота
 
 Публичный sanitized-набор артефактов для портфолио: пример Telegram-бота на `Python` и рядом типовой deployment-контур, который показывает, как такой сервис упаковывается и выкатывается в Kubernetes.
 

@@ -25,7 +25,7 @@
       </header>
       <article class="prose">
         <h1>Кейсы и результаты</h1>
-<h2>1. Production GitOps / Kubernetes для multi-service продукта</h2>
+<h2>1. GitOps и Kubernetes для многосервисного продукта</h2>
 <ul>
 <li>Контекст: продуктовый контур с <code>100+</code> микросервисами в production.</li>
 <li>Подтверждающие артефакты: коммиты в потоках <code>GitOps / FluxCD</code>, <code>ops</code>, <code>Helm releases</code>, <code>CI templates</code>.</li>
@@ -42,14 +42,14 @@
 <li>Что это доказывает: опыт не только в обычном <code>CI/CD + Kubernetes</code>, но и в эксплуатации high-throughput систем, где критичны очереди, фоновая обработка, stateful-компоненты, мониторинг и предсказуемость доставки.</li>
 <li>Результат: повышение устойчивости массовых рассылок, уменьшение ручного вмешательства в delivery-процессы и лучшая наблюдаемость проблем в очередях и фоновых задачах.</li>
 </ul>
-<h2>3. Telegram bot deployment stack</h2>
+<h2>3. Контур доставки Telegram-ботов</h2>
 <ul>
 <li>Контекст: отдельные Telegram-боты и связанные API/worker-сервисы, которые нужно было выкатывать как управляемые Kubernetes-приложения в нескольких окружениях.</li>
 <li>Что делал: работал с <code>Helm</code> values для отдельных bot-сервисов, GitOps-структурой кластеров, <code>ArgoCD ApplicationSet</code>, доставкой секретов через <code>Vault</code>, <code>ExternalDNS</code> для доменов и <code>Istio Gateway</code> / <code>VirtualService</code> для входного трафика.</li>
 <li>Что это доказывает: опыт не только в эксплуатации Telegram-контуров, но и в их нормальной production-упаковке: конфигурация по окружениям, секьюрная доставка секретов, routing, DNS и воспроизводимый deploy.</li>
 <li>Почему это важно: такой кейс хорошо ложится на роли, где нужно делать Telegram-ботов и интеграции не как &quot;скрипт на коленке&quot;, а как сервис с понятным deployment-процессом.</li>
 </ul>
-<h2>4. Registry / image delivery в tgbot/tgbots</h2>
+<h2>4. Реестр и доставка образов в tgbot/tgbots</h2>
 <ul>
 <li>Контекст: в Telegram-контуре нужно было поддерживать воспроизводимую доставку контейнерных образов через <code>Helm</code> и <code>ArgoCD</code>, с управлением <code>image repository</code>, тегами и доступом к registry.</li>
 <li>Что делал: сопровождал <code>ArgoCD Image Updater</code>, <code>ApplicationSet</code>, <code>image.repository</code> / <code>image.tag</code>, <code>pull secrets</code> и связанные build/deploy шаблоны для <code>tgbot/tgbots</code>-сервисов.</li>
@@ -57,7 +57,7 @@
 <li>Что это доказывает: опыт не только с самим Kubernetes-деплоем, но и с реальным release-delivery слоем вокруг registry, image updater, naming conventions и секретов доступа.</li>
 <li>Почему это важно: в таких задачах меняется не один YAML. Обычно приходится одновременно держать в порядке CI templates, <code>Helm</code> values, GitOps-генерацию приложений и доступ к registry.</li>
 </ul>
-<h2>5. Retool / Debezium / migration jobs в tgbot/tgbots</h2>
+<h2>5. Retool, Debezium и задачи миграций в tgbot/tgbots</h2>
 <ul>
 <li>Контекст: в зоне <code>tgbot/tgbots</code> помимо основного delivery-контура были adjacent-задачи вокруг <code>Retool</code>, <code>Debezium</code> и migration jobs в chart values.</li>
 <li>Что делал: участвовал в rollout/support <code>Retool</code> в <code>tgbot</code>-контуре; сопровождал <code>Debezium</code>-компоненты в <code>rnd-argocd/clusters/tgbots-dev/infra-apps</code>; работал с <code>job</code> / <code>revertJob</code>, где вызываются <code>prod:apply-migrations</code> и <code>prod:migration:revert</code> в <code>tgbot-сharts</code>.</li>
@@ -66,7 +66,7 @@
 <li>Важное уточнение: по самим <code>chart values</code> видно наличие <code>apply/revert</code> migration flow, но эти файлы не доказывают конкретный движок БД. Поэтому корректная формулировка здесь: <code>миграции схемы приложения / сервисной БД</code>, а не жёсткое утверждение про <code>PostgreSQL</code> или <code>MariaDB</code>.</li>
 <li>Что это доказывает: опыт не только в стандартном <code>k8s + CI/CD</code>, но и в adjacent platform/data tooling внутри Telegram-контура: internal admin tooling, <code>CDC</code>-компоненты и контролируемые migration/revert-процессы при релизах.</li>
 </ul>
-<h2>6. Azure / AKS / PCI DSS readiness</h2>
+<h2>6. Azure, AKS и подготовка к PCI DSS</h2>
 <ul>
 <li>Контекст: fintech-инфраструктура в Azure.</li>
 <li>Что делал: IaC на <code>Terraform/Terragrunt</code>, GitOps через <code>FluxCD + GitLab CI</code>, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.</li>
@@ -80,7 +80,7 @@
 <li>Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.</li>
 <li>Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.</li>
 </ul>
-<h2>8. Backup / Restore automation toolkit</h2>
+<h2>8. Набор автоматизации резервного копирования и восстановления</h2>
 <ul>
 <li>Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.</li>
 <li>Подтверждающие артефакты: Python-скрипты <code>daily_backups_lambda.py</code>, <code>restore_backups.py</code>, <code>daily_backups_mongodb.py</code>, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.</li>

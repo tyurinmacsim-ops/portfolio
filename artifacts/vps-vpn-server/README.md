@@ -1,41 +1,41 @@
-# VPS VPN Server
+# VPS VPN-сервер
 
-Sanitized public artifact of a personal VPS VPN deployment. The repository intentionally contains no domain name, public IP, client link, QR code, UUID, access logs, or active credentials.
+Обезличенный публичный артефакт личного VPS VPN-контура. В репозитории намеренно отсутствуют домен, публичный IP-адрес, ссылка для клиента, QR-код, UUID, логи доступа и действующие учётные данные.
 
-## What this demonstrates
+## Что подтверждает
 
-- Docker Compose lifecycle for `Xray`;
-- `VLESS + WebSocket` transport;
-- TLS termination and WebSocket reverse proxy through `Nginx`;
-- binding the application port to `127.0.0.1` so the public entry point is only `443/tcp`;
-- separation of an existing HTTPS site from a dedicated WebSocket route;
-- practical troubleshooting of Nginx configuration activation and end-to-end client connectivity.
+- управление жизненным циклом `Xray` через Docker Compose;
+- транспорт `VLESS + WebSocket`;
+- завершение TLS и обратный WebSocket-прокси через `Nginx`;
+- привязку прикладного порта к `127.0.0.1`, чтобы единственной публичной точкой входа оставался `443/tcp`;
+- разделение существующего HTTPS-сайта и отдельного WebSocket-маршрута;
+- практическую диагностику активации Nginx-конфигурации и сквозной клиентской связности.
 
-## Architecture
+## Архитектура
 
 ```text
-Client
+Клиент
   -> HTTPS :443 /vpn-ws
-  -> Nginx (TLS termination and WebSocket upgrade)
+  -> Nginx (завершение TLS и обновление WebSocket)
   -> 127.0.0.1:10000
-  -> Xray container
+  -> контейнер Xray
 ```
 
-## Files
+## Состав
 
-- `docker-compose.yml` starts the Xray container and exposes its port only locally.
-- `xray.config.example.json` is a template. Generate a new UUID and keep the real client list outside git.
-- `nginx-vpn-ws-location.conf` is included into the TLS-enabled Nginx virtual host.
+- `docker-compose.yml` запускает контейнер Xray и открывает порт только на локальном адресе.
+- `xray.config.example.json` - шаблон. Новый UUID генерируется отдельно, а реальный список клиентов не попадает в git.
+- `nginx-vpn-ws-location.conf` подключается к TLS-виртуальному хосту Nginx.
 
-## Deployment outline
+## Порядок развёртывания
 
-1. Prepare a Linux VPS, Docker Engine, Docker Compose plugin, Nginx, DNS and a valid TLS certificate.
-2. Copy the compose file and create a private Xray config from the example with a newly generated UUID.
-3. Run `docker compose up -d` and confirm that the service listens only on `127.0.0.1:10000`.
-4. Add the Nginx location to the server block on `443`, then run `nginx -t` and reload Nginx.
-5. Import a separately generated client profile and test the WebSocket path end-to-end.
+1. Подготовить Linux VPS, Docker Engine, Docker Compose plugin, Nginx, DNS и действующий TLS-сертификат.
+2. Скопировать compose-файл и создать приватную конфигурацию Xray по шаблону с новым UUID.
+3. Выполнить `docker compose up -d` и убедиться, что сервис слушает только `127.0.0.1:10000`.
+4. Добавить Nginx location в server-блок на `443`, затем выполнить `nginx -t` и перезагрузить Nginx.
+5. Импортировать отдельно созданный клиентский профиль и проверить WebSocket-маршрут сквозным тестом.
 
-## Operational checks
+## Эксплуатационные проверки
 
 ```bash
 docker compose ps
@@ -46,8 +46,8 @@ curl -Ik https://your-domain.example/
 curl -skI --http1.1 https://your-domain.example/vpn-ws
 ```
 
-An HTTP `400` for the second request without WebSocket upgrade headers can be expected: it demonstrates that Nginx reached Xray rather than serving the website response.
+Для второго запроса без заголовков WebSocket допустим ответ HTTP `400`: это показывает, что Nginx передал запрос в Xray, а не вернул содержимое сайта.
 
-## Security boundary
+## Граница безопасности
 
-This is a portfolio template, not an active access endpoint. Do not commit real client profiles, TLS private keys, domains, IPs, logs, credentials, or QR codes.
+Это шаблон для портфолио, а не действующая точка доступа. Реальные клиентские профили, TLS-приватные ключи, домены, IP-адреса, логи, учётные данные и QR-коды в git не добавляются.

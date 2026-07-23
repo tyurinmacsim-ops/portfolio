@@ -19,7 +19,7 @@
 - техлид может быстро увидеть подход к platform engineering;
 - репозиторий можно приложить как прямую ссылку в отклике или реферальной форме.
 
-## 2. Telegram bot delivery bundle
+## 2. Контур доставки Telegram-ботов
 
 - Тип артефакта: подтверждаемый рабочий контур по деплою Telegram-сервисов и связанных приложений.
 - На чём основан: `Helm values` для bot-сервисов, `ArgoCD ApplicationSet`, `Vault` secret delivery, `ExternalDNS`, `Istio Gateway`, GitOps-структура кластеров `tgbots-dev` / `tgbots-prod`.

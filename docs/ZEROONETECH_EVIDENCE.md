@@ -62,7 +62,7 @@
 
 - `Есть подтверждаемый adjacent experience вокруг Debezium / CDC в tgbots-контуре, без попытки продавать это как deep data-engineering специализацию.`
 
-## Migration jobs в tgbot-сharts
+## Задачи миграций в tgbot-сharts
 
 Это один из самых чистых tgbot-specific следов: migrations читаются прямо в `tgbot-сharts`.
 

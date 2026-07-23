@@ -4,7 +4,7 @@ services:
     container_name: vps-xray
     restart: unless-stopped
     ports:
-      # Xray is reachable only through Nginx on the VPS itself.
+      # Xray доступен только через Nginx на самом VPS.
       - "127.0.0.1:10000:10000"
     volumes:
       - ./xray.config.example.json:/etc/xray/config.json:ro

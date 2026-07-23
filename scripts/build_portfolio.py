@@ -1162,12 +1162,12 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             "- Состав публичной копии: `136` файлов, включая `50` Terraform-файлов, `20` shell-скриптов, `10` HCL-файлов и `31` Markdown-документ.",
             "- Что было исключено из публичной копии: `.git`, `.env`, `.generated`, клиентские VPN-конфиги, дублирующие рабочие каталоги и соседний runtime-репозиторий `infrastructure`.",
             "",
-            "## VPS VPN Server",
+            "## VPS VPN-сервер",
             "",
             "- Источник: личный VPS deployment-артефакт, вынесенный в виде безопасного шаблона.",
-            "- Что подтверждает: `Docker Compose`, `Xray`, `VLESS + WebSocket`, `Nginx` reverse proxy, TLS termination, localhost-only binding и диагностику сквозного соединения.",
+            "- Что подтверждает: `Docker Compose`, `Xray`, `VLESS + WebSocket`, обратный прокси `Nginx`, завершение TLS, localhost-only binding и диагностику сквозного соединения.",
             "- Публичная копия: [artifacts/vps-vpn-server](../artifacts/vps-vpn-server/README.md)",
-            "- Что намеренно исключено: активный домен, IP-адрес, UUID, QR-код, VLESS client URI, access logs, TLS-ключи и все рабочие client profiles.",
+            "- Что намеренно исключено: активный домен, IP-адрес, UUID, QR-код, VLESS-ссылка, логи доступа, TLS-ключи и все рабочие клиентские профили.",
             "",
             "## FortiGate / FortiClient VPN в tgbots",
             "",
@@ -1282,8 +1282,8 @@ def write_landing_page(
         result_cards.append(
             (
                 f"{backup_artifact['counts']['Python']} / {backup_artifact['counts']['Shell']} / {backup_artifact['counts']['YAML']}",
-                "backup toolkit",
-                "Публично вынесены Python, shell и YAML-артефакты для backup/restore automation, S3/AWS и CronJob-процессов.",
+                "набор резервного копирования",
+                "Публично вынесены Python-, shell- и YAML-артефакты для резервного копирования, S3/AWS и CronJob-процессов.",
             )
         )
 
@@ -1292,13 +1292,13 @@ def write_landing_page(
             (
                 str(k8s_box_artifact["total_files"]),
                 "файлов в k8s-box",
-                "Sanitized platform toolkit по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN entrypoint и эксплуатационным runbook-ам.",
+                "Обезличенный платформенный набор по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN-точке входа и эксплуатационной документации.",
             )
         )
 
     stack_cards = [
         {
-            "title": "Kubernetes / GitOps / delivery",
+            "title": "Kubernetes, GitOps и доставка изменений",
             "period": "~5 лет",
             "text": "EKS, AKS, managed Kubernetes в Yandex Cloud, Helm, ArgoCD, FluxCD, rollout-пайплайны, ingress, observability, миграции сервисов в k8s.",
             "areas": [
@@ -1308,7 +1308,7 @@ def write_landing_page(
             ],
         },
         {
-            "title": "AWS / EKS / data operations",
+            "title": "AWS, EKS и эксплуатация данных",
             "period": "~4.5 года",
             "text": "Production-контур в AWS: EKS, Terraform, Terragrunt, базы данных, очереди, логирование, backup/restore, cost и release automation.",
             "areas": [
@@ -1318,7 +1318,7 @@ def write_landing_page(
             ],
         },
         {
-            "title": "Azure / AKS / security",
+            "title": "Azure, AKS и безопасность",
             "period": "~0.7 года",
             "text": "AKS, private ingress, Key Vault, network policies, audit trail, platform hardening и подготовка инфраструктурного контура к PCI DSS.",
             "areas": [
@@ -1328,7 +1328,7 @@ def write_landing_page(
             ],
         },
         {
-            "title": "Yandex Cloud / platform toolkit",
+            "title": "Yandex Cloud и платформенный набор",
             "period": "~0.3+ года",
             "text": "Terragrunt-модули, Vault, ArgoCD, runner, VPN entrypoint, observability и profile-driven bootstrap для платформенных стендов.",
             "areas": [
@@ -1338,7 +1338,7 @@ def write_landing_page(
             ],
         },
         {
-            "title": "On-prem / virtualization / admin",
+            "title": "On-prem, виртуализация и администрирование",
             "period": "~4+ года",
             "text": "Proxmox, VMware, Hyper-V, Linux/Windows-инфраструктура, backup, AD/GPO, сопровождение хостов и сетевой базовой инфраструктуры.",
             "areas": [
@@ -1351,7 +1351,7 @@ def write_landing_page(
 
     case_cards = [
         {
-            "title": "Production GitOps / Kubernetes",
+            "title": "GitOps и Kubernetes в production",
             "result": "100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день",
             "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD"],
             "text": "Production-контур для multi-service платформы: GitOps-процессы, деплой, мониторинг, логирование и эксплуатационные изменения в production.",
@@ -1365,35 +1365,35 @@ def write_landing_page(
             "link": ("Открыть кейс", "pages/case-studies.html"),
         },
         {
-            "title": "Retool / Debezium / migration jobs",
+            "title": "Retool, Debezium и задачи миграций",
             "result": "adjacent platform/data tooling вокруг production-контура",
             "stack": ["Retool", "Debezium", "Postgres CDC", "Mongo CDC", "migration jobs", "ArgoCD"],
             "text": "Подтверждается только в зоне tgbot/tgbots: Retool в tgbot infra, Debezium для Postgres и Mongo в ArgoCD infra-apps и apply/revert migration flow в tgbot-чартах.",
             "link": ("Открыть разбор", "pages/zeroonetech-evidence.html"),
         },
         {
-            "title": "Azure / AKS / PCI DSS readiness",
+            "title": "Azure, AKS и подготовка к PCI DSS",
             "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
             "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
             "text": "IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.",
             "link": ("Смотреть кейс", "pages/case-studies.html"),
         },
         {
-            "title": "Yandex Cloud / platform toolkit",
+            "title": "Yandex Cloud и платформенный набор",
             "result": "публичный toolkit на 137 файлов и полный bootstrap-поток",
             "stack": ["Yandex Cloud", "Terragrunt", "ArgoCD", "Vault", "GitLab CI/CD"],
             "text": "Платформенный набор под YC: VPC, security groups, VPN VM, runner, Kubernetes, Vault, ArgoCD и эксплуатационная документация.",
             "link": ("Открыть k8s-box", "artifacts/k8s-box/README.md"),
         },
         {
-            "title": "Backup / Restore Automation",
+            "title": "Автоматизация резервного копирования и восстановления",
             "result": "отдельный публичный артефакт по stateful-сервисам и recovery workflow",
             "stack": ["Python", "Kubernetes", "AWS S3", "PostgreSQL", "MongoDB", "Slack"],
             "text": "Toolkit по резервному копированию и восстановлению: backup/restore скрипты, CronJob-процессы, Docker utility-образы и оповещения.",
             "link": ("Открыть backup toolkit", "artifacts/backup-automation/README.md"),
         },
         {
-            "title": "Telegram Bot Delivery Bundle",
+            "title": "Контур доставки Telegram-бота",
             "result": "публичный bundle с кодом бота и Kubernetes/GitOps deployment-контуром",
             "stack": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault", "Istio"],
             "text": "Sanitized-пакет с кодом Telegram-бота, Dockerfile, PROMPTS.md, values по окружениям, ApplicationSet, Vault secret delivery, ExternalDNS и Istio routing.",
@@ -1441,35 +1441,35 @@ def write_landing_page(
 
     artifact_cards = [
         {
-            "title": "Backup / Restore Automation Toolkit",
+            "title": "Набор автоматизации резервного копирования и восстановления",
             "text": "Пакет с redacted-скриптами и конфигурацией для backup/restore процессов: Python, shell, Kubernetes CronJob, S3/AWS, Secrets Manager, PostgreSQL, MariaDB и MongoDB.",
             "tags": ["Python", "Kubernetes", "AWS/S3", "PostgreSQL", "MongoDB"],
             "primary": ("Открыть артефакт", "artifacts/backup-automation/README.md"),
             "secondary": ("Смотреть разбор", "pages/artifact-evidence.html"),
         },
         {
-            "title": "K8s-box Platform Toolkit",
+            "title": "Платформенный набор k8s-box",
             "text": "Публичная sanitized-копия рабочего набора для Yandex Cloud: Terraform, Terragrunt, ArgoCD, Vault, GitLab CI/CD, VPN VM, profile-driven bootstrap и эксплуатационная документация.",
             "tags": ["Yandex Cloud", "Terraform", "Terragrunt", "ArgoCD", "Vault"],
             "primary": ("Открыть k8s-box", "artifacts/k8s-box/README.md"),
             "secondary": ("Что включено", "artifacts/k8s-box/PORTFOLIO_NOTES.md"),
         },
         {
-            "title": "VPS VPN Server",
-            "text": "Безопасный public template личного VPS-контура: Docker Compose, Xray, VLESS over WebSocket, Nginx reverse proxy и TLS. Активные доступы и client profiles исключены.",
+            "title": "VPS VPN-сервер",
+            "text": "Безопасный публичный шаблон личного VPS-контура: Docker Compose, Xray, VLESS поверх WebSocket, обратный прокси Nginx и TLS. Активные доступы и клиентские профили исключены.",
             "tags": ["Linux", "Docker Compose", "Nginx", "TLS", "WebSocket"],
             "primary": ("Открыть артефакт", "artifacts/vps-vpn-server/README.md"),
             "secondary": ("Сетевой контекст tgbots", "pages/zeroonetech-evidence.html"),
         },
         {
-            "title": "Platform Engineering Demo",
+            "title": "Демо-стенд Platform Engineering",
             "text": "Отдельный воспроизводимый стенд под техпроверку: Terraform, Kubernetes, observability stack, smoke-test и GitHub Actions.",
             "tags": ["Terraform", "kind", "Prometheus", "Grafana", "GitHub Actions"],
             "primary": ("Открыть демо", "pages/platform-engineering-demo.html"),
             "secondary": ("Читать README", "projects/platform-engineering-demo/README.md"),
         },
         {
-            "title": "Telegram Bot Delivery Bundle",
+            "title": "Контур доставки Telegram-бота",
             "text": "Публичный bundle с кодом Telegram-бота на Python и рядом deployment-конфигами: Helm values, ArgoCD ApplicationSet, Vault, ExternalDNS и Istio Gateway.",
             "tags": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault"],
             "primary": ("Открыть bundle", "artifacts/telegram-bot-delivery/README.md"),
@@ -1629,7 +1629,7 @@ def write_landing_page(
         *skills_quick_links,
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
-        ("VPS VPN server", "artifacts/vps-vpn-server/README.md"),
+        ("VPS VPN-сервер", "artifacts/vps-vpn-server/README.md"),
         ("Telegram bot bundle", "artifacts/telegram-bot-delivery/README.md"),
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
@@ -1749,7 +1749,7 @@ def write_landing_page(
         <div class="hero-links">
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
           <a href="artifacts/k8s-box/README.md">K8s-box</a>
-          <a href="artifacts/vps-vpn-server/README.md">VPS VPN</a>
+          <a href="artifacts/vps-vpn-server/README.md">VPS VPN-сервер</a>
           <a href="artifacts/telegram-bot-delivery/README.md">Telegram bot bundle</a>
           <a href="pages/platform-engineering-demo.html">Demo stand</a>
           {skills_hero_link}
