@@ -44,6 +44,7 @@ DevOps / Platform Engineer с `4+` годами коммерческого оп�
 - асинхронные Telegram-контуры с массовой доставкой и большими очередями до `10 млн` сообщений
 - adjacent platform/data tooling в зоне `tgbot/tgbots`: `Retool`, `Debezium`, migration jobs и migration/revert-процессы вокруг сервисных БД
 - deployment-связки для Telegram bot/API-сервисов: `Helm`, `ArgoCD ApplicationSet`, values по окружениям, `Vault`, `ExternalDNS`, `Istio Gateway`
+- администрирование `FortiGate/FortiClient VPN` для доступа к tgbots-контурам: сетевые объекты, маршрутизация и политики доступа
 - observability: `Prometheus`, `Grafana`, `Loki`, `VictoriaMetrics`
 
 ### xero | 2022-07 — 2023-08

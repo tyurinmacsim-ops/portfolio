@@ -33,6 +33,7 @@
 <li><code>rnd-argocd/clusters/tgbots-dev/...</code></li>
 <li><code>tgbot-сharts/dev/</code></li>
 <li><code>tgbot-сharts/prod/</code></li>
+<li><code>it-incubator-terraform/tgbots/...</code> только как инфраструктурный контекст FortiGate VPN, без публикации raw-конфигурации</li>
 <li>связанные рабочие backup/restore-артефакты, если они явно привязаны к <code>tgbot</code>-задаче</li>
 </ul>
 <h2>Retool</h2>
@@ -106,6 +107,31 @@
 <li><code>Есть подтверждаемый опыт с migration jobs и apply/revert flow для сервисных БД в Helm/ArgoCD-контурах.</code></li>
 <li><code>По этим values корректнее говорить о миграциях схемы приложения, а не жёстко приписывать их конкретно PostgreSQL или MariaDB.</code></li>
 </ul>
+<h2>FortiGate / FortiClient VPN в tgbots</h2>
+<p>В Terraform-архиве есть технический след FortiGate VPN, связанный с сетевыми контурами <code>tgbots</code>: адресные объекты для <code>infra</code>, <code>dev</code>, <code>test</code> и <code>prod</code>, а также инструкции по добавлению сети и firewall policy при развёртывании VPC.</p>
+<p>Опорные пути:</p>
+<ul>
+<li><code>it-incubator-terraform/tgbots/dev/eu-central-1/vpc/README.md</code></li>
+<li><code>it-incubator-terraform/tgbots/prod-1/eu-central-1/vpc/README.md</code></li>
+<li><code>it-incubator-terraform/tgbots/infra/eu-central-1/vpc/README.md</code></li>
+<li><code>it-incubator-terraform/infra/prod/eu-north-1/ec2/fortigate/private-address.tf</code></li>
+<li><code>it-incubator-terraform/infra/prod/eu-north-1/ec2/fortigate/client-guide.md</code></li>
+</ul>
+<p>Что подтверждает технический контекст:</p>
+<ul>
+<li>FortiGate использовался как точка VPN-доступа и сетевой политики для окружений;</li>
+<li>при появлении или изменении tgbots-сети требовалось согласовать VPC, firewall address objects и policy;</li>
+<li>эксплуатационный слой включал подключение пользователей через FortiClient и проверку маршрутизации.</li>
+</ul>
+<p>Ограничение доказательства:</p>
+<ul>
+<li>git-история именно этих путей содержит коммиты нескольких инженеров, поэтому она не используется как доказательство индивидуального авторства;</li>
+<li>в публичное портфолио не выносятся адреса сетей, FQDN, правила доступа, учётные данные или экспорт FortiGate-конфигурации.</li>
+</ul>
+<p>Корректная формулировка:</p>
+<ul>
+<li><code>Администрировал FortiGate/FortiClient VPN для доступа к tgbots-контурам: сопровождение сетевых объектов, маршрутизации и политик доступа; реальные конфигурации не публикую.</code></li>
+</ul>
 <h2>Как это усиливает блок 01.tech</h2>
 <p>Что можно добавлять в резюме безопасно:</p>
 <ul>
@@ -113,6 +139,7 @@
 <li><code>Debezium</code> как adjacent CDC-layer в <code>tgbots</code>;</li>
 <li><code>migration jobs</code>, <code>apply/revert migrations</code>, <code>schema/data migration workflows</code>;</li>
 <li><code>PostgreSQL dump/restore</code>, перенос отдельных БД и operational data tooling.</li>
+<li><code>FortiGate/FortiClient VPN</code>: эксплуатация VPN-доступа, маршрутизация и сетевые политики для tgbots-контуров.</li>
 </ul>
 <p>Что не стоит писать:</p>
 <ul>

@@ -1,0 +1,11 @@
+services:
+  xray:
+    image: ghcr.io/xtls/xray-core:latest
+    container_name: vps-xray
+    restart: unless-stopped
+    ports:
+      # Xray is reachable only through Nginx on the VPS itself.
+      - "127.0.0.1:10000:10000"
+    volumes:
+      - ./xray.config.example.json:/etc/xray/config.json:ro
+    command: ["run", "-config", "/etc/xray/config.json"]

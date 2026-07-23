@@ -1162,6 +1162,18 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             "- Состав публичной копии: `136` файлов, включая `50` Terraform-файлов, `20` shell-скриптов, `10` HCL-файлов и `31` Markdown-документ.",
             "- Что было исключено из публичной копии: `.git`, `.env`, `.generated`, клиентские VPN-конфиги, дублирующие рабочие каталоги и соседний runtime-репозиторий `infrastructure`.",
             "",
+            "## VPS VPN Server",
+            "",
+            "- Источник: личный VPS deployment-артефакт, вынесенный в виде безопасного шаблона.",
+            "- Что подтверждает: `Docker Compose`, `Xray`, `VLESS + WebSocket`, `Nginx` reverse proxy, TLS termination, localhost-only binding и диагностику сквозного соединения.",
+            "- Публичная копия: [artifacts/vps-vpn-server](../artifacts/vps-vpn-server/README.md)",
+            "- Что намеренно исключено: активный домен, IP-адрес, UUID, QR-код, VLESS client URI, access logs, TLS-ключи и все рабочие client profiles.",
+            "",
+            "## FortiGate / FortiClient VPN в tgbots",
+            "",
+            "- В tgbots-инфраструктуре есть технический след FortiGate VPN: сетевые объекты окружений, маршрутизация и инструкции по добавлению firewall policy при изменении VPC.",
+            "- Это отражено в [разборе tgbot/tgbots](./ZEROONETECH_EVIDENCE.md); raw-конфигурация, сетевые адреса и учётные данные не публикуются.",
+            "",
             "## Следующие артефакты, которые можно публиковать в redacted-виде",
             "",
             "Ниже перечислены не исходные рабочие репозитории, а типы технических артефактов, которые можно безопасно вынести в публичное портфолио после обезличивания.",
@@ -1443,6 +1455,13 @@ def write_landing_page(
             "secondary": ("Что включено", "artifacts/k8s-box/PORTFOLIO_NOTES.md"),
         },
         {
+            "title": "VPS VPN Server",
+            "text": "Безопасный public template личного VPS-контура: Docker Compose, Xray, VLESS over WebSocket, Nginx reverse proxy и TLS. Активные доступы и client profiles исключены.",
+            "tags": ["Linux", "Docker Compose", "Nginx", "TLS", "WebSocket"],
+            "primary": ("Открыть артефакт", "artifacts/vps-vpn-server/README.md"),
+            "secondary": ("Сетевой контекст tgbots", "pages/zeroonetech-evidence.html"),
+        },
+        {
             "title": "Platform Engineering Demo",
             "text": "Отдельный воспроизводимый стенд под техпроверку: Terraform, Kubernetes, observability stack, smoke-test и GitHub Actions.",
             "tags": ["Terraform", "kind", "Prometheus", "Grafana", "GitHub Actions"],
@@ -1610,6 +1629,7 @@ def write_landing_page(
         *skills_quick_links,
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
+        ("VPS VPN server", "artifacts/vps-vpn-server/README.md"),
         ("Telegram bot bundle", "artifacts/telegram-bot-delivery/README.md"),
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
@@ -1729,6 +1749,7 @@ def write_landing_page(
         <div class="hero-links">
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
           <a href="artifacts/k8s-box/README.md">K8s-box</a>
+          <a href="artifacts/vps-vpn-server/README.md">VPS VPN</a>
           <a href="artifacts/telegram-bot-delivery/README.md">Telegram bot bundle</a>
           <a href="pages/platform-engineering-demo.html">Demo stand</a>
           {skills_hero_link}
@@ -1967,6 +1988,7 @@ def main() -> None:
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/platform-engineering-demo.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/artifacts/backup-automation/README.md</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/artifacts/k8s-box/README.md</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/artifacts/vps-vpn-server/README.md</loc></url>
 </urlset>
 """,
         encoding="utf-8",

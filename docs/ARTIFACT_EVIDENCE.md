@@ -40,6 +40,18 @@
 - Состав публичной копии: `136` файлов, включая `50` Terraform-файлов, `20` shell-скриптов, `10` HCL-файлов и `31` Markdown-документ.
 - Что было исключено из публичной копии: `.git`, `.env`, `.generated`, клиентские VPN-конфиги, дублирующие рабочие каталоги и соседний runtime-репозиторий `infrastructure`.
 
+## VPS VPN Server
+
+- Источник: личный VPS deployment-артефакт, вынесенный в виде безопасного шаблона.
+- Что подтверждает: `Docker Compose`, `Xray`, `VLESS + WebSocket`, `Nginx` reverse proxy, TLS termination, localhost-only binding и диагностику сквозного соединения.
+- Публичная копия: [artifacts/vps-vpn-server](../artifacts/vps-vpn-server/README.md)
+- Что намеренно исключено: активный домен, IP-адрес, UUID, QR-код, VLESS client URI, access logs, TLS-ключи и все рабочие client profiles.
+
+## FortiGate / FortiClient VPN в tgbots
+
+- В tgbots-инфраструктуре есть технический след FortiGate VPN: сетевые объекты окружений, маршрутизация и инструкции по добавлению firewall policy при изменении VPC.
+- Это отражено в [разборе tgbot/tgbots](./ZEROONETECH_EVIDENCE.md); raw-конфигурация, сетевые адреса и учётные данные не публикуются.
+
 ## Следующие артефакты, которые можно публиковать в redacted-виде
 
 Ниже перечислены не исходные рабочие репозитории, а типы технических артефактов, которые можно безопасно вынести в публичное портфолио после обезличивания.
