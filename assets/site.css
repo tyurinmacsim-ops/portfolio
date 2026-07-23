@@ -218,6 +218,31 @@ code {
   border: 1px solid rgba(234, 223, 206, 0.92);
 }
 
+button.btn { border: 0; cursor: pointer; font: inherit; }
+
+.btn-ghost { color: var(--accent); background: transparent; border: 1px solid rgba(15, 118, 110, 0.28) !important; }
+
+.mode-panel { scroll-margin-top: 20px; }
+.mode-grid, .hr-grid, .interview-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.mode-card { min-height: 150px; padding: 20px; color: var(--ink); text-align: left; font: inherit; cursor: pointer; background: rgba(255,255,255,.62); border: 1px solid rgba(234,223,206,.92); border-radius: 20px; }
+.mode-card strong, .mode-card span { display: block; }
+.mode-card strong { margin-bottom: 10px; font-size: 1rem; }
+.mode-card span { color: var(--muted); font-size: .9rem; line-height: 1.55; }
+.mode-card:hover, .mode-card.is-active { border-color: var(--accent); background: rgba(15,118,110,.09); box-shadow: 0 10px 28px rgba(15,118,110,.12); }
+.hr-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hr-grid > div, .interview-grid article { padding: 20px; border-radius: 20px; background: rgba(255,255,255,.64); border: 1px solid rgba(234,223,206,.92); }
+.hr-grid h3, .interview-grid h3 { margin: 0 0 8px; font-size: 1rem; }
+.hr-grid p, .interview-grid p { margin: 0; color: var(--muted); line-height: 1.65; }
+.intro-actions, .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.filter-bar { margin: 0 0 18px; }
+.filter-button { padding: .6rem .82rem; color: var(--muted); cursor: pointer; font: inherit; font-weight: 700; background: rgba(255,255,255,.65); border: 1px solid rgba(234,223,206,.92); border-radius: 999px; }
+.filter-button:hover, .filter-button.is-active { color: #fff; background: var(--accent); border-color: var(--accent); }
+[data-filter-item][hidden] { display: none; }
+html[data-mode="hr"] #charts, html[data-mode="hr"] #tech, html[data-mode="hr"] #skills, html[data-mode="hr"] #timeline, html[data-mode="hr"] #interview { display: none; }
+html[data-mode="ai"] #charts, html[data-mode="ai"] #timeline { display: none; }
+html[data-mode="interview"] #charts, html[data-mode="interview"] #tech, html[data-mode="interview"] #skills { display: none; }
+@media (max-width: 1080px) { .mode-grid, .hr-grid, .interview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 .hero-points {
   margin: 26px 0 0;
   padding: 0;
@@ -890,6 +915,10 @@ tbody td {
   .artifact-actions {
     flex-direction: column;
   }
+
+  .mode-grid, .hr-grid, .interview-grid { grid-template-columns: 1fr; }
+
+  .intro-actions, .filter-bar { flex-direction: column; }
 
   .site-footer-inner {
     flex-direction: column;

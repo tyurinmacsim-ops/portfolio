@@ -3,13 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Максим Тюрин • Портфолио DevOps / Platform Engineer</title>
-  <meta name="description" content="Портфолио DevOps / Platform Engineer с подтверждаемыми артефактами: git-статистика, кейсы, графики, демо-проект.">
+  <title>Максим Тюрин — DevOps / SRE / Platform Engineer</title>
+  <meta name="description" content="DevOps / SRE / Platform Engineer: Kubernetes, GitOps, Terraform, CI/CD, observability, backup/recovery и публичные технические артефакты.">
+  <meta property="og:title" content="Максим Тюрин — DevOps / SRE / Platform Engineer">
+  <meta property="og:description" content="Публичные кейсы, демо-стенды и подтверждаемые артефакты по инфраструктуре и эксплуатации.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tyurinmacsim-ops.github.io/portfolio/">
   <link rel="canonical" href="https://tyurinmacsim-ops.github.io/portfolio/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
 </head>
 <body>
   <div class="bg-orb bg-orb-a"></div>
@@ -18,26 +23,25 @@
     <nav class="topbar">
       <a class="brand" href="#top">Максим Тюрин</a>
       <div class="topbar-links">
-        <a href="#overview">Обзор</a>
-        <a href="#results">Результаты</a>
+        <a href="#modes">Режимы</a>
+        <a href="#hr-summary">Для HR</a>
         <a href="#stack">Стек</a>
         
-        <a href="#charts">Графики</a>
-        <a href="#timeline">Таймлайн</a>
-        <a href="#artifacts">Артефакты</a>
         <a href="#cases">Кейсы</a>
+        <a href="#artifacts">Артефакты</a>
         <a href="#demo">Стенд</a>
         <a href="#contacts">Контакты</a>
       </div>
     </nav>
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">DevOps / Platform Engineer</p>
-        <h1>DevOps / Platform Engineer: подтверждённый опыт, кейсы и артефакты</h1>
-        <p class="hero-lead">Портфолио собрано по локальному архиву рабочих каталогов, git-истории и публичным артефактам. Здесь сведены подтверждаемые материалы по Kubernetes, Terraform, GitOps, CI/CD, observability и эксплуатации сервисов.</p>
+        <p class="eyebrow">DevOps / SRE / Platform Engineer · Пермь</p>
+        <h1>Инфраструктура, которую можно проверить по коду и артефактам</h1>
+        <p class="hero-lead">Kubernetes, GitOps, Terraform, CI/CD, observability и production automation. Ниже — публичные кейсы, демо-стенды, документация и инфраструктурные наработки без неподтверждённых заявлений.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#overview">Для HR</a>
-          <a class="btn btn-secondary" href="#tech">Для техспециалиста</a>
+          <a class="btn btn-primary" href="#hr-summary" data-set-mode="hr">Посмотреть кратко для HR</a>
+          <a class="btn btn-secondary" href="#cases" data-set-mode="tech">Открыть технические доказательства</a>
+          <button class="btn btn-ghost" type="button" data-copy="hr">Скопировать краткое описание</button>
         </div>
         <div class="hero-links">
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
@@ -69,6 +73,33 @@
   </header>
 
   <main class="page">
+    <section class="panel mode-panel" id="modes" aria-labelledby="modes-title">
+      <div class="section-head">
+        <p class="eyebrow">Режим просмотра</p>
+        <h2 id="modes-title">В каком формате показать портфолио?</h2>
+        <p class="section-note" data-mode-description>Короткая выжимка о роли, стеке и сильных доказательствах.</p>
+      </div>
+      <div class="mode-grid" role="group" aria-label="Выбор режима просмотра">
+        <button class="mode-card" type="button" data-mode="hr"><strong>Кратко для HR</strong><span>Роли, стек, сильные факты и контакты — за минуту.</span></button>
+        <button class="mode-card" type="button" data-mode="tech"><strong>Подробно для технического специалиста</strong><span>Кейсы, решения, стек и прямые ссылки на код.</span></button>
+        <button class="mode-card" type="button" data-mode="interview"><strong>Подготовка к собеседованию</strong><span>Тезисы и темы для предметного разговора.</span></button>
+        <button class="mode-card" type="button" data-mode="ai"><strong>AI / Data / MLOps infrastructure</strong><span>Инфраструктурная применимость: Kubernetes, очереди, данные и автоматизация.</span></button>
+      </div>
+    </section>
+
+    <section class="panel hr-summary" id="hr-summary">
+      <div class="section-head">
+        <p class="eyebrow">Кратко для HR</p>
+        <h2>DevOps / SRE / Platform Engineer с проверяемыми примерами работы</h2>
+      </div>
+      <div class="hr-grid">
+        <div><h3>Подходящие роли</h3><p>DevOps Engineer, SRE, Platform Engineer, Infrastructure Engineer. Смежно — инфраструктура для AI / Data / MLOps-нагрузок.</p></div>
+        <div><h3>Основной стек</h3><p>Kubernetes, GitOps, Terraform, CI/CD, Helm, облачная инфраструктура, observability, backup/recovery и автоматизация на Python/shell.</p></div>
+        <div><h3>Что быстро проверить</h3><p>Публичный стенд, набор k8s-box, backup/restore toolkit, GitOps-конфигурация и документация по эксплуатации.</p></div>
+      </div>
+      <div class="intro-actions"><a class="btn btn-primary" href="pages/resume.html">Открыть резюме</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio">GitHub</a><button class="btn btn-ghost" type="button" data-copy="tech">Скопировать техническое интро</button></div>
+    </section>
+
     <section class="panel" id="overview">
       <div class="section-head">
         <p class="eyebrow">Обзор</p>
@@ -96,7 +127,7 @@
 <article class="result-card"><strong>100+</strong><span>сервисов в GitOps-контуре</span><p>Подтверждается production-направление с Helm, GitLab CI/CD, мониторингом и эксплуатационными изменениями.</p></article>
 <article class="result-card"><strong>2025 / 4 407</strong><span>самый сильный год</span><p>Пиковая подтверждённая активность приходится на год с наибольшей плотностью инфраструктурных изменений.</p></article>
 <article class="result-card"><strong>3 / 6 / 15</strong><span>набор резервного копирования</span><p>Публично вынесены Python-, shell- и YAML-артефакты для резервного копирования, S3/AWS и CronJob-процессов.</p></article>
-<article class="result-card"><strong>138</strong><span>файлов в k8s-box</span><p>Обезличенный платформенный набор по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN-точке входа и эксплуатационной документации.</p></article>
+<article class="result-card"><strong>136</strong><span>файлов в k8s-box</span><p>Обезличенный платформенный набор по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN-точке входа и эксплуатационной документации.</p></article>
       </div>
     </section>
 
@@ -193,14 +224,31 @@
         <p class="eyebrow">Кейсы</p>
         <h2>Кейсы с результатом, стеком и прямым входом</h2>
       </div>
+      <div class="filter-bar" data-filter-target="#cases" aria-label="Фильтр кейсов">
+        <button class="filter-button is-active" type="button" data-filter="all">Все</button>
+        <button class="filter-button" type="button" data-filter="kubernetes gitops">Kubernetes / GitOps</button>
+        <button class="filter-button" type="button" data-filter="terraform terragrunt">Terraform / IaC</button>
+        <button class="filter-button" type="button" data-filter="observability backup">Наблюдаемость / Backup</button>
+        <button class="filter-button" type="button" data-filter="kafka rabbitmq debezium">Data / очереди</button>
+      </div>
       <div class="case-grid">
-        <article class="case-card case-card-rich"><div class="case-kicker">100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день</div><h3>GitOps и Kubernetes в production</h3><p>Production-контур для multi-service платформы: GitOps-процессы, деплой, мониторинг, логирование и эксплуатационные изменения в production.</p><ul class="case-tags"><li>AWS</li><li>EKS</li><li>Kubernetes</li><li>Helm</li><li>GitLab CI/CD</li><li>ArgoCD</li></ul><a class="btn btn-secondary" href="pages/case-studies.html">Открыть кейсы</a></article>
-<article class="case-card case-card-rich"><div class="case-kicker">очереди до 10 млн сообщений и high-throughput фоновые контуры</div><h3>Массовые Telegram-рассылки / большие очереди</h3><p>Не история про входящий high-RPS web, а про асинхронную массовую доставку: backlog, retries, rate limits, worker scaling и устойчивость dispatch-процессов.</p><ul class="case-tags"><li>Telegram</li><li>Redis</li><li>RabbitMQ</li><li>Kafka</li><li>Kubernetes</li><li>observability</li></ul><a class="btn btn-secondary" href="pages/case-studies.html">Открыть кейс</a></article>
-<article class="case-card case-card-rich"><div class="case-kicker">adjacent platform/data tooling вокруг production-контура</div><h3>Retool, Debezium и задачи миграций</h3><p>Подтверждается только в зоне tgbot/tgbots: Retool в tgbot infra, Debezium для Postgres и Mongo в ArgoCD infra-apps и apply/revert migration flow в tgbot-чартах.</p><ul class="case-tags"><li>Retool</li><li>Debezium</li><li>Postgres CDC</li><li>Mongo CDC</li><li>migration jobs</li><li>ArgoCD</li></ul><a class="btn btn-secondary" href="pages/zeroonetech-evidence.html">Открыть разбор</a></article>
-<article class="case-card case-card-rich"><div class="case-kicker">релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден</div><h3>Azure, AKS и подготовка к PCI DSS</h3><p>IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.</p><ul class="case-tags"><li>Azure</li><li>AKS</li><li>Terraform</li><li>Terragrunt</li><li>FluxCD</li><li>Key Vault</li></ul><a class="btn btn-secondary" href="pages/case-studies.html">Смотреть кейс</a></article>
-<article class="case-card case-card-rich"><div class="case-kicker">публичный toolkit на 137 файлов и полный bootstrap-поток</div><h3>Yandex Cloud и платформенный набор</h3><p>Платформенный набор под YC: VPC, security groups, VPN VM, runner, Kubernetes, Vault, ArgoCD и эксплуатационная документация.</p><ul class="case-tags"><li>Yandex Cloud</li><li>Terragrunt</li><li>ArgoCD</li><li>Vault</li><li>GitLab CI/CD</li></ul><a class="btn btn-secondary" href="artifacts/k8s-box/README.md">Открыть k8s-box</a></article>
-<article class="case-card case-card-rich"><div class="case-kicker">отдельный публичный артефакт по stateful-сервисам и recovery workflow</div><h3>Автоматизация резервного копирования и восстановления</h3><p>Toolkit по резервному копированию и восстановлению: backup/restore скрипты, CronJob-процессы, Docker utility-образы и оповещения.</p><ul class="case-tags"><li>Python</li><li>Kubernetes</li><li>AWS S3</li><li>PostgreSQL</li><li>MongoDB</li><li>Slack</li></ul><a class="btn btn-secondary" href="artifacts/backup-automation/README.md">Открыть backup toolkit</a></article>
-<article class="case-card case-card-rich"><div class="case-kicker">публичный bundle с кодом бота и Kubernetes/GitOps deployment-контуром</div><h3>Контур доставки Telegram-бота</h3><p>Sanitized-пакет с кодом Telegram-бота, Dockerfile, PROMPTS.md, values по окружениям, ApplicationSet, Vault secret delivery, ExternalDNS и Istio routing.</p><ul class="case-tags"><li>Python</li><li>Telegram API</li><li>Helm</li><li>ArgoCD</li><li>Vault</li><li>Istio</li></ul><a class="btn btn-secondary" href="artifacts/telegram-bot-delivery/README.md">Открыть bundle</a></article>
+        <article class="case-card case-card-rich" data-filter-item data-tags="aws eks kubernetes helm gitlab ci/cd argocd"><div class="case-kicker">100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день</div><h3>GitOps и Kubernetes в production</h3><p>Production-контур для multi-service платформы: GitOps-процессы, деплой, мониторинг, логирование и эксплуатационные изменения в production.</p><ul class="case-tags"><li>AWS</li><li>EKS</li><li>Kubernetes</li><li>Helm</li><li>GitLab CI/CD</li><li>ArgoCD</li></ul><a class="btn btn-secondary" href="pages/case-studies.html">Открыть кейсы</a></article>
+<article class="case-card case-card-rich" data-filter-item data-tags="telegram redis rabbitmq kafka kubernetes observability"><div class="case-kicker">очереди до 10 млн сообщений и high-throughput фоновые контуры</div><h3>Массовые Telegram-рассылки / большие очереди</h3><p>Не история про входящий high-RPS web, а про асинхронную массовую доставку: backlog, retries, rate limits, worker scaling и устойчивость dispatch-процессов.</p><ul class="case-tags"><li>Telegram</li><li>Redis</li><li>RabbitMQ</li><li>Kafka</li><li>Kubernetes</li><li>observability</li></ul><a class="btn btn-secondary" href="pages/case-studies.html">Открыть кейс</a></article>
+<article class="case-card case-card-rich" data-filter-item data-tags="retool debezium postgres cdc mongo cdc migration jobs argocd"><div class="case-kicker">adjacent platform/data tooling вокруг production-контура</div><h3>Retool, Debezium и задачи миграций</h3><p>Подтверждается только в зоне tgbot/tgbots: Retool в tgbot infra, Debezium для Postgres и Mongo в ArgoCD infra-apps и apply/revert migration flow в tgbot-чартах.</p><ul class="case-tags"><li>Retool</li><li>Debezium</li><li>Postgres CDC</li><li>Mongo CDC</li><li>migration jobs</li><li>ArgoCD</li></ul><a class="btn btn-secondary" href="pages/zeroonetech-evidence.html">Открыть разбор</a></article>
+<article class="case-card case-card-rich" data-filter-item data-tags="azure aks terraform terragrunt fluxcd key vault"><div class="case-kicker">релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден</div><h3>Azure, AKS и подготовка к PCI DSS</h3><p>IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.</p><ul class="case-tags"><li>Azure</li><li>AKS</li><li>Terraform</li><li>Terragrunt</li><li>FluxCD</li><li>Key Vault</li></ul><a class="btn btn-secondary" href="pages/case-studies.html">Смотреть кейс</a></article>
+<article class="case-card case-card-rich" data-filter-item data-tags="yandex cloud terragrunt argocd vault gitlab ci/cd"><div class="case-kicker">публичный toolkit на 137 файлов и полный bootstrap-поток</div><h3>Yandex Cloud и платформенный набор</h3><p>Платформенный набор под YC: VPC, security groups, VPN VM, runner, Kubernetes, Vault, ArgoCD и эксплуатационная документация.</p><ul class="case-tags"><li>Yandex Cloud</li><li>Terragrunt</li><li>ArgoCD</li><li>Vault</li><li>GitLab CI/CD</li></ul><a class="btn btn-secondary" href="artifacts/k8s-box/README.md">Открыть k8s-box</a></article>
+<article class="case-card case-card-rich" data-filter-item data-tags="python kubernetes aws s3 postgresql mongodb slack"><div class="case-kicker">отдельный публичный артефакт по stateful-сервисам и recovery workflow</div><h3>Автоматизация резервного копирования и восстановления</h3><p>Toolkit по резервному копированию и восстановлению: backup/restore скрипты, CronJob-процессы, Docker utility-образы и оповещения.</p><ul class="case-tags"><li>Python</li><li>Kubernetes</li><li>AWS S3</li><li>PostgreSQL</li><li>MongoDB</li><li>Slack</li></ul><a class="btn btn-secondary" href="artifacts/backup-automation/README.md">Открыть backup toolkit</a></article>
+<article class="case-card case-card-rich" data-filter-item data-tags="python telegram api helm argocd vault istio"><div class="case-kicker">публичный bundle с кодом бота и Kubernetes/GitOps deployment-контуром</div><h3>Контур доставки Telegram-бота</h3><p>Sanitized-пакет с кодом Telegram-бота, Dockerfile, PROMPTS.md, values по окружениям, ApplicationSet, Vault secret delivery, ExternalDNS и Istio routing.</p><ul class="case-tags"><li>Python</li><li>Telegram API</li><li>Helm</li><li>ArgoCD</li><li>Vault</li><li>Istio</li></ul><a class="btn btn-secondary" href="artifacts/telegram-bot-delivery/README.md">Открыть bundle</a></article>
+      </div>
+    </section>
+
+    <section class="panel interview-panel" id="interview">
+      <div class="section-head"><p class="eyebrow">Подготовка к собеседованию</p><h2>О чём можно говорить предметно</h2></div>
+      <div class="interview-grid">
+        <article><h3>Kubernetes и GitOps</h3><p>Как выстраивал delivery: Helm, ApplicationSet, окружения, секреты, ingress и эксплуатационные изменения.</p></article>
+        <article><h3>Надёжность и восстановление</h3><p>Backup/restore для stateful-сервисов, CronJob-процессы, S3, оповещения и проверяемые recovery-сценарии.</p></article>
+        <article><h3>Асинхронные контуры</h3><p>Очереди, backlog, retries, rate limits, масштабирование worker-слоя и наблюдаемость фоновой доставки.</p></article>
+        <article><h3>Платформенный слой</h3><p>Terraform/Terragrunt, облачные ресурсы, Vault, runner, GitOps bootstrap и runbooks для поддержки команды.</p></article>
       </div>
     </section>
 
@@ -223,13 +271,20 @@
         <p class="eyebrow">Артефакты</p>
         <h2>Публичные технические доказательства</h2>
       </div>
+      <div class="filter-bar" data-filter-target="#artifacts" aria-label="Фильтр артефактов">
+        <button class="filter-button is-active" type="button" data-filter="all">Все</button>
+        <button class="filter-button" type="button" data-filter="kubernetes argocd helm">Kubernetes / GitOps</button>
+        <button class="filter-button" type="button" data-filter="terraform terragrunt">Terraform / IaC</button>
+        <button class="filter-button" type="button" data-filter="postgresql mongodb backup">Backup / данные</button>
+        <button class="filter-button" type="button" data-filter="python github actions">Автоматизация</button>
+      </div>
       <div class="artifact-grid">
-        <article class="artifact-card"><h3>Набор автоматизации резервного копирования и восстановления</h3><p>Пакет с redacted-скриптами и конфигурацией для backup/restore процессов: Python, shell, Kubernetes CronJob, S3/AWS, Secrets Manager, PostgreSQL, MariaDB и MongoDB.</p><ul class="artifact-tags"><li>Python</li><li>Kubernetes</li><li>AWS/S3</li><li>PostgreSQL</li><li>MongoDB</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/backup-automation/README.md">Открыть артефакт</a><a class="btn btn-secondary" href="pages/artifact-evidence.html">Смотреть разбор</a></div></article>
-<article class="artifact-card"><h3>Платформенный набор k8s-box</h3><p>Публичная sanitized-копия рабочего набора для Yandex Cloud: Terraform, Terragrunt, ArgoCD, Vault, GitLab CI/CD, VPN VM, profile-driven bootstrap и эксплуатационная документация.</p><ul class="artifact-tags"><li>Yandex Cloud</li><li>Terraform</li><li>Terragrunt</li><li>ArgoCD</li><li>Vault</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/k8s-box/README.md">Открыть k8s-box</a><a class="btn btn-secondary" href="artifacts/k8s-box/PORTFOLIO_NOTES.md">Что включено</a></div></article>
-<article class="artifact-card"><h3>VPS VPN-сервер</h3><p>Безопасный публичный шаблон личного VPS-контура: Docker Compose, Xray, VLESS поверх WebSocket, обратный прокси Nginx и TLS. Активные доступы и клиентские профили исключены.</p><ul class="artifact-tags"><li>Linux</li><li>Docker Compose</li><li>Nginx</li><li>TLS</li><li>WebSocket</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/vps-vpn-server/README.md">Открыть артефакт</a><a class="btn btn-secondary" href="pages/zeroonetech-evidence.html">Сетевой контекст tgbots</a></div></article>
-<article class="artifact-card"><h3>Демо-стенд Platform Engineering</h3><p>Отдельный воспроизводимый стенд под техпроверку: Terraform, Kubernetes, observability stack, smoke-test и GitHub Actions.</p><ul class="artifact-tags"><li>Terraform</li><li>kind</li><li>Prometheus</li><li>Grafana</li><li>GitHub Actions</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="pages/platform-engineering-demo.html">Открыть демо</a><a class="btn btn-secondary" href="projects/platform-engineering-demo/README.md">Читать README</a></div></article>
-<article class="artifact-card"><h3>Контур доставки Telegram-бота</h3><p>Публичный bundle с кодом Telegram-бота на Python и рядом deployment-конфигами: Helm values, ArgoCD ApplicationSet, Vault, ExternalDNS и Istio Gateway.</p><ul class="artifact-tags"><li>Python</li><li>Telegram API</li><li>Helm</li><li>ArgoCD</li><li>Vault</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/telegram-bot-delivery/README.md">Открыть bundle</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/telegram-bot-delivery">GitHub repo</a></div></article>
-<article class="artifact-card"><h3>Tgbot/tgbots evidence</h3><p>Отдельная публичная выжимка только по tgbot/tgbots-путям: Retool, Debezium и migration flow без чужих проектных контуров.</p><ul class="artifact-tags"><li>Retool</li><li>Debezium</li><li>DB migrations</li><li>ArgoCD</li><li>tgbots</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="pages/zeroonetech-evidence.html">Открыть разбор</a><a class="btn btn-secondary" href="pages/case-studies.html">Смотреть кейсы</a></div></article>
+        <article class="artifact-card" data-filter-item data-tags="python kubernetes aws/s3 postgresql mongodb"><h3>Набор автоматизации резервного копирования и восстановления</h3><p>Пакет с redacted-скриптами и конфигурацией для backup/restore процессов: Python, shell, Kubernetes CronJob, S3/AWS, Secrets Manager, PostgreSQL, MariaDB и MongoDB.</p><ul class="artifact-tags"><li>Python</li><li>Kubernetes</li><li>AWS/S3</li><li>PostgreSQL</li><li>MongoDB</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/backup-automation/README.md">Открыть артефакт</a><a class="btn btn-secondary" href="pages/artifact-evidence.html">Смотреть разбор</a></div></article>
+<article class="artifact-card" data-filter-item data-tags="yandex cloud terraform terragrunt argocd vault"><h3>Платформенный набор k8s-box</h3><p>Публичная sanitized-копия рабочего набора для Yandex Cloud: Terraform, Terragrunt, ArgoCD, Vault, GitLab CI/CD, VPN VM, profile-driven bootstrap и эксплуатационная документация.</p><ul class="artifact-tags"><li>Yandex Cloud</li><li>Terraform</li><li>Terragrunt</li><li>ArgoCD</li><li>Vault</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/k8s-box/README.md">Открыть k8s-box</a><a class="btn btn-secondary" href="artifacts/k8s-box/PORTFOLIO_NOTES.md">Что включено</a></div></article>
+<article class="artifact-card" data-filter-item data-tags="linux docker compose nginx tls websocket"><h3>VPS VPN-сервер</h3><p>Безопасный публичный шаблон личного VPS-контура: Docker Compose, Xray, VLESS поверх WebSocket, обратный прокси Nginx и TLS. Активные доступы и клиентские профили исключены.</p><ul class="artifact-tags"><li>Linux</li><li>Docker Compose</li><li>Nginx</li><li>TLS</li><li>WebSocket</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/vps-vpn-server/README.md">Открыть артефакт</a><a class="btn btn-secondary" href="pages/zeroonetech-evidence.html">Сетевой контекст tgbots</a></div></article>
+<article class="artifact-card" data-filter-item data-tags="terraform kind prometheus grafana github actions"><h3>Демо-стенд Platform Engineering</h3><p>Отдельный воспроизводимый стенд под техпроверку: Terraform, Kubernetes, observability stack, smoke-test и GitHub Actions.</p><ul class="artifact-tags"><li>Terraform</li><li>kind</li><li>Prometheus</li><li>Grafana</li><li>GitHub Actions</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="pages/platform-engineering-demo.html">Открыть демо</a><a class="btn btn-secondary" href="projects/platform-engineering-demo/README.md">Читать README</a></div></article>
+<article class="artifact-card" data-filter-item data-tags="python telegram api helm argocd vault"><h3>Контур доставки Telegram-бота</h3><p>Публичный bundle с кодом Telegram-бота на Python и рядом deployment-конфигами: Helm values, ArgoCD ApplicationSet, Vault, ExternalDNS и Istio Gateway.</p><ul class="artifact-tags"><li>Python</li><li>Telegram API</li><li>Helm</li><li>ArgoCD</li><li>Vault</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="artifacts/telegram-bot-delivery/README.md">Открыть bundle</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/telegram-bot-delivery">GitHub repo</a></div></article>
+<article class="artifact-card" data-filter-item data-tags="retool debezium db migrations argocd tgbots"><h3>Tgbot/tgbots evidence</h3><p>Отдельная публичная выжимка только по tgbot/tgbots-путям: Retool, Debezium и migration flow без чужих проектных контуров.</p><ul class="artifact-tags"><li>Retool</li><li>Debezium</li><li>DB migrations</li><li>ArgoCD</li><li>tgbots</li></ul><div class="artifact-actions"><a class="btn btn-primary" href="pages/zeroonetech-evidence.html">Открыть разбор</a><a class="btn btn-secondary" href="pages/case-studies.html">Смотреть кейсы</a></div></article>
       </div>
     </section>
 

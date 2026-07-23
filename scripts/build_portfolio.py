@@ -1528,7 +1528,9 @@ def write_landing_page(
     )
     case_cards_html = "\n".join(
         (
-            '<article class="case-card case-card-rich">'
+            '<article class="case-card case-card-rich" data-filter-item data-tags="'
+            + escape(" ".join(card["stack"]).lower())
+            + '">'
             f'<div class="case-kicker">{escape(card["result"])}</div>'
             f'<h3>{escape(card["title"])}</h3>'
             f'<p>{escape(card["text"])}</p>'
@@ -1659,7 +1661,9 @@ def write_landing_page(
     )
     artifact_cards_html = "\n".join(
         (
-            '<article class="artifact-card">'
+            '<article class="artifact-card" data-filter-item data-tags="'
+            + escape(" ".join(card["tags"]).lower())
+            + '">'
             f'<h3>{escape(card["title"])}</h3>'
             f'<p>{escape(card["text"])}</p>'
             '<ul class="artifact-tags">'
@@ -1710,13 +1714,18 @@ def write_landing_page(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Максим Тюрин • Портфолио DevOps / Platform Engineer</title>
-  <meta name="description" content="Портфолио DevOps / Platform Engineer с подтверждаемыми артефактами: git-статистика, кейсы, графики, демо-проект.">
+  <title>Максим Тюрин — DevOps / SRE / Platform Engineer</title>
+  <meta name="description" content="DevOps / SRE / Platform Engineer: Kubernetes, GitOps, Terraform, CI/CD, observability, backup/recovery и публичные технические артефакты.">
+  <meta property="og:title" content="Максим Тюрин — DevOps / SRE / Platform Engineer">
+  <meta property="og:description" content="Публичные кейсы, демо-стенды и подтверждаемые артефакты по инфраструктуре и эксплуатации.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{SITE_URL}">
   <link rel="canonical" href="{SITE_URL}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css">
+  <script src="assets/site.js" defer></script>
 </head>
 <body>
   <div class="bg-orb bg-orb-a"></div>
@@ -1725,26 +1734,25 @@ def write_landing_page(
     <nav class="topbar">
       <a class="brand" href="#top">Максим Тюрин</a>
       <div class="topbar-links">
-        <a href="#overview">Обзор</a>
-        <a href="#results">Результаты</a>
+        <a href="#modes">Режимы</a>
+        <a href="#hr-summary">Для HR</a>
         <a href="#stack">Стек</a>
         {skills_nav_link}
-        <a href="#charts">Графики</a>
-        <a href="#timeline">Таймлайн</a>
-        <a href="#artifacts">Артефакты</a>
         <a href="#cases">Кейсы</a>
+        <a href="#artifacts">Артефакты</a>
         <a href="#demo">Стенд</a>
         <a href="#contacts">Контакты</a>
       </div>
     </nav>
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">DevOps / Platform Engineer</p>
-        <h1>DevOps / Platform Engineer: подтверждённый опыт, кейсы и артефакты</h1>
-        <p class="hero-lead">Портфолио собрано по локальному архиву рабочих каталогов, git-истории и публичным артефактам. Здесь сведены подтверждаемые материалы по Kubernetes, Terraform, GitOps, CI/CD, observability и эксплуатации сервисов.</p>
+        <p class="eyebrow">DevOps / SRE / Platform Engineer · Пермь</p>
+        <h1>Инфраструктура, которую можно проверить по коду и артефактам</h1>
+        <p class="hero-lead">Kubernetes, GitOps, Terraform, CI/CD, observability и production automation. Ниже — публичные кейсы, демо-стенды, документация и инфраструктурные наработки без неподтверждённых заявлений.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#overview">Для HR</a>
-          <a class="btn btn-secondary" href="#tech">Для техспециалиста</a>
+          <a class="btn btn-primary" href="#hr-summary" data-set-mode="hr">Посмотреть кратко для HR</a>
+          <a class="btn btn-secondary" href="#cases" data-set-mode="tech">Открыть технические доказательства</a>
+          <button class="btn btn-ghost" type="button" data-copy="hr">Скопировать краткое описание</button>
         </div>
         <div class="hero-links">
           <a href="artifacts/backup-automation/README.md">Backup automation</a>
@@ -1773,6 +1781,33 @@ def write_landing_page(
   </header>
 
   <main class="page">
+    <section class="panel mode-panel" id="modes" aria-labelledby="modes-title">
+      <div class="section-head">
+        <p class="eyebrow">Режим просмотра</p>
+        <h2 id="modes-title">В каком формате показать портфолио?</h2>
+        <p class="section-note" data-mode-description>Короткая выжимка о роли, стеке и сильных доказательствах.</p>
+      </div>
+      <div class="mode-grid" role="group" aria-label="Выбор режима просмотра">
+        <button class="mode-card" type="button" data-mode="hr"><strong>Кратко для HR</strong><span>Роли, стек, сильные факты и контакты — за минуту.</span></button>
+        <button class="mode-card" type="button" data-mode="tech"><strong>Подробно для технического специалиста</strong><span>Кейсы, решения, стек и прямые ссылки на код.</span></button>
+        <button class="mode-card" type="button" data-mode="interview"><strong>Подготовка к собеседованию</strong><span>Тезисы и темы для предметного разговора.</span></button>
+        <button class="mode-card" type="button" data-mode="ai"><strong>AI / Data / MLOps infrastructure</strong><span>Инфраструктурная применимость: Kubernetes, очереди, данные и автоматизация.</span></button>
+      </div>
+    </section>
+
+    <section class="panel hr-summary" id="hr-summary">
+      <div class="section-head">
+        <p class="eyebrow">Кратко для HR</p>
+        <h2>DevOps / SRE / Platform Engineer с проверяемыми примерами работы</h2>
+      </div>
+      <div class="hr-grid">
+        <div><h3>Подходящие роли</h3><p>DevOps Engineer, SRE, Platform Engineer, Infrastructure Engineer. Смежно — инфраструктура для AI / Data / MLOps-нагрузок.</p></div>
+        <div><h3>Основной стек</h3><p>Kubernetes, GitOps, Terraform, CI/CD, Helm, облачная инфраструктура, observability, backup/recovery и автоматизация на Python/shell.</p></div>
+        <div><h3>Что быстро проверить</h3><p>Публичный стенд, набор k8s-box, backup/restore toolkit, GitOps-конфигурация и документация по эксплуатации.</p></div>
+      </div>
+      <div class="intro-actions"><a class="btn btn-primary" href="pages/resume.html">Открыть резюме</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio">GitHub</a><button class="btn btn-ghost" type="button" data-copy="tech">Скопировать техническое интро</button></div>
+    </section>
+
     <section class="panel" id="overview">
       <div class="section-head">
         <p class="eyebrow">Обзор</p>
@@ -1874,8 +1909,25 @@ def write_landing_page(
         <p class="eyebrow">Кейсы</p>
         <h2>Кейсы с результатом, стеком и прямым входом</h2>
       </div>
+      <div class="filter-bar" data-filter-target="#cases" aria-label="Фильтр кейсов">
+        <button class="filter-button is-active" type="button" data-filter="all">Все</button>
+        <button class="filter-button" type="button" data-filter="kubernetes gitops">Kubernetes / GitOps</button>
+        <button class="filter-button" type="button" data-filter="terraform terragrunt">Terraform / IaC</button>
+        <button class="filter-button" type="button" data-filter="observability backup">Наблюдаемость / Backup</button>
+        <button class="filter-button" type="button" data-filter="kafka rabbitmq debezium">Data / очереди</button>
+      </div>
       <div class="case-grid">
         {case_cards_html}
+      </div>
+    </section>
+
+    <section class="panel interview-panel" id="interview">
+      <div class="section-head"><p class="eyebrow">Подготовка к собеседованию</p><h2>О чём можно говорить предметно</h2></div>
+      <div class="interview-grid">
+        <article><h3>Kubernetes и GitOps</h3><p>Как выстраивал delivery: Helm, ApplicationSet, окружения, секреты, ingress и эксплуатационные изменения.</p></article>
+        <article><h3>Надёжность и восстановление</h3><p>Backup/restore для stateful-сервисов, CronJob-процессы, S3, оповещения и проверяемые recovery-сценарии.</p></article>
+        <article><h3>Асинхронные контуры</h3><p>Очереди, backlog, retries, rate limits, масштабирование worker-слоя и наблюдаемость фоновой доставки.</p></article>
+        <article><h3>Платформенный слой</h3><p>Terraform/Terragrunt, облачные ресурсы, Vault, runner, GitOps bootstrap и runbooks для поддержки команды.</p></article>
       </div>
     </section>
 
@@ -1893,6 +1945,13 @@ def write_landing_page(
       <div class="section-head">
         <p class="eyebrow">Артефакты</p>
         <h2>Публичные технические доказательства</h2>
+      </div>
+      <div class="filter-bar" data-filter-target="#artifacts" aria-label="Фильтр артефактов">
+        <button class="filter-button is-active" type="button" data-filter="all">Все</button>
+        <button class="filter-button" type="button" data-filter="kubernetes argocd helm">Kubernetes / GitOps</button>
+        <button class="filter-button" type="button" data-filter="terraform terragrunt">Terraform / IaC</button>
+        <button class="filter-button" type="button" data-filter="postgresql mongodb backup">Backup / данные</button>
+        <button class="filter-button" type="button" data-filter="python github actions">Автоматизация</button>
       </div>
       <div class="artifact-grid">
         {artifact_cards_html}
