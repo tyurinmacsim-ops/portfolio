@@ -22,6 +22,8 @@
 - Что можно честно добавлять в рассказ про этот период:
   - это был не только web/microservice production, но и асинхронные Telegram-контуры массовой доставки;
   - помимо самих Telegram-контуров есть подтверждаемые deployment-артефакты: `Helm` values, `ApplicationSet`, `Vault`-based secret delivery, `ExternalDNS`, `Istio Gateway`;
+  - по `ZeroOneTech` есть дополнительный git-след по `Retool` rollout/support, `Debezium`-related компонентам и `PostgreSQL` migrator jobs;
+  - это даёт право аккуратно заявлять adjacent experience вокруг internal tooling, CDC/streaming и migration work по сервисным БД;
   - есть подтверждаемый след по migration work вокруг registry: `ECR`, `Artifactory`, `pull secrets`, `ArgoCD Image Updater`, CI templates и постепенный перевод production-сервисов;
   - очереди могли доходить до `10 млн` сообщений;
   - корректная формулировка здесь не `десятки тысяч RPS`, а `high-throughput queue-heavy workload`, где важны backlog, retries, rate limits, worker scaling и observability.

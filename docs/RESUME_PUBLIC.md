@@ -42,6 +42,7 @@ DevOps / Platform Engineer с `4+` годами коммерческого оп�
 - `GitLab CI/CD`, `ArgoCD`, `FluxCD`, `Terraform`, `Terragrunt`
 - production-контур с `100+` микросервисами
 - асинхронные Telegram-контуры с массовой доставкой и большими очередями до `10 млн` сообщений
+- adjacent platform/data tooling: `Retool`, `Debezium` / `Kafka Connect`, `PostgreSQL` migrator jobs, migration-процессы вокруг сервисных БД
 - deployment-связки для Telegram bot/API-сервисов: `Helm`, `ArgoCD ApplicationSet`, values по окружениям, `Vault`, `ExternalDNS`, `Istio Gateway`
 - observability: `Prometheus`, `Grafana`, `Loki`, `VictoriaMetrics`
 

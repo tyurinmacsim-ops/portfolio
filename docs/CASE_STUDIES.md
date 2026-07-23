@@ -32,21 +32,29 @@
 - Что это доказывает: опыт не просто с registry как таковым, а с безопасной миграцией production-сервисов, когда часть системы ещё живёт на старом контуре, а часть уже собирается и выкатывается через новый.
 - Почему это важно: в таких миграциях меняется не только URL образа. Обычно приходится одновременно трогать CI, image updater, naming conventions, доступы к registry, pull secrets и GitOps-конфигурацию.
 
-## 5. Azure / AKS / PCI DSS readiness
+## 5. Retool / Debezium / DB migrators
+
+- Контекст: помимо основного Telegram-контура в работе были adjacent internal/data сервисы: `Retool`, `Debezium` / `Kafka Connect`-связки и `PostgreSQL` migrator jobs.
+- Что делал: участвовал в rollout и поддержке `Retool`-контуров, обновлении переменных и FQDN/infra-настроек; сопровождал `Debezium`-related компоненты и `CDC`-связки; работал с `migrator`-job и migration-контурами для сервисных баз в `Helm` / `FluxCD` / `ArgoCD`-структуре.
+- Что подтверждается git-историей: в `fluxcd`, `rnd-argocd`, `ops`, `iac` и `rnd-charts` есть прямой след по `Retool`, `debezium-operator`, `init prod debezium postgres`, `migrator`, `migration job` и related rollout-изменениям.
+- Что это доказывает: опыт не только в стандартном `k8s + CI/CD`, но и в platform/data tooling вокруг production-систем: internal admin tooling, CDC/streaming-компоненты и контролируемые миграции схем/сервисных баз.
+- Почему это важно: такие задачи показывают, что зона ответственности включала не только delivery приложений, но и более тонкий слой эксплуатационных зависимостей вокруг данных, внутренних инструментов и переходных migration-процессов.
+
+## 6. Azure / AKS / PCI DSS readiness
 
 - Контекст: fintech-инфраструктура в Azure.
 - Что делал: IaC на `Terraform/Terragrunt`, GitOps через `FluxCD + GitLab CI`, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.
 - Что это доказывает: опыт не только deployment-задач, но и platform/security-oriented DevOps работы.
 - Результат: подготовка инфраструктурного контура к внешнему аудиту, ускорение релизного цикла и снижение эксплуатационных рисков.
 
-## 6. Yandex Cloud / аналитическая платформа
+## 7. Yandex Cloud / аналитическая платформа
 
 - Контекст: инфраструктура аналитической платформы в Yandex Cloud.
 - Что делал: сопровождение Kubernetes-кластера, CI/CD и GitOps-процессов, эксплуатация Airflow / Trino / JupyterHub / GitLab Runner, работа с Vault / External Secrets, ingress, registry и observability.
 - Что это доказывает: уверенную работу в облаке, платформенных сервисах и data-инфраструктуре.
 - Результат: поддержка production/dev контуров, развитие платформы и снижение ручной нагрузки на сопровождение.
 
-## 7. Backup / Restore automation toolkit
+## 8. Backup / Restore automation toolkit
 
 - Контекст: отдельный рабочий каталог с эксплуатационными артефактами по резервному копированию, восстановлению и миграции данных.
 - Подтверждающие артефакты: Python-скрипты `daily_backups_lambda.py`, `restore_backups.py`, `daily_backups_mongodb.py`, Kubernetes manifests для cron-based backup/restore задач, Dockerfiles и shell-сценарии экспорта.

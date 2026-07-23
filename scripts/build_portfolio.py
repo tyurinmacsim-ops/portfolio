@@ -1351,6 +1351,13 @@ def write_landing_page(
             "link": ("Открыть кейс", "pages/case-studies.html"),
         },
         {
+            "title": "Retool / Debezium / DB migrations",
+            "result": "adjacent platform/data tooling вокруг production-контура",
+            "stack": ["Retool", "Debezium", "Kafka Connect", "PostgreSQL", "migrator jobs", "GitOps"],
+            "text": "Есть подтверждаемый git-след по rollout/support Retool, Debezium-related компонентам и migrator-контурам для сервисных БД в FluxCD/ArgoCD/Helm-структуре.",
+            "link": ("Открыть кейс", "pages/case-studies.html"),
+        },
+        {
             "title": "Azure / AKS / PCI DSS readiness",
             "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
             "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
