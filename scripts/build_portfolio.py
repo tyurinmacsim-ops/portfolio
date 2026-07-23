@@ -1355,6 +1355,11 @@ def write_landing_page(
             "result": "100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день",
             "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD"],
             "text": "Production-контур для multi-service платформы: GitOps-процессы, деплой, мониторинг, логирование и эксплуатационные изменения в production.",
+            "role": "DevOps / Platform Engineer",
+            "categories": ["platform", "kubernetes", "gitops", "cicd", "observability"],
+            "flow": ["GitLab CI", "Helm", "ArgoCD", "EKS"],
+            "interview": "Разделение CI и CD, структура окружений, rollout-процесс, доставка секретов и эксплуатация изменений в многосервисном контуре.",
+            "limitation": "Публично показаны обезличенные артефакты и агрегированная история: приватный клиентский код и конфигурация production не раскрываются.",
             "link": ("Открыть кейсы", "pages/case-studies.html"),
         },
         {
@@ -1362,6 +1367,11 @@ def write_landing_page(
             "result": "очереди до 10 млн сообщений и high-throughput фоновые контуры",
             "stack": ["Telegram", "Redis", "RabbitMQ", "Kafka", "Kubernetes", "observability"],
             "text": "Не история про входящий high-RPS web, а про асинхронную массовую доставку: backlog, retries, rate limits, worker scaling и устойчивость dispatch-процессов.",
+            "role": "SRE / Infrastructure Engineer",
+            "categories": ["sre", "kubernetes", "observability", "data", "mlops"],
+            "flow": ["Очередь", "Worker-пулы", "Rate limits", "Метрики"],
+            "interview": "Backlog, retries, rate limits, масштабирование worker-слоя и диагностика узких мест асинхронной доставки.",
+            "limitation": "Это кейс про фоновые high-throughput-процессы и большие очереди, а не про заявленный высокий входящий HTTP RPS.",
             "link": ("Открыть кейс", "pages/case-studies.html"),
         },
         {
@@ -1369,6 +1379,11 @@ def write_landing_page(
             "result": "adjacent platform/data tooling вокруг production-контура",
             "stack": ["Retool", "Debezium", "Postgres CDC", "Mongo CDC", "migration jobs", "ArgoCD"],
             "text": "Подтверждается только в зоне tgbot/tgbots: Retool в tgbot infra, Debezium для Postgres и Mongo в ArgoCD infra-apps и apply/revert migration flow в tgbot-чартах.",
+            "role": "Platform / Data Infrastructure",
+            "categories": ["platform", "data", "gitops", "mlops"],
+            "flow": ["Postgres / Mongo", "Debezium", "CDC", "Consumers"],
+            "interview": "Развёртывание CDC-компонентов через GitOps и контролируемый apply/revert flow миграций рядом с релизом приложения.",
+            "limitation": "Артефакты доказывают наличие migration flow, но не дают основания приписывать конкретный движок БД каждой миграции.",
             "link": ("Открыть разбор", "pages/zeroonetech-evidence.html"),
         },
         {
@@ -1376,6 +1391,11 @@ def write_landing_page(
             "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
             "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
             "text": "IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.",
+            "role": "DevOps / Cloud Engineer",
+            "categories": ["platform", "kubernetes", "iac", "gitops", "security", "mlops"],
+            "flow": ["Terraform", "AKS", "FluxCD", "Key Vault"],
+            "interview": "Private ingress, network policies, секреты, audit trail и границы ответственности IaC/GitOps в security-oriented контуре.",
+            "limitation": "Портфолио описывает инфраструктурную подготовку и пройденный аудит, но не выдаёт её за личную сертификацию PCI DSS.",
             "link": ("Смотреть кейс", "pages/case-studies.html"),
         },
         {
@@ -1383,6 +1403,11 @@ def write_landing_page(
             "result": "публичный toolkit на 137 файлов и полный bootstrap-поток",
             "stack": ["Yandex Cloud", "Terragrunt", "ArgoCD", "Vault", "GitLab CI/CD"],
             "text": "Платформенный набор под YC: VPC, security groups, VPN VM, runner, Kubernetes, Vault, ArgoCD и эксплуатационная документация.",
+            "role": "Platform Engineer",
+            "categories": ["platform", "kubernetes", "iac", "gitops", "security", "mlops"],
+            "flow": ["Terragrunt", "Yandex Cloud", "Vault", "ArgoCD"],
+            "interview": "Bootstrap платформы, профили окружений, границы Terraform/Terragrunt-модулей, секреты и day-2 runbooks.",
+            "limitation": "Набор обезличен: токены, состояния, активные адреса и привязка к конкретной организации исключены.",
             "link": ("Открыть k8s-box", "artifacts/k8s-box/README.md"),
         },
         {
@@ -1390,6 +1415,11 @@ def write_landing_page(
             "result": "отдельный публичный артефакт по stateful-сервисам и recovery workflow",
             "stack": ["Python", "Kubernetes", "AWS S3", "PostgreSQL", "MongoDB", "Slack"],
             "text": "Toolkit по резервному копированию и восстановлению: backup/restore скрипты, CronJob-процессы, Docker utility-образы и оповещения.",
+            "role": "SRE / Infrastructure Engineer",
+            "categories": ["sre", "kubernetes", "automation", "data", "observability", "mlops"],
+            "flow": ["CronJob", "Dump / export", "S3", "Проверка / restore"],
+            "interview": "Политика backup, обработка ошибок, хранение, уведомления и почему восстановление нужно проверять отдельным сценарием.",
+            "limitation": "Публичная версия показывает workflow и код, но не содержит production-секретов, бакетов и расписаний клиента.",
             "link": ("Открыть backup toolkit", "artifacts/backup-automation/README.md"),
         },
         {
@@ -1397,6 +1427,11 @@ def write_landing_page(
             "result": "публичный bundle с кодом бота и Kubernetes/GitOps deployment-контуром",
             "stack": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault", "Istio"],
             "text": "Sanitized-пакет с кодом Telegram-бота, Dockerfile, PROMPTS.md, values по окружениям, ApplicationSet, Vault secret delivery, ExternalDNS и Istio routing.",
+            "role": "DevOps / Automation Engineer",
+            "categories": ["platform", "kubernetes", "automation", "gitops", "mlops"],
+            "flow": ["Python / Docker", "Helm", "ArgoCD", "Istio / DNS"],
+            "interview": "Упаковка сервиса, values по окружениям, ApplicationSet, доставка секретов, DNS и ingress-routing.",
+            "limitation": "Это демонстрационный обезличенный bundle: бизнес-логика и действующие реквизиты интеграций удалены.",
             "link": ("Открыть bundle", "artifacts/telegram-bot-delivery/README.md"),
         },
     ]
@@ -1444,6 +1479,8 @@ def write_landing_page(
             "title": "Набор автоматизации резервного копирования и восстановления",
             "text": "Пакет с redacted-скриптами и конфигурацией для backup/restore процессов: Python, shell, Kubernetes CronJob, S3/AWS, Secrets Manager, PostgreSQL, MariaDB и MongoDB.",
             "tags": ["Python", "Kubernetes", "AWS/S3", "PostgreSQL", "MongoDB"],
+            "type": "Код · runbook · конфигурация",
+            "categories": ["automation", "kubernetes", "sre", "data", "mlops"],
             "primary": ("Открыть артефакт", "artifacts/backup-automation/README.md"),
             "secondary": ("Смотреть разбор", "pages/artifact-evidence.html"),
         },
@@ -1451,6 +1488,8 @@ def write_landing_page(
             "title": "Платформенный набор k8s-box",
             "text": "Публичная sanitized-копия рабочего набора для Yandex Cloud: Terraform, Terragrunt, ArgoCD, Vault, GitLab CI/CD, VPN VM, profile-driven bootstrap и эксплуатационная документация.",
             "tags": ["Yandex Cloud", "Terraform", "Terragrunt", "ArgoCD", "Vault"],
+            "type": "IaC · GitOps · runbooks",
+            "categories": ["iac", "kubernetes", "gitops", "platform", "security", "mlops"],
             "primary": ("Открыть k8s-box", "artifacts/k8s-box/README.md"),
             "secondary": ("Что включено", "artifacts/k8s-box/PORTFOLIO_NOTES.md"),
         },
@@ -1458,6 +1497,8 @@ def write_landing_page(
             "title": "VPS VPN-сервер",
             "text": "Безопасный публичный шаблон личного VPS-контура: Docker Compose, Xray, VLESS поверх WebSocket, обратный прокси Nginx и TLS. Активные доступы и клиентские профили исключены.",
             "tags": ["Linux", "Docker Compose", "Nginx", "TLS", "WebSocket"],
+            "type": "Конфигурация · документация",
+            "categories": ["security", "automation"],
             "primary": ("Открыть артефакт", "artifacts/vps-vpn-server/README.md"),
             "secondary": ("Сетевой контекст tgbots", "pages/zeroonetech-evidence.html"),
         },
@@ -1465,6 +1506,8 @@ def write_landing_page(
             "title": "Демо-стенд Platform Engineering",
             "text": "Отдельный воспроизводимый стенд под техпроверку: Terraform, Kubernetes, observability stack, smoke-test и GitHub Actions.",
             "tags": ["Terraform", "kind", "Prometheus", "Grafana", "GitHub Actions"],
+            "type": "Демо · IaC · smoke-test",
+            "categories": ["iac", "kubernetes", "observability", "automation", "platform", "mlops"],
             "primary": ("Открыть демо", "pages/platform-engineering-demo.html"),
             "secondary": ("Читать README", "projects/platform-engineering-demo/README.md"),
         },
@@ -1472,6 +1515,8 @@ def write_landing_page(
             "title": "Контур доставки Telegram-бота",
             "text": "Публичный bundle с кодом Telegram-бота на Python и рядом deployment-конфигами: Helm values, ArgoCD ApplicationSet, Vault, ExternalDNS и Istio Gateway.",
             "tags": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault"],
+            "type": "Код · GitOps · конфигурация",
+            "categories": ["automation", "kubernetes", "gitops", "platform", "mlops"],
             "primary": ("Открыть bundle", "artifacts/telegram-bot-delivery/README.md"),
             "secondary": ("GitHub repo", TELEGRAM_BOT_BUNDLE_GITHUB_URL),
         },
@@ -1479,6 +1524,8 @@ def write_landing_page(
             "title": "Tgbot/tgbots evidence",
             "text": "Отдельная публичная выжимка только по tgbot/tgbots-путям: Retool, Debezium и migration flow без чужих проектных контуров.",
             "tags": ["Retool", "Debezium", "DB migrations", "ArgoCD", "tgbots"],
+            "type": "Evidence-разбор · data tooling",
+            "categories": ["data", "gitops", "platform", "mlops"],
             "primary": ("Открыть разбор", "pages/zeroonetech-evidence.html"),
             "secondary": ("Смотреть кейсы", "pages/case-studies.html"),
         },
@@ -1528,16 +1575,30 @@ def write_landing_page(
     )
     case_cards_html = "\n".join(
         (
-            '<article class="case-card case-card-rich" data-filter-item data-tags="'
-            + escape(" ".join(card["stack"]).lower())
+            '<article class="case-card case-card-rich" data-filter-item data-categories="'
+            + escape(" ".join(card["categories"]))
             + '">'
-            f'<div class="case-kicker">{escape(card["result"])}</div>'
+            '<div class="case-card-top">'
+            f'<span class="case-role">{escape(card["role"])}</span>'
+            f'<span class="case-kicker">{escape(card["result"])}</span>'
+            "</div>"
             f'<h3>{escape(card["title"])}</h3>'
             f'<p>{escape(card["text"])}</p>'
+            '<div class="case-flow" aria-label="Архитектурный поток">'
+            + "".join(
+                f'<span>{escape(step)}</span>{"" if index == len(card["flow"]) - 1 else "<i>→</i>"}'
+                for index, step in enumerate(card["flow"])
+            )
+            + "</div>"
             '<ul class="case-tags">'
             + "".join(f"<li>{escape(tag)}</li>" for tag in card["stack"])
             + "</ul>"
-            + f'<a class="btn btn-secondary" href="{escape(card["link"][1])}">{escape(card["link"][0])}</a>'
+            + '<details class="case-details">'
+            + '<summary>Что обсудить на интервью</summary>'
+            + f'<div><p><strong>Технический разговор:</strong> {escape(card["interview"])}</p>'
+            + f'<p><strong>Граница доказательств:</strong> {escape(card["limitation"])}</p></div>'
+            + "</details>"
+            + f'<a class="text-link" href="{escape(card["link"][1])}">{escape(card["link"][0])}<span aria-hidden="true">↗</span></a>'
             + "</article>"
         )
         for card in case_cards
@@ -1595,7 +1656,7 @@ def write_landing_page(
             for area in skills_profile["focus_areas"]
         )
         skills_section_html = f"""
-    <section class="panel" id="skills">
+    <section class="panel audience-section" id="skills" data-audiences="tech interview">
       <div class="section-head">
         <p class="eyebrow">Матрица навыков</p>
         <h2>Выжимка из заполненного DevOps-опросника</h2>
@@ -1661,9 +1722,10 @@ def write_landing_page(
     )
     artifact_cards_html = "\n".join(
         (
-            '<article class="artifact-card" data-filter-item data-tags="'
-            + escape(" ".join(card["tags"]).lower())
+            '<article class="artifact-card" data-filter-item data-categories="'
+            + escape(" ".join(card["categories"]))
             + '">'
+            f'<span class="artifact-type">{escape(card["type"])}</span>'
             f'<h3>{escape(card["title"])}</h3>'
             f'<p>{escape(card["text"])}</p>'
             '<ul class="artifact-tags">'
@@ -1720,61 +1782,58 @@ def write_landing_page(
   <meta property="og:description" content="Публичные кейсы, демо-стенды и подтверждаемые артефакты по инфраструктуре и эксплуатации.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{SITE_URL}">
+  <meta name="theme-color" content="#07110f">
   <link rel="canonical" href="{SITE_URL}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2307110f%22/><path d=%22M15 20h11l6 12 6-12h11L36 45h-8z%22 fill=%22%236ee7b7%22/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/site.css">
-  <script src="assets/site.js" defer></script>
+  <link rel="stylesheet" href="assets/site.css?v=20260723">
+  <link rel="stylesheet" href="assets/home.css?v=20260723-2">
+  <script src="assets/site.js?v=20260723-2" defer></script>
 </head>
 <body>
   <div class="bg-orb bg-orb-a"></div>
   <div class="bg-orb bg-orb-b"></div>
   <header class="hero" id="top">
     <nav class="topbar">
-      <a class="brand" href="#top">Максим Тюрин</a>
-      <div class="topbar-links">
+      <a class="brand" href="#top"><span>МТ</span><strong>Максим Тюрин</strong></a>
+      <button class="menu-button" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-navigation">Меню</button>
+      <div class="topbar-links" id="site-navigation">
         <a href="#modes">Режимы</a>
-        <a href="#hr-summary">Для HR</a>
-        <a href="#stack">Стек</a>
-        {skills_nav_link}
         <a href="#cases">Кейсы</a>
         <a href="#artifacts">Артефакты</a>
-        <a href="#demo">Стенд</a>
+        <a href="#stack">Стек</a>
         <a href="#contacts">Контакты</a>
       </div>
+      <a class="availability" href="#contacts"><i></i> Открыт к предложениям</a>
     </nav>
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">DevOps / SRE / Platform Engineer · Пермь</p>
-        <h1>Инфраструктура, которую можно проверить по коду и артефактам</h1>
-        <p class="hero-lead">Kubernetes, GitOps, Terraform, CI/CD, observability и production automation. Ниже — публичные кейсы, демо-стенды, документация и инфраструктурные наработки без неподтверждённых заявлений.</p>
+        <p class="eyebrow"><span class="prompt">$</span> DevOps / SRE / Platform Engineer · Пермь</p>
+        <h1>Строю платформы.<br><em>Показываю доказательства.</em></h1>
+        <p class="hero-lead">Kubernetes, GitOps, Terraform, CI/CD, observability и production automation. Не витрина логотипов, а разбор задач: что было сделано, как устроено и где посмотреть код.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#hr-summary" data-set-mode="hr">Посмотреть кратко для HR</a>
           <a class="btn btn-secondary" href="#cases" data-set-mode="tech">Открыть технические доказательства</a>
-          <button class="btn btn-ghost" type="button" data-copy="hr">Скопировать краткое описание</button>
         </div>
-        <div class="hero-links">
-          <a href="artifacts/backup-automation/README.md">Backup automation</a>
-          <a href="artifacts/k8s-box/README.md">K8s-box</a>
-          <a href="artifacts/vps-vpn-server/README.md">VPS VPN-сервер</a>
-          <a href="artifacts/telegram-bot-delivery/README.md">Telegram bot bundle</a>
-          <a href="pages/platform-engineering-demo.html">Demo stand</a>
-          {skills_hero_link}
-          <a href="{CONTACT_TELEGRAM_URL}">{CONTACT_TELEGRAM}</a>
-          <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>
+        <div class="proof-strip" aria-label="Ключевые доказательства">
+          <span><strong>{format_int(summary["total_my_commits"])}</strong> подтверждённых коммитов</span>
+          <span><strong>{summary["repos_with_my_commits"]}</strong> рабочих потоков</span>
+          <span><strong>7</strong> развёрнутых кейсов</span>
         </div>
-        <ul class="hero-points">
-          <li>Подтверждённый период активности: {escape(first_period)} -> {escape(last_period)}</li>
-          <li>Пиковый месяц: {escape(top_month)} / {format_int(top_month_value)} коммитов</li>
-          <li>Ключевой стек: {escape(", ".join(strongest_stack))}</li>
-        </ul>
       </div>
       <aside class="hero-panel">
-        <span class="panel-kicker">Сводка</span>
-        <h2>Ключевые показатели</h2>
-        <div class="stats-grid">
-          {stat_cards_html}
+        <div class="terminal-head"><span></span><span></span><span></span><code>platform-proof.yaml</code></div>
+        <div class="terminal-body">
+          <p><i>role:</i> <strong>DevOps / SRE / Platform</strong></p>
+          <p><i>core:</i> <strong>[Kubernetes, GitOps, Terraform]</strong></p>
+          <p><i>reliability:</i> <strong>[observability, backup, recovery]</strong></p>
+          <p><i>cloud:</i> <strong>[AWS, Azure, Yandex Cloud]</strong></p>
+          <p><i>evidence:</i> <strong class="terminal-ok">public ✓</strong></p>
+        </div>
+        <div class="pipeline" aria-label="Инженерный цикл">
+          <span>Код</span><i>→</i><span>CI</span><i>→</i><span>GitOps</span><i>→</i><span>Kubernetes</span><i>→</i><span>Метрики</span>
         </div>
       </aside>
     </div>
@@ -1782,20 +1841,27 @@ def write_landing_page(
 
   <main class="page">
     <section class="panel mode-panel" id="modes" aria-labelledby="modes-title">
-      <div class="section-head">
-        <p class="eyebrow">Режим просмотра</p>
-        <h2 id="modes-title">В каком формате показать портфолио?</h2>
-        <p class="section-note" data-mode-description>Короткая выжимка о роли, стеке и сильных доказательствах.</p>
+      <div class="mode-intro">
+        <div class="section-head">
+          <p class="eyebrow">Персональный маршрут</p>
+          <h2 id="modes-title">Кто смотрит портфолио?</h2>
+          <p class="section-note">Выберите сценарий — страница оставит только релевантные блоки и расставит правильные акценты.</p>
+        </div>
+        <div class="mode-status" aria-live="polite">
+          <span>Сейчас показано</span>
+          <strong data-mode-label>Кратко для HR</strong>
+          <p data-mode-description>Короткая выжимка о роли, стеке и сильных доказательствах.</p>
+        </div>
       </div>
       <div class="mode-grid" role="group" aria-label="Выбор режима просмотра">
-        <button class="mode-card" type="button" data-mode="hr"><strong>Кратко для HR</strong><span>Роли, стек, сильные факты и контакты — за минуту.</span></button>
-        <button class="mode-card" type="button" data-mode="tech"><strong>Подробно для технического специалиста</strong><span>Кейсы, решения, стек и прямые ссылки на код.</span></button>
-        <button class="mode-card" type="button" data-mode="interview"><strong>Подготовка к собеседованию</strong><span>Тезисы и темы для предметного разговора.</span></button>
-        <button class="mode-card" type="button" data-mode="ai"><strong>AI / Data / MLOps infrastructure</strong><span>Инфраструктурная применимость: Kubernetes, очереди, данные и автоматизация.</span></button>
+        <button class="mode-card" type="button" data-mode="hr"><b>01</b><strong>Кратко для HR</strong><span>Роли, стек, сильные факты и контакты — за минуту.</span><i>Выбрать →</i></button>
+        <button class="mode-card" type="button" data-mode="tech"><b>02</b><strong>Технический разбор</strong><span>Кейсы, архитектура, ограничения и прямые ссылки на код.</span><i>Выбрать →</i></button>
+        <button class="mode-card" type="button" data-mode="interview"><b>03</b><strong>Подготовка к интервью</strong><span>Тезисы и темы для предметного технического разговора.</span><i>Выбрать →</i></button>
+        <button class="mode-card" type="button" data-mode="ai"><b>04</b><strong>AI / Data / MLOps infra</strong><span>Kubernetes, очереди, storage, delivery и надёжность workloads.</span><i>Выбрать →</i></button>
       </div>
     </section>
 
-    <section class="panel hr-summary" id="hr-summary">
+    <section class="panel hr-summary audience-section" id="hr-summary" data-audiences="hr tech interview ai">
       <div class="section-head">
         <p class="eyebrow">Кратко для HR</p>
         <h2>DevOps / SRE / Platform Engineer с проверяемыми примерами работы</h2>
@@ -1805,10 +1871,27 @@ def write_landing_page(
         <div><h3>Основной стек</h3><p>Kubernetes, GitOps, Terraform, CI/CD, Helm, облачная инфраструктура, observability, backup/recovery и автоматизация на Python/shell.</p></div>
         <div><h3>Что быстро проверить</h3><p>Публичный стенд, набор k8s-box, backup/restore toolkit, GitOps-конфигурация и документация по эксплуатации.</p></div>
       </div>
-      <div class="intro-actions"><a class="btn btn-primary" href="pages/resume.html">Открыть резюме</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio">GitHub</a><button class="btn btn-ghost" type="button" data-copy="tech">Скопировать техническое интро</button></div>
+      <div class="intro-actions"><a class="btn btn-primary" href="pages/resume.html">Открыть резюме</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio">GitHub</a><button class="btn btn-ghost" type="button" data-copy="hr">Скопировать краткое интро</button><button class="btn btn-ghost" type="button" data-copy="tech">Скопировать техническое интро</button></div>
     </section>
 
-    <section class="panel" id="overview">
+    <section class="panel ai-fit audience-section" id="ai-fit" data-audiences="ai">
+      <div class="section-head">
+        <p class="eyebrow">AI / Data / MLOps infrastructure fit</p>
+        <h2>Не Data Scientist — инженер инфраструктуры вокруг workloads</h2>
+        <p>Моя применимость здесь — развёртывание, надёжность и эксплуатация платформы: Kubernetes, storage, очереди, delivery, observability и автоматизация.</p>
+      </div>
+      <div class="fit-flow" aria-label="Инфраструктурный контур AI и Data workloads">
+        <article><span>01</span><strong>Упаковка</strong><p>Docker, Helm, конфигурация окружений и секреты.</p></article>
+        <i>→</i>
+        <article><span>02</span><strong>Оркестрация</strong><p>Kubernetes, workers, scaling и service routing.</p></article>
+        <i>→</i>
+        <article><span>03</span><strong>Данные</strong><p>Очереди, S3, PostgreSQL, MongoDB и CDC-компоненты.</p></article>
+        <i>→</i>
+        <article><span>04</span><strong>Надёжность</strong><p>Метрики, логи, backup/recovery и runbooks.</p></article>
+      </div>
+    </section>
+
+    <section class="panel legacy-overview" id="overview">
       <div class="section-head">
         <p class="eyebrow">Обзор</p>
         <h2>Как читать это портфолио</h2>
@@ -1821,7 +1904,7 @@ def write_landing_page(
       </div>
     </section>
 
-    <section class="panel" id="results">
+    <section class="panel audience-section" id="results" data-audiences="hr tech">
       <div class="section-head">
         <p class="eyebrow">Результаты</p>
         <h2>Что уже можно показать как рабочий результат</h2>
@@ -1832,7 +1915,7 @@ def write_landing_page(
       </div>
     </section>
 
-    <section class="panel" id="stack">
+    <section class="panel audience-section" id="stack" data-audiences="tech interview ai">
       <div class="section-head">
         <p class="eyebrow">Стек и зоны ответственности</p>
         <h2>По каким направлениям опыт уже читается целиком</h2>
@@ -1844,7 +1927,7 @@ def write_landing_page(
 
 {skills_section_html}
 
-    <section class="panel" id="charts">
+    <section class="panel audience-section" id="charts" data-audiences="tech">
       <div class="section-head">
         <p class="eyebrow">Графики</p>
         <h2>Картина активности и распределения по стеку</h2>
@@ -1875,7 +1958,7 @@ def write_landing_page(
       </div>
     </section>
 
-    <section class="panel" id="tech">
+    <section class="panel audience-section" id="tech" data-audiences="tech">
       <div class="section-head">
         <p class="eyebrow">Техсрез</p>
         <h2>Крупнейшие подтверждённые потоки</h2>
@@ -1904,24 +1987,27 @@ def write_landing_page(
       </div>
     </section>
 
-    <section class="panel" id="cases">
+    <section class="panel audience-section" id="cases" data-audiences="hr tech interview ai">
       <div class="section-head">
-        <p class="eyebrow">Кейсы</p>
-        <h2>Кейсы с результатом, стеком и прямым входом</h2>
+        <p class="eyebrow">Из задачи в доказательство</p>
+        <h2>Сильные инженерные кейсы</h2>
+        <p>Не только «какой стек», но и контекст, архитектурный поток, мой фокус и границы публичных доказательств.</p>
       </div>
       <div class="filter-bar" data-filter-target="#cases" aria-label="Фильтр кейсов">
         <button class="filter-button is-active" type="button" data-filter="all">Все</button>
-        <button class="filter-button" type="button" data-filter="kubernetes gitops">Kubernetes / GitOps</button>
-        <button class="filter-button" type="button" data-filter="terraform terragrunt">Terraform / IaC</button>
-        <button class="filter-button" type="button" data-filter="observability backup">Наблюдаемость / Backup</button>
-        <button class="filter-button" type="button" data-filter="kafka rabbitmq debezium">Data / очереди</button>
+        <button class="filter-button" type="button" data-filter="kubernetes">Kubernetes</button>
+        <button class="filter-button" type="button" data-filter="gitops">GitOps / CI/CD</button>
+        <button class="filter-button" type="button" data-filter="iac">Terraform / IaC</button>
+        <button class="filter-button" type="button" data-filter="sre">SRE / восстановление</button>
+        <button class="filter-button" type="button" data-filter="data">Data / очереди</button>
+        <span class="filter-count" data-filter-count>7 кейсов</span>
       </div>
       <div class="case-grid">
         {case_cards_html}
       </div>
     </section>
 
-    <section class="panel interview-panel" id="interview">
+    <section class="panel interview-panel audience-section" id="interview" data-audiences="interview">
       <div class="section-head"><p class="eyebrow">Подготовка к собеседованию</p><h2>О чём можно говорить предметно</h2></div>
       <div class="interview-grid">
         <article><h3>Kubernetes и GitOps</h3><p>Как выстраивал delivery: Helm, ApplicationSet, окружения, секреты, ingress и эксплуатационные изменения.</p></article>
@@ -1931,7 +2017,7 @@ def write_landing_page(
       </div>
     </section>
 
-    <section class="panel" id="timeline">
+    <section class="panel audience-section" id="timeline" data-audiences="tech interview">
       <div class="section-head">
         <p class="eyebrow">Таймлайн</p>
         <h2>Опыт по годам, облакам и инфраструктурным этапам</h2>
@@ -1941,24 +2027,27 @@ def write_landing_page(
       </div>
     </section>
 
-    <section class="panel" id="artifacts">
+    <section class="panel audience-section" id="artifacts" data-audiences="hr tech ai">
       <div class="section-head">
-        <p class="eyebrow">Артефакты</p>
+        <p class="eyebrow">Открыть и проверить</p>
         <h2>Публичные технические доказательства</h2>
+        <p>Код, IaC, GitOps-конфигурации, runbooks и воспроизводимые стенды — без секретов и приватного клиентского кода.</p>
       </div>
       <div class="filter-bar" data-filter-target="#artifacts" aria-label="Фильтр артефактов">
         <button class="filter-button is-active" type="button" data-filter="all">Все</button>
-        <button class="filter-button" type="button" data-filter="kubernetes argocd helm">Kubernetes / GitOps</button>
-        <button class="filter-button" type="button" data-filter="terraform terragrunt">Terraform / IaC</button>
-        <button class="filter-button" type="button" data-filter="postgresql mongodb backup">Backup / данные</button>
-        <button class="filter-button" type="button" data-filter="python github actions">Автоматизация</button>
+        <button class="filter-button" type="button" data-filter="kubernetes">Kubernetes</button>
+        <button class="filter-button" type="button" data-filter="gitops">GitOps</button>
+        <button class="filter-button" type="button" data-filter="iac">Terraform / IaC</button>
+        <button class="filter-button" type="button" data-filter="data">Backup / данные</button>
+        <button class="filter-button" type="button" data-filter="automation">Автоматизация</button>
+        <span class="filter-count" data-filter-count>6 артефактов</span>
       </div>
       <div class="artifact-grid">
         {artifact_cards_html}
       </div>
     </section>
 
-    <section class="panel" id="demo">
+    <section class="panel audience-section" id="demo" data-audiences="tech ai">
       <div class="section-head">
         <p class="eyebrow">Стенд</p>
         <h2>Публичный воспроизводимый стенд</h2>
@@ -1972,7 +2061,7 @@ def write_landing_page(
       </div>
     </section>
 
-    <section class="panel" id="contacts">
+    <section class="panel audience-section" id="contacts" data-audiences="hr tech interview ai">
       <div class="section-head">
         <p class="eyebrow">Контакты</p>
         <h2>Связаться напрямую</h2>

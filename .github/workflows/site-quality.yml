@@ -1,0 +1,26 @@
+name: Проверка портфолио
+
+on:
+  push:
+    branches: [gh-pages]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    name: HTML, ссылки и JavaScript
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Получить репозиторий
+        uses: actions/checkout@v4
+
+      - name: Проверить структуру и локальные ссылки
+        run: python3 scripts/check_site.py
+
+      - name: Проверить синтаксис JavaScript
+        run: node --check assets/site.js
