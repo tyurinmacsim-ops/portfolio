@@ -49,21 +49,22 @@
 <li>Что это доказывает: опыт не только в эксплуатации Telegram-контуров, но и в их нормальной production-упаковке: конфигурация по окружениям, секьюрная доставка секретов, routing, DNS и воспроизводимый deploy.</li>
 <li>Почему это важно: такой кейс хорошо ложится на роли, где нужно делать Telegram-ботов и интеграции не как &quot;скрипт на коленке&quot;, а как сервис с понятным deployment-процессом.</li>
 </ul>
-<h2>4. Migration from ECR to Artifactory registry</h2>
+<h2>4. Registry / image delivery в tgbot/tgbots</h2>
 <ul>
-<li>Контекст: часть production-приложений уже работала через <code>AWS ECR</code>, при этом новые сервисы и часть существующих нужно было постепенно переводить на <code>Artifactory</code> без резкого одномоментного cutover.</li>
-<li>Что делал: сопровождал поэтапную миграцию registry-контура. Это включало параллельную поддержку <code>ECR</code> и <code>Artifactory</code>, обновление <code>ArgoCD Image Updater</code>, смену <code>image repository</code> в values и <code>ApplicationSet</code>, добавление <code>pull secrets</code>, корректировку CI templates и retag flow для разных сервисов и репозиториев.</li>
-<li>Что подтверждается артефактами: в <code>rnd-argocd</code> видны коммиты и конфиги по переходу на <code>Artifactory</code>; в <code>hr-crm</code> <code>ApplicationSet</code> рядом живут варианты и для <code>ECR</code>, и для <code>Artifactory</code>; в <code>tgbot-charts</code> и <code>tgbots-components</code> читается изменение registry, pull secrets и build/deploy шаблонов; в <code>crane</code> есть отдельный режим <code>artifactory-to-ecr</code>.</li>
-<li>Что это доказывает: опыт не просто с registry как таковым, а с безопасной миграцией production-сервисов, когда часть системы ещё живёт на старом контуре, а часть уже собирается и выкатывается через новый.</li>
-<li>Почему это важно: в таких миграциях меняется не только URL образа. Обычно приходится одновременно трогать CI, image updater, naming conventions, доступы к registry, pull secrets и GitOps-конфигурацию.</li>
+<li>Контекст: в Telegram-контуре нужно было поддерживать воспроизводимую доставку контейнерных образов через <code>Helm</code> и <code>ArgoCD</code>, с управлением <code>image repository</code>, тегами и доступом к registry.</li>
+<li>Что делал: сопровождал <code>ArgoCD Image Updater</code>, <code>ApplicationSet</code>, <code>image.repository</code> / <code>image.tag</code>, <code>pull secrets</code> и связанные build/deploy шаблоны для <code>tgbot/tgbots</code>-сервисов.</li>
+<li>Что подтверждается артефактами: <code>rnd-argocd/clusters/tgbots-dev/apps/applicationset.yaml</code>, <code>rnd-argocd/clusters/tgbots-dev/apps/applicationset-files.yaml</code>, <code>tgbots-components/templates/tgbots.yml</code>, <code>tgbots-components/CHANGELOG.md</code>.</li>
+<li>Что это доказывает: опыт не только с самим Kubernetes-деплоем, но и с реальным release-delivery слоем вокруг registry, image updater, naming conventions и секретов доступа.</li>
+<li>Почему это важно: в таких задачах меняется не один YAML. Обычно приходится одновременно держать в порядке CI templates, <code>Helm</code> values, GitOps-генерацию приложений и доступ к registry.</li>
 </ul>
-<h2>5. Retool / Debezium / DB migrators</h2>
+<h2>5. Retool / Debezium / migration jobs в tgbot/tgbots</h2>
 <ul>
-<li>Контекст: помимо основного Telegram-контура в работе были adjacent internal/data сервисы: <code>Retool</code>, <code>Debezium</code> / <code>Kafka Connect</code>-связки и <code>PostgreSQL</code> migrator jobs.</li>
-<li>Что делал: участвовал в rollout и поддержке <code>Retool</code>-контуров, обновлении переменных и FQDN/infra-настроек; сопровождал <code>Debezium</code>-related компоненты и <code>CDC</code>-связки; работал с <code>migrator</code>-job и migration-контурами для сервисных баз в <code>Helm</code> / <code>FluxCD</code> / <code>ArgoCD</code>-структуре.</li>
-<li>Что подтверждается git-историей: в <code>fluxcd</code>, <code>rnd-argocd</code>, <code>ops</code>, <code>iac</code> и <code>rnd-charts</code> есть прямой след по <code>Retool</code>, <code>debezium-operator</code>, <code>init prod debezium postgres</code>, <code>migrator</code>, <code>migration job</code> и related rollout-изменениям.</li>
-<li>Что это доказывает: опыт не только в стандартном <code>k8s + CI/CD</code>, но и в platform/data tooling вокруг production-систем: internal admin tooling, CDC/streaming-компоненты и контролируемые миграции схем/сервисных баз.</li>
-<li>Почему это важно: такие задачи показывают, что зона ответственности включала не только delivery приложений, но и более тонкий слой эксплуатационных зависимостей вокруг данных, внутренних инструментов и переходных migration-процессов.</li>
+<li>Контекст: в зоне <code>tgbot/tgbots</code> помимо основного delivery-контура были adjacent-задачи вокруг <code>Retool</code>, <code>Debezium</code> и migration jobs в chart values.</li>
+<li>Что делал: участвовал в rollout/support <code>Retool</code> в <code>tgbot</code>-контуре; сопровождал <code>Debezium</code>-компоненты в <code>rnd-argocd/clusters/tgbots-dev/infra-apps</code>; работал с <code>job</code> / <code>revertJob</code>, где вызываются <code>prod:apply-migrations</code> и <code>prod:migration:revert</code> в <code>tgbot-сharts</code>.</li>
+<li>Что подтверждается путями и конфигами: <code>ops/terraform/tgbot/prod/ec2/retool2/<em></code>, <code>rnd-argocd/clusters/tgbots-dev/infra-apps/debezium-postgres/</em></code>, <code>rnd-argocd/clusters/tgbots-dev/infra-apps/debezium-mongo/<em></code>, <code>tgbot-сharts/dev/</em>.yaml</code>, <code>tgbot-сharts/prod/*.yaml</code>.</li>
+<li>Отдельный безопасный разбор по локальному архиву: <a href="zeroonetech-evidence.html">Дополнительные данные по tgbot/tgbots</a></li>
+<li>Важное уточнение: по самим <code>chart values</code> видно наличие <code>apply/revert</code> migration flow, но эти файлы не доказывают конкретный движок БД. Поэтому корректная формулировка здесь: <code>миграции схемы приложения / сервисной БД</code>, а не жёсткое утверждение про <code>PostgreSQL</code> или <code>MariaDB</code>.</li>
+<li>Что это доказывает: опыт не только в стандартном <code>k8s + CI/CD</code>, но и в adjacent platform/data tooling внутри Telegram-контура: internal admin tooling, <code>CDC</code>-компоненты и контролируемые migration/revert-процессы при релизах.</li>
 </ul>
 <h2>6. Azure / AKS / PCI DSS readiness</h2>
 <ul>

@@ -909,6 +909,7 @@ CONTENT_PAGE_MAP = {
     "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
     "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
     "docs/ARTIFACT_EVIDENCE.md": "pages/artifact-evidence.html",
+    "docs/ZEROONETECH_EVIDENCE.md": "pages/zeroonetech-evidence.html",
     "docs/SKILLS_ASSESSMENT.md": "pages/skills-assessment.html",
     "docs/RESUME_PUBLIC.md": "pages/resume.html",
     "docs/RESUME_PORTFOLIO_MAP.md": "pages/resume-portfolio-map.html",
@@ -1069,6 +1070,7 @@ def write_content_pages(repo_root: Path) -> None:
         "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
         "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
         "docs/ARTIFACT_EVIDENCE.md": ("Дополнительные артефакты", "Подтверждения по рабочим материалам без читаемой git-истории."),
+        "docs/ZEROONETECH_EVIDENCE.md": ("Дополнительные данные по tgbot/tgbots", "Безопасная публичная выжимка только по tgbot/tgbots: Retool, Debezium и migration flow."),
         "docs/SKILLS_ASSESSMENT.md": ("Матрица навыков", "Выжимка и графики по заполненному DevOps-опроснику."),
         "docs/RESUME_PUBLIC.md": ("Резюме", "Краткая публичная версия резюме для HR и технического интервью."),
         "docs/RESUME_PORTFOLIO_MAP.md": ("Сопоставление резюме и портфолио", "Как читать резюме вместе с git-данными, графиками и non-git evidence."),
@@ -1339,7 +1341,7 @@ def write_landing_page(
         {
             "title": "Production GitOps / Kubernetes",
             "result": "100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день",
-            "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD", "FluxCD"],
+            "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD"],
             "text": "Production-контур для multi-service платформы: GitOps-процессы, деплой, мониторинг, логирование и эксплуатационные изменения в production.",
             "link": ("Открыть кейсы", "pages/case-studies.html"),
         },
@@ -1351,11 +1353,11 @@ def write_landing_page(
             "link": ("Открыть кейс", "pages/case-studies.html"),
         },
         {
-            "title": "Retool / Debezium / DB migrations",
+            "title": "Retool / Debezium / migration jobs",
             "result": "adjacent platform/data tooling вокруг production-контура",
-            "stack": ["Retool", "Debezium", "Kafka Connect", "PostgreSQL", "migrator jobs", "GitOps"],
-            "text": "Есть подтверждаемый git-след по rollout/support Retool, Debezium-related компонентам и migrator-контурам для сервисных БД в FluxCD/ArgoCD/Helm-структуре.",
-            "link": ("Открыть кейс", "pages/case-studies.html"),
+            "stack": ["Retool", "Debezium", "Postgres CDC", "Mongo CDC", "migration jobs", "ArgoCD"],
+            "text": "Подтверждается только в зоне tgbot/tgbots: Retool в tgbot infra, Debezium для Postgres и Mongo в ArgoCD infra-apps и apply/revert migration flow в tgbot-чартах.",
+            "link": ("Открыть разбор", "pages/zeroonetech-evidence.html"),
         },
         {
             "title": "Azure / AKS / PCI DSS readiness",
@@ -1413,7 +1415,7 @@ def write_landing_page(
             "period": "сен 2023 - ноя 2025",
             "title": "AWS / EKS / 100+ microservices",
             "meta": "~2.3 года",
-            "text": "Production-платформа с интенсивным релизным циклом и асинхронными Telegram-контурами: GitLab CI/CD, ArgoCD, FluxCD, EKS, observability, data services, большие очереди и backup automation.",
+            "text": "Production-платформа с интенсивным релизным циклом и асинхронными Telegram-контурами: GitLab CI/CD, ArgoCD, EKS, observability, data services, большие очереди и backup automation.",
             "tags": ["AWS", "EKS", "GitOps", "Helm", "observability"],
         },
         {
@@ -1453,6 +1455,13 @@ def write_landing_page(
             "tags": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault"],
             "primary": ("Открыть bundle", "artifacts/telegram-bot-delivery/README.md"),
             "secondary": ("GitHub repo", TELEGRAM_BOT_BUNDLE_GITHUB_URL),
+        },
+        {
+            "title": "Tgbot/tgbots evidence",
+            "text": "Отдельная публичная выжимка только по tgbot/tgbots-путям: Retool, Debezium и migration flow без чужих проектных контуров.",
+            "tags": ["Retool", "Debezium", "DB migrations", "ArgoCD", "tgbots"],
+            "primary": ("Открыть разбор", "pages/zeroonetech-evidence.html"),
+            "secondary": ("Смотреть кейсы", "pages/case-studies.html"),
         },
     ]
 
@@ -1597,6 +1606,7 @@ def write_landing_page(
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
+        ("Дополнительные данные по tgbot/tgbots", "pages/zeroonetech-evidence.html"),
         *skills_quick_links,
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
@@ -1950,6 +1960,7 @@ def main() -> None:
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/case-studies.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/public-projects.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/artifact-evidence.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/zeroonetech-evidence.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/skills-assessment.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/resume.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/resume-portfolio-map.html</loc></url>

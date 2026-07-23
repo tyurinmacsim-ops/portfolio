@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дополнительные данные по tgbot/tgbots • Портфолио</title>
+  <meta name="description" content="Безопасная публичная выжимка только по tgbot/tgbots: Retool, Debezium и migration flow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Дополнительные данные по tgbot/tgbots</h1>
+        <p class="content-lead">Безопасная публичная выжимка только по tgbot/tgbots: Retool, Debezium и migration flow.</p>
+      </header>
+      <article class="prose">
+        <h1>Дополнительные данные по tgbot/tgbots</h1>
+<p>Этот раздел собран по локальному архиву <code>ZeroOneTech</code>, но намеренно ограничен только путями <code>tgbot</code> и <code>tgbots</code>. Здесь не используются чужие проектные контуры и любые зоны вне реальной области работы. Также не публикуются raw-конфиги с секретами, рабочие <code>.env</code>, <code>vault-export</code> целиком, точные хосты и клиентские доступы.</p>
+<h2>Что входит в доказательную базу</h2>
+<p>Ниже только те пути, которые безопасно и честно можно относить к Telegram-контуру:</p>
+<ul>
+<li><code>ops/terraform/tgbot/...</code></li>
+<li><code>rnd-argocd/clusters/tgbots-dev/...</code></li>
+<li><code>tgbot-сharts/dev/*.yaml</code></li>
+<li><code>tgbot-сharts/prod/*.yaml</code></li>
+<li>связанные рабочие backup/restore-артефакты, если они явно привязаны к <code>tgbot</code>-задаче</li>
+</ul>
+<h2>Retool</h2>
+<p>По архиву читается отдельный эксплуатационный след вокруг <code>Retool</code> именно в <code>tgbot</code>-контуре, а не просто случайное упоминание в одном конфиге.</p>
+<p>Опорные пути:</p>
+<ul>
+<li><code>ops/terraform/tgbot/prod/ec2/retool2/main.tf</code></li>
+<li><code>ops/terraform/tgbot/prod/ec2/retool2/sg.tf</code></li>
+<li><code>ops/terraform/tgbot/prod/vpc/route53_bestbots_cc_records.tf</code></li>
+<li><code>sckript-program/db-backup/move-to-another-postgres/sh-script-export-manuall-target-retool.sh</code></li>
+<li><code>sckript-program/db-backup/pg-17-client-docker/deployment.yaml</code></li>
+</ul>
+<p>Что это подтверждает:</p>
+<ul>
+<li>был отдельный infra-контур под <code>Retool</code> с Terraform-описанием инстанса, security group и DNS-записями;</li>
+<li>были практические задачи вокруг <code>PostgreSQL dump/restore</code> и переноса базы <code>Retool</code>;</li>
+<li>рядом есть operational tooling под backup/restore и клиентские pg-утилиты, а не только deployment-манифесты.</li>
+</ul>
+<p>Корректная формулировка для собеседования:</p>
+<ul>
+<li><code>Есть подтверждаемый опыт adjacent internal tooling вокруг Retool: инфраструктура, DNS/SG, postgres dump/restore и перенос базы.</code></li>
+</ul>
+<h2>Debezium / CDC в tgbots</h2>
+<p>По <code>tgbots</code>-пути виден не только факт знакомства с термином <code>Debezium</code>, а именно operational след в <code>ArgoCD</code>-infra-apps.</p>
+<p>Опорные пути:</p>
+<ul>
+<li><code>rnd-argocd/clusters/tgbots-dev/infra-apps/debezium-postgres/application.yaml</code></li>
+<li><code>rnd-argocd/clusters/tgbots-dev/infra-apps/debezium-postgres/manifests/debezium.yaml</code></li>
+<li><code>rnd-argocd/clusters/tgbots-dev/infra-apps/debezium-mongo/application.yaml</code></li>
+<li><code>rnd-argocd/clusters/tgbots-dev/infra-apps/debezium-mongo/manifests/debezium.yaml</code></li>
+</ul>
+<p>Что видно:</p>
+<ul>
+<li>есть отдельный <code>debezium-postgres</code> application в <code>tgbots-dev</code>;</li>
+<li>есть отдельный <code>debezium-mongo</code> application в <code>tgbots-dev</code>;</li>
+<li>в manifest-файлах прямо читаются коннекторы <code>io.debezium.connector.postgresql.PostgresConnector</code> и <code>io.debezium.connector.mongodb.MongoDbConnector</code>.</li>
+</ul>
+<p>Что это подтверждает:</p>
+<ul>
+<li>опыт рядом с <code>CDC</code>-контурами внутри Telegram-платформы;</li>
+<li>понимание operational-слоя вокруг <code>Debezium</code> в <code>ArgoCD</code>-managed инфраструктуре;</li>
+<li>участие не только в delivery приложений, но и в соседних данных / интеграционных компонентах.</li>
+</ul>
+<p>Корректная формулировка:</p>
+<ul>
+<li><code>Есть подтверждаемый adjacent experience вокруг Debezium / CDC в tgbots-контуре, без попытки продавать это как deep data-engineering специализацию.</code></li>
+</ul>
+<h2>Migration jobs в tgbot-сharts</h2>
+<p>Это один из самых чистых tgbot-specific следов: migrations читаются прямо в <code>tgbot-сharts</code>.</p>
+<p>Опорные пути:</p>
+<ul>
+<li><code>rnd-charts/custom/tgbots/app/values.yaml</code></li>
+<li><code>tgbot-сharts/dev/*.yaml</code></li>
+<li><code>tgbot-сharts/prod/*.yaml</code></li>
+</ul>
+<p>Что видно:</p>
+<ul>
+<li>в chart values есть отдельные <code>job</code> / <code>revertJob</code> команды под <code>apply-migrations</code> и <code>migration:revert</code>;</li>
+<li>в <code>tgbot-сharts</code> есть deployment-конфиги, где вызываются <code>prod:apply-migrations</code> и <code>prod:migration:revert</code>;</li>
+<li>это видно, например, в <code>match-career.yaml</code>, <code>concierge-sng.yaml</code>, <code>lab-views.yaml</code>, <code>adult.yaml</code> и ряде других файлов в <code>dev/prod</code>;</li>
+<li>по этим chart values безопасно видно именно наличие migration flow, но не конкретный движок БД.</li>
+</ul>
+<p>Что это подтверждает:</p>
+<ul>
+<li>сопровождение не только runtime-сервисов, но и <code>schema migration</code>-контуров;</li>
+<li>понимание того, как migrations живут в <code>Helm</code>, <code>ArgoCD</code>, release flow и rollback/revert-процедурах;</li>
+<li>практический опыт вокруг сервисных БД, а не только вокруг deployment YAML.</li>
+</ul>
+<p>Корректная формулировка:</p>
+<ul>
+<li><code>Есть подтверждаемый опыт с migration jobs и apply/revert flow для сервисных БД в Helm/ArgoCD-контурах.</code></li>
+<li><code>По этим values корректнее говорить о миграциях схемы приложения, а не жёстко приписывать их конкретно PostgreSQL или MariaDB.</code></li>
+</ul>
+<h2>Как это усиливает блок 01.tech</h2>
+<p>Что можно добавлять в резюме безопасно:</p>
+<ul>
+<li><code>Retool</code> как adjacent internal tooling;</li>
+<li><code>Debezium</code> как adjacent CDC-layer в <code>tgbots</code>;</li>
+<li><code>migration jobs</code>, <code>apply/revert migrations</code>, <code>schema/data migration workflows</code>;</li>
+<li><code>PostgreSQL dump/restore</code>, перенос отдельных БД и operational data tooling.</li>
+</ul>
+<p>Что не стоит писать:</p>
+<ul>
+<li><code>эксперт по Debezium</code> или <code>глубокий Data Engineer</code>;</li>
+<li><code>проектировал CDC-платформу с нуля</code>, если это не так;</li>
+<li><code>отвечал за всю data-platform архитектуру</code>, если роль была DevOps / Platform.</li>
+</ul>
+<h2>Что принципиально не публикуется</h2>
+<ul>
+<li>raw <code>vault-export</code> и connection json-файлы;</li>
+<li>реальные значения секретов, логинов, паролей и FQDN;</li>
+<li>полные внутренние migration-конфиги с чувствительными env var;</li>
+<li>любые файлы, по которым можно восстановить приватный runtime-контекст клиента.</li>
+</ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

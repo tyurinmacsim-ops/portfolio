@@ -13,18 +13,20 @@
 
 ## 01.tech | Сентябрь 2023 — Ноябрь 2025
 
-- В резюме: AWS / EKS, Kubernetes, Helm, GitLab CI/CD, ArgoCD, FluxCD, Terraform, Terragrunt, очереди, базы, observability, 100+ микросервисов.
+- В резюме: AWS / EKS, Kubernetes, Helm, GitLab CI/CD, ArgoCD, Terraform, Terragrunt, очереди, базы, observability, 100+ микросервисов.
 - В портфолио подтверждается напрямую:
   - `8 166` подтверждённых коммитов в архиве, где основной массив приходится именно на период `2023-09 -> 2025-10`;
-  - крупные потоки `GitOps / FluxCD`, `Ops automation / Ansible + Terraform`, `ArgoCD delivery platform`, `Helm chart fleet`, `GitLab templates`;
+  - крупные потоки `Ops automation / Ansible + Terraform`, `ArgoCD delivery platform`, `Helm chart fleet`, `GitLab templates`;
   - графики активности, покрытия стека, таймлайны и demo-стенд;
   - отдельный backup/restore toolkit как non-git evidence.
+  - отдельный публичный разбор: [Дополнительные данные по tgbot/tgbots](./ZEROONETECH_EVIDENCE.md)
 - Что можно честно добавлять в рассказ про этот период:
   - это был не только web/microservice production, но и асинхронные Telegram-контуры массовой доставки;
   - помимо самих Telegram-контуров есть подтверждаемые deployment-артефакты: `Helm` values, `ApplicationSet`, `Vault`-based secret delivery, `ExternalDNS`, `Istio Gateway`;
-  - по `ZeroOneTech` есть дополнительный git-след по `Retool` rollout/support, `Debezium`-related компонентам и `PostgreSQL` migrator jobs;
+  - в путях `tgbot/tgbots` есть дополнительный подтверждаемый след по `Retool` rollout/support, `Debezium` для `Postgres` и `Mongo`, а также `migration jobs` в `tgbot-сharts`;
   - это даёт право аккуратно заявлять adjacent experience вокруг internal tooling, CDC/streaming и migration work по сервисным БД;
-  - есть подтверждаемый след по migration work вокруг registry: `ECR`, `Artifactory`, `pull secrets`, `ArgoCD Image Updater`, CI templates и постепенный перевод production-сервисов;
+  - для migration flow безопасная формулировка: `apply/revert миграции схемы приложения`, без жёсткой привязки к конкретному движку БД там, где это не доказывается конфигами;
+  - есть подтверждаемый след по image delivery вокруг registry: `pull secrets`, `ArgoCD Image Updater`, CI templates, `image.repository` / `image.tag` и GitOps-конфигурация в `tgbot/tgbots`;
   - очереди могли доходить до `10 млн` сообщений;
   - корректная формулировка здесь не `десятки тысяч RPS`, а `high-throughput queue-heavy workload`, где важны backlog, retries, rate limits, worker scaling и observability.
 - Вывод: это самый сильный и лучше всего подтверждённый период в портфолио.
