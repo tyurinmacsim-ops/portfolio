@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Контур доставки Telegram-бота • Портфолио</title>
+  <meta name="description" content="Sanitized deployment bundle: Python, Helm, ArgoCD, Vault, DNS и Istio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Контур доставки Telegram-бота</h1>
+        <p class="content-lead">Sanitized deployment bundle: Python, Helm, ArgoCD, Vault, DNS и Istio.</p>
+      </header>
+      <article class="prose">
+        <h1>Контур доставки Telegram-бота</h1>
+<p>Публичный sanitized-набор артефактов для портфолио: пример Telegram-бота на <code>Python</code> и рядом типовой deployment-контур, который показывает, как такой сервис упаковывается и выкатывается в Kubernetes.</p>
+<p>Что важно:</p>
+<ul>
+<li>это не &quot;учебный hello world&quot;, а публичный sample, собранный по мотивам рабочих deployment-паттернов;</li>
+<li>реальные домены, registry paths, secret paths, chat ids, webhook URL и внутренние имена убраны;</li>
+<li>логика сохранена: бот как сервис, контейнеризация, values по окружениям, GitOps, секреты через Vault, DNS и gateway-слой.</li>
+</ul>
+<h2>Что внутри</h2>
+<ul>
+<li><a href="../artifacts/telegram-bot-delivery/app/main.py">app/main.py</a> — минимальный async Telegram-бот с webhook и mock CRM integration</li>
+<li><a href="../artifacts/telegram-bot-delivery/app/config.py">app/config.py</a> — конфигурация через env</li>
+<li><a href="../artifacts/telegram-bot-delivery/app/requirements.txt">app/requirements.txt</a></li>
+<li><a href="../artifacts/telegram-bot-delivery/app/Dockerfile">app/Dockerfile</a></li>
+<li><a href="../artifacts/telegram-bot-delivery/PROMPTS.md">PROMPTS.md</a> — пример prompt-файла под LLM-assisted workflow</li>
+<li><a href="../artifacts/telegram-bot-delivery/deploy/argocd/applicationset.yaml">deploy/argocd/applicationset.yaml</a></li>
+<li><a href="../artifacts/telegram-bot-delivery/deploy/helm-values/dev/lead-qualifier-bot.yaml">deploy/helm-values/dev/lead-qualifier-bot.yaml</a></li>
+<li><a href="../artifacts/telegram-bot-delivery/deploy/helm-values/prod/lead-qualifier-bot.yaml">deploy/helm-values/prod/lead-qualifier-bot.yaml</a></li>
+<li><a href="../artifacts/telegram-bot-delivery/deploy/infra/external-dns.application.yaml">deploy/infra/external-dns.application.yaml</a></li>
+<li><a href="../artifacts/telegram-bot-delivery/deploy/infra/istio-gateway.applicationset.yaml">deploy/infra/istio-gateway.applicationset.yaml</a></li>
+<li><a href="../artifacts/telegram-bot-delivery/deploy/infra/vault-secrets-webhook.values.yaml">deploy/infra/vault-secrets-webhook.values.yaml</a></li>
+</ul>
+<h2>Что это подтверждает</h2>
+<ul>
+<li><code>Python</code> и async-подход для Telegram-ботов;</li>
+<li>работу с <code>HTTP API</code> и webhook-моделью;</li>
+<li>контейнеризацию и вынесение конфигурации из кода;</li>
+<li><code>Helm</code> values по окружениям;</li>
+<li>GitOps-доставку через <code>ArgoCD ApplicationSet</code>;</li>
+<li>секреты через <code>Vault</code>;</li>
+<li>домены через <code>ExternalDNS</code>;</li>
+<li>входной трафик через <code>Istio Gateway</code>.</li>
+</ul>
+<h2>Как об этом говорить на собеседовании</h2>
+<p>Если коротко:</p>
+<p><code>Я могу собрать Telegram-бота как обычный production-сервис: код на Python, контейнер, env-конфигурация, values по окружениям, секреты вне Git, GitOps-деплой и сетевой вход через gateway.</code></p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

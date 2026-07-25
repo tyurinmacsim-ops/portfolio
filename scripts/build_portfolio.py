@@ -55,6 +55,20 @@ TELEGRAM_BOT_BUNDLE_GITHUB_URL = (
 VPN_TELEGRAM_ADMIN_BOT_GITHUB_URL = (
     "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/vpn-telegram-admin-bot"
 )
+BACKUP_AUTOMATION_GITHUB_URL = (
+    "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/backup-automation"
+)
+K8S_BOX_GITHUB_URL = "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/k8s-box"
+VPS_VPN_GITHUB_URL = "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/vps-vpn-server"
+PLATFORM_DEMO_GITHUB_URL = (
+    "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/projects/platform-engineering-demo"
+)
+TG_BOT_DELIVERY_GITHUB_URL = (
+    "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/telegram-bot-delivery"
+)
+TG_BOTS_EVIDENCE_GITHUB_URL = (
+    "https://github.com/tyurinmacsim-ops/portfolio/blob/gh-pages/docs/ZEROONETECH_EVIDENCE.md"
+)
 SKILLS_MATRIX_PATH = Path(
     os.environ.get("SKILLS_MATRIX_PATH", "/Users/macbook/Downloads/Skills DevOps.xlsx")
 ).resolve()
@@ -917,7 +931,11 @@ CONTENT_PAGE_MAP = {
     "docs/RESUME_PUBLIC.md": "pages/resume.html",
     "docs/RESUME_PORTFOLIO_MAP.md": "pages/resume-portfolio-map.html",
     "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
+    "artifacts/backup-automation/README.md": "pages/backup-automation.html",
+    "artifacts/k8s-box/README.md": "pages/k8s-box.html",
+    "artifacts/vps-vpn-server/README.md": "pages/vps-vpn-server.html",
     "artifacts/vpn-telegram-admin-bot/README.md": "pages/vpn-telegram-admin-bot.html",
+    "artifacts/telegram-bot-delivery/README.md": "pages/telegram-bot-delivery.html",
 }
 
 
@@ -1082,9 +1100,25 @@ def write_content_pages(repo_root: Path) -> None:
             "Демо-стенд platform engineering",
             "Воспроизводимый Terraform + Kubernetes + observability стенд.",
         ),
+        "artifacts/backup-automation/README.md": (
+            "Автоматизация резервного копирования и восстановления",
+            "Redacted toolkit: backup/restore, проверки и эксплуатационные сценарии.",
+        ),
+        "artifacts/k8s-box/README.md": (
+            "Платформенный набор k8s-box",
+            "Sanitized toolkit для Yandex Cloud, Kubernetes, Vault и GitOps.",
+        ),
+        "artifacts/vps-vpn-server/README.md": (
+            "VPS VPN-сервер",
+            "Личный VPS-контур: Xray, Nginx, TLS и VLESS поверх WebSocket.",
+        ),
         "artifacts/vpn-telegram-admin-bot/README.md": (
             "VPN Telegram Admin Bot",
             "Личный VPN-контур: закрытый доступ, персональные профили и безопасное администрирование.",
+        ),
+        "artifacts/telegram-bot-delivery/README.md": (
+            "Контур доставки Telegram-бота",
+            "Sanitized deployment bundle: Python, Helm, ArgoCD, Vault, DNS и Istio.",
         ),
     }
 
@@ -1099,6 +1133,17 @@ def write_content_pages(repo_root: Path) -> None:
             mapped = CONTENT_PAGE_MAP.get(normalized) or CONTENT_PAGE_MAP.get(link_target)
             if mapped:
                 return os.path.relpath(repo_root / mapped, target_path.parent)
+            # README артефакта превращается в страницу из pages/, поэтому
+            # относительные ссылки внутри README нужно пересчитать от нового
+            # расположения страницы, а не оставлять рядом с pages/.
+            if not re.match(r"(?:[a-z][a-z0-9+.-]*:|#)", link_target, re.I):
+                source_link = (repo_root / os.path.dirname(source) / link_target).resolve()
+                try:
+                    source_link.relative_to(repo_root)
+                except ValueError:
+                    return link_target
+                if source_link.exists():
+                    return os.path.relpath(source_link, target_path.parent)
             return link_target
 
         body_html = markdown_to_html(source_path.read_text(encoding="utf-8"), href_resolver=resolve_href)
@@ -1497,8 +1542,8 @@ def write_landing_page(
             "tags": ["Python", "Kubernetes", "AWS/S3", "PostgreSQL", "MongoDB"],
             "type": "Код · runbook · конфигурация",
             "categories": ["automation", "kubernetes", "sre", "data", "mlops"],
-            "primary": ("Открыть артефакт", "artifacts/backup-automation/README.md"),
-            "secondary": ("Смотреть разбор", "pages/artifact-evidence.html"),
+            "primary": ("Описание решения", "pages/backup-automation.html"),
+            "secondary": ("Код на GitHub", BACKUP_AUTOMATION_GITHUB_URL),
         },
         {
             "title": "Платформенный набор k8s-box",
@@ -1506,8 +1551,8 @@ def write_landing_page(
             "tags": ["Yandex Cloud", "Terraform", "Terragrunt", "ArgoCD", "Vault"],
             "type": "IaC · GitOps · runbooks",
             "categories": ["iac", "kubernetes", "gitops", "platform", "security", "mlops"],
-            "primary": ("Открыть k8s-box", "artifacts/k8s-box/README.md"),
-            "secondary": ("Что включено", "artifacts/k8s-box/PORTFOLIO_NOTES.md"),
+            "primary": ("Описание решения", "pages/k8s-box.html"),
+            "secondary": ("Код на GitHub", K8S_BOX_GITHUB_URL),
         },
         {
             "title": "VPS VPN-сервер",
@@ -1515,8 +1560,8 @@ def write_landing_page(
             "tags": ["Linux", "Docker Compose", "Nginx", "TLS", "WebSocket"],
             "type": "Конфигурация · документация",
             "categories": ["security", "automation"],
-            "primary": ("Открыть артефакт", "artifacts/vps-vpn-server/README.md"),
-            "secondary": ("Сетевой контекст tgbots", "pages/zeroonetech-evidence.html"),
+            "primary": ("Описание решения", "pages/vps-vpn-server.html"),
+            "secondary": ("Код на GitHub", VPS_VPN_GITHUB_URL),
         },
         {
             "title": "VPN Telegram Admin Bot",
@@ -1533,8 +1578,8 @@ def write_landing_page(
             "tags": ["Terraform", "kind", "Prometheus", "Grafana", "GitHub Actions"],
             "type": "Демо · IaC · smoke-test",
             "categories": ["iac", "kubernetes", "observability", "automation", "platform", "mlops"],
-            "primary": ("Открыть демо", "pages/platform-engineering-demo.html"),
-            "secondary": ("Читать README", "projects/platform-engineering-demo/README.md"),
+            "primary": ("Описание решения", "pages/platform-engineering-demo.html"),
+            "secondary": ("Код на GitHub", PLATFORM_DEMO_GITHUB_URL),
         },
         {
             "title": "Контур доставки Telegram-бота",
@@ -1542,8 +1587,8 @@ def write_landing_page(
             "tags": ["Python", "Telegram API", "Helm", "ArgoCD", "Vault"],
             "type": "Код · GitOps · конфигурация",
             "categories": ["automation", "kubernetes", "gitops", "platform", "mlops"],
-            "primary": ("Открыть bundle", "artifacts/telegram-bot-delivery/README.md"),
-            "secondary": ("GitHub repo", TELEGRAM_BOT_BUNDLE_GITHUB_URL),
+            "primary": ("Описание решения", "pages/telegram-bot-delivery.html"),
+            "secondary": ("Код на GitHub", TG_BOT_DELIVERY_GITHUB_URL),
         },
         {
             "title": "Tgbot/tgbots evidence",
@@ -1551,8 +1596,8 @@ def write_landing_page(
             "tags": ["Retool", "Debezium", "DB migrations", "ArgoCD", "tgbots"],
             "type": "Evidence-разбор · data tooling",
             "categories": ["data", "gitops", "platform", "mlops"],
-            "primary": ("Открыть разбор", "pages/zeroonetech-evidence.html"),
-            "secondary": ("Смотреть кейсы", "pages/case-studies.html"),
+            "primary": ("Описание решения", "pages/zeroonetech-evidence.html"),
+            "secondary": ("Материал на GitHub", TG_BOTS_EVIDENCE_GITHUB_URL),
         },
     ]
 
@@ -1715,11 +1760,11 @@ def write_landing_page(
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
         ("Дополнительные данные по tgbot/tgbots", "pages/zeroonetech-evidence.html"),
         *skills_quick_links,
-        ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
-        ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
-        ("VPS VPN-сервер", "artifacts/vps-vpn-server/README.md"),
+        ("Backup automation toolkit", "pages/backup-automation.html"),
+        ("K8s-box toolkit", "pages/k8s-box.html"),
+        ("VPS VPN-сервер", "pages/vps-vpn-server.html"),
         ("VPN Telegram Admin Bot", "pages/vpn-telegram-admin-bot.html"),
-        ("Telegram bot bundle", "artifacts/telegram-bot-delivery/README.md"),
+        ("Telegram bot bundle", "pages/telegram-bot-delivery.html"),
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
         ("JSON со статистикой", "data/commit_summary.json"),

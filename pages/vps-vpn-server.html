@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VPS VPN-сервер • Портфолио</title>
+  <meta name="description" content="Личный VPS-контур: Xray, Nginx, TLS и VLESS поверх WebSocket.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>VPS VPN-сервер</h1>
+        <p class="content-lead">Личный VPS-контур: Xray, Nginx, TLS и VLESS поверх WebSocket.</p>
+      </header>
+      <article class="prose">
+        <h1>VPS VPN-сервер</h1>
+<p>Обезличенный публичный артефакт личного VPS VPN-контура. В репозитории намеренно отсутствуют домен, публичный IP-адрес, ссылка для клиента, QR-код, UUID, логи доступа и действующие учётные данные.</p>
+<h2>Что подтверждает</h2>
+<ul>
+<li>управление жизненным циклом <code>Xray</code> через Docker Compose;</li>
+<li>транспорт <code>VLESS + WebSocket</code>;</li>
+<li>завершение TLS и обратный WebSocket-прокси через <code>Nginx</code>;</li>
+<li>привязку прикладного порта к <code>127.0.0.1</code>, чтобы единственной публичной точкой входа оставался <code>443/tcp</code>;</li>
+<li>разделение существующего HTTPS-сайта и отдельного WebSocket-маршрута;</li>
+<li>практическую диагностику активации Nginx-конфигурации и сквозной клиентской связности.</li>
+</ul>
+<h2>Архитектура</h2>
+<pre><code>Клиент
+  -&gt; HTTPS :443 /vpn-ws
+  -&gt; Nginx (завершение TLS и обновление WebSocket)
+  -&gt; 127.0.0.1:10000
+  -&gt; контейнер Xray</code></pre>
+<h2>Состав</h2>
+<ul>
+<li><code>docker-compose.yml</code> запускает контейнер Xray и открывает порт только на локальном адресе.</li>
+<li><code>xray.config.example.json</code> - шаблон. Новый UUID генерируется отдельно, а реальный список клиентов не попадает в git.</li>
+<li><code>nginx-vpn-ws-location.conf</code> подключается к TLS-виртуальному хосту Nginx.</li>
+</ul>
+<h2>Порядок развёртывания</h2>
+<ul>
+<li>Подготовить Linux VPS, Docker Engine, Docker Compose plugin, Nginx, DNS и действующий TLS-сертификат.</li>
+<li>Скопировать compose-файл и создать приватную конфигурацию Xray по шаблону с новым UUID.</li>
+<li>Выполнить <code>docker compose up -d</code> и убедиться, что сервис слушает только <code>127.0.0.1:10000</code>.</li>
+<li>Добавить Nginx location в server-блок на <code>443</code>, затем выполнить <code>nginx -t</code> и перезагрузить Nginx.</li>
+<li>Импортировать отдельно созданный клиентский профиль и проверить WebSocket-маршрут сквозным тестом.</li>
+</ul>
+<h2>Эксплуатационные проверки</h2>
+<pre><code>docker compose ps
+docker compose logs --tail=50 xray
+ss -lntp | rg &#x27;:10000&#x27;
+nginx -t
+curl -Ik https://your-domain.example/
+curl -skI --http1.1 https://your-domain.example/vpn-ws</code></pre>
+<p>Для второго запроса без заголовков WebSocket допустим ответ HTTP <code>400</code>: это показывает, что Nginx передал запрос в Xray, а не вернул содержимое сайта.</p>
+<h2>Связанный артефакт</h2>
+<p>Для сценария личного управления доступом есть отдельный <a href="vpn-telegram-admin-bot.html">VPN Telegram Admin Bot</a>: long polling, русское меню, SQLite, systemd, approve flow и безопасный helper без Docker/root-доступа у самого бота.</p>
+<h2>Граница безопасности</h2>
+<p>Это шаблон для портфолио, а не действующая точка доступа. Реальные клиентские профили, TLS-приватные ключи, домены, IP-адреса, логи, учётные данные и QR-коды в git не добавляются.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
