@@ -18,6 +18,7 @@
 - [Публичные демо-проекты](docs/PUBLIC_PROJECTS.md)
 - [Дополнительные артефакты](docs/ARTIFACT_EVIDENCE.md)
 - [VPS VPN-сервер](artifacts/vps-vpn-server/README.md)
+- [VPN Telegram Admin Bot](artifacts/vpn-telegram-admin-bot/README.md)
 - [Сопоставление резюме и портфолио](docs/RESUME_PORTFOLIO_MAP.md)
 - [Краткое описание](docs/APPLICATION_BLURB.md)
 - [JSON со статистикой](data/commit_summary.json)
@@ -73,6 +74,7 @@ node --check assets/site.js
 ## Публичный демо-проект
 
 - [platform-engineering-demo](projects/platform-engineering-demo/README.md) — демонстрационный стенд внутри портфолио: `Terraform + Kubernetes + GitHub Actions + Prometheus/Grafana/Loki`. Прогнан локально end-to-end через `kind`, deployment и smoke-test.
+- [VPN Telegram Admin Bot](artifacts/vpn-telegram-admin-bot/README.md) — redacted личный VPS-контур: закрытый доступ родственников, персональные бессрочные VLESS-профили, QR для Happ, systemd и ограниченный helper для Xray.
 
 ## Кратко
 
