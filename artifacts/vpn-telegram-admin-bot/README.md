@@ -4,6 +4,8 @@
 
 Решение рассчитано на личное использование и примерно 5 пользователей. Это не тяжёлая панель и не Kubernetes-стек: `long polling`, SQLite, systemd и один небольшой privileged helper.
 
+[Открыть исходный код на GitHub](https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/vpn-telegram-admin-bot)
+
 ## Что демонстрирует
 
 - закрытый семейный onboarding: одноразовая ссылка-приглашение → короткая анкета → ручное approve/reject владельцем;

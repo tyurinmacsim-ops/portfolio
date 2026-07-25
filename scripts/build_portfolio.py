@@ -52,6 +52,9 @@ CONTACT_TELEGRAM_URL = "https://t.me/Max_Tyrin"
 TELEGRAM_BOT_BUNDLE_GITHUB_URL = (
     "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/telegram-bot-delivery"
 )
+VPN_TELEGRAM_ADMIN_BOT_GITHUB_URL = (
+    "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/vpn-telegram-admin-bot"
+)
 SKILLS_MATRIX_PATH = Path(
     os.environ.get("SKILLS_MATRIX_PATH", "/Users/macbook/Downloads/Skills DevOps.xlsx")
 ).resolve()
@@ -914,6 +917,7 @@ CONTENT_PAGE_MAP = {
     "docs/RESUME_PUBLIC.md": "pages/resume.html",
     "docs/RESUME_PORTFOLIO_MAP.md": "pages/resume-portfolio-map.html",
     "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
+    "artifacts/vpn-telegram-admin-bot/README.md": "pages/vpn-telegram-admin-bot.html",
 }
 
 
@@ -1077,6 +1081,10 @@ def write_content_pages(repo_root: Path) -> None:
         "projects/platform-engineering-demo/README.md": (
             "Демо-стенд platform engineering",
             "Воспроизводимый Terraform + Kubernetes + observability стенд.",
+        ),
+        "artifacts/vpn-telegram-admin-bot/README.md": (
+            "VPN Telegram Admin Bot",
+            "Личный VPN-контур: закрытый доступ, персональные профили и безопасное администрирование.",
         ),
     }
 
@@ -1516,8 +1524,8 @@ def write_landing_page(
             "tags": ["Python", "Telegram API", "SQLite", "systemd", "Xray", "Nginx"],
             "type": "Python · systemd · VPN",
             "categories": ["security", "automation"],
-            "primary": ("Открыть артефакт", "artifacts/vpn-telegram-admin-bot/README.md"),
-            "secondary": ("Смотреть разбор", "pages/artifact-evidence.html"),
+            "primary": ("Описание решения", "pages/vpn-telegram-admin-bot.html"),
+            "secondary": ("Код на GitHub", VPN_TELEGRAM_ADMIN_BOT_GITHUB_URL),
         },
         {
             "title": "Демо-стенд Platform Engineering",
@@ -1710,7 +1718,7 @@ def write_landing_page(
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
         ("VPS VPN-сервер", "artifacts/vps-vpn-server/README.md"),
-        ("VPN Telegram Admin Bot", "artifacts/vpn-telegram-admin-bot/README.md"),
+        ("VPN Telegram Admin Bot", "pages/vpn-telegram-admin-bot.html"),
         ("Telegram bot bundle", "artifacts/telegram-bot-delivery/README.md"),
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
         ("Краткое описание", "pages/application-blurb.html"),
