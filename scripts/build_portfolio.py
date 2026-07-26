@@ -1225,7 +1225,7 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             "## VPN Telegram Admin Bot",
             "",
             "- Источник: личный VPS VPN-контур, расширенный лёгким ботом для небольшой доверенной группы.",
-            "- Что подтверждает: `Python`, Telegram long polling, `SQLite`, `systemd`, русскоязычный UX, Xray/Nginx, одноразовые приглашения, ручное одобрение, QR-импорт и принцип минимальных привилегий.",
+            "- Что подтверждает: `Python`, Telegram long polling, `SQLite`, `systemd`, русскоязычный UX, Xray/Nginx, одноразовые приглашения, ручное одобрение, QR-импорт Happ/Happ Desktop и принцип минимальных привилегий.",
             "- Эксплуатационный паттерн: бессрочный персональный профиль выдаётся только после успешного изменения Xray и записи в SQLite; доступ можно временно отключить или отозвать.",
             "- Публичная копия: [artifacts/vpn-telegram-admin-bot](../artifacts/vpn-telegram-admin-bot/README.md).",
             "- Что намеренно исключено: действующий bot token, Telegram IDs, домен/IP, UUID, реальные профили и QR-коды, логи, TLS/Reality ключи и текущие конфигурации.",
@@ -1565,7 +1565,7 @@ def write_landing_page(
         },
         {
             "title": "VPN Telegram Admin Bot",
-            "text": "Личный VPN-контур: одноразовые приглашения и ручное одобрение, бессрочный персональный профиль, QR для Happ, SQLite и ограниченный helper для Xray без Docker/root-доступа у бота.",
+            "text": "Личный VPN-контур: одноразовые приглашения и ручное одобрение, бессрочный профиль, QR для Happ, Happ Desktop и ручная выдача человеку без Telegram; SQLite и ограниченный helper для Xray.",
             "tags": ["Python", "Telegram API", "SQLite", "systemd", "Xray", "Nginx"],
             "type": "Python · systemd · VPN",
             "categories": ["security", "automation"],

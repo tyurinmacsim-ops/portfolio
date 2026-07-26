@@ -19,7 +19,10 @@ USER_MENU = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
-ADMIN_MENU = ReplyKeyboardMarkup([["Статус сервера", "Клиенты VPN"], ["Журнал действий"]], resize_keyboard=True)
+ADMIN_MENU = ReplyKeyboardMarkup(
+    [["Статус сервера", "Клиенты VPN"], ["Создать конфиг вручную"], ["Журнал действий"]],
+    resize_keyboard=True,
+)
 
 
 def is_admin(update: Update, settings: Settings) -> bool:
@@ -82,12 +85,13 @@ async def phone_instruction(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
 
 async def pc_instruction(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Демонстрирует импорт текстового VLESS-ключа в AmneziaVPN на ПК."""
+    """Демонстрирует импорт VLESS-ключа в Happ Desktop на Windows."""
     settings: Settings = context.application.bot_data["settings"]
     profile = build_ws_profile(settings, create_client_id())
     await update.effective_message.reply_text(
-        "ПК — AmneziaVPN\n\n"
-        "Выберите добавление по текстовому ключу и вставьте VLESS-ссылку. "
+        "ПК — Happ Desktop (Windows)\n\n"
+        "1. Скачайте: https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe\n"
+        "2. В Happ Desktop добавьте конфигурацию из буфера и вставьте VLESS-ссылку. "
         "Для переноса между устройствами бот может выдать ту же строку в .txt-файле."
     )
     profile_file = BytesIO(profile.encode("utf-8"))
@@ -98,10 +102,29 @@ async def pc_instruction(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def bypass_instruction(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.effective_message.reply_text(
         "Обход VPN для Госуслуг и VK\n\n"
-        "В AmneziaVPN на Windows добавьте соответствующие приложения в исключения раздельного туннелирования. "
-        "Для сайтов в браузере лучше использовать отдельный браузер без VPN: исключение приложения не разделяет вкладки.\n\n"
-        "У Happ правила маршрутизации зависят от версии клиента, поэтому рабочий бот не применяет их автоматически."
+        "В Happ правила маршрутизации зависят от версии приложения, поэтому рабочий бот не применяет исключения автоматически. "
+        "Добавляйте только нужные сайты или приложения по одному в разделе Routing/Bypass, если он доступен.\n\n"
+        "Для сайтов в браузере надёжнее использовать отдельный браузер без включённого VPN."
     )
+
+
+async def manual_profile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Демо ручной выдачи: в рабочем варианте профиль сохраняется в SQLite и Xray."""
+    settings: Settings = context.application.bot_data["settings"]
+    if not is_admin(update, settings):
+        await update.effective_message.reply_text("Эта функция доступна только администратору.")
+        return
+    name = " ".join(context.args).strip()
+    if not name:
+        await update.effective_message.reply_text("Демо: используйте /manual_client <имя>. В рабочем боте есть кнопка с вводом имени.")
+        return
+    profile = build_ws_profile(settings, create_client_id(), name)
+    await update.effective_message.reply_text(
+        f"Демонстрационный ручной профиль для «{name}». Передайте QR или ключ лично; в рабочем варианте он бессрочный до отзыва.",
+        protect_content=True,
+    )
+    await update.effective_message.reply_photo(profile_qr_png(profile), protect_content=True)
+    await update.effective_message.reply_text(profile, protect_content=True)
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -118,6 +141,7 @@ async def menu_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "Обход VPN для VK и Госуслуг": bypass_instruction,
         "Помощь": help_command,
         "Статус сервера": status,
+        "Создать конфиг вручную": manual_profile,
     }
     handler = handlers.get(text)
     if handler:
@@ -131,6 +155,7 @@ def main() -> None:
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("status", status))
     app.add_handler(CommandHandler("demo_profile", demo_profile))
+    app.add_handler(CommandHandler("manual_client", manual_profile))
     app.add_handler(CommandHandler("phone", phone_instruction))
     app.add_handler(CommandHandler("pc", pc_instruction))
     app.add_handler(CommandHandler("bypass", bypass_instruction))

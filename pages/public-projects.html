@@ -79,7 +79,7 @@
 <li>Что показывает: <code>Python</code>, Telegram long polling, русский UI, <code>SQLite</code>, <code>systemd</code>, Xray, nginx WebSocket proxy и безопасную границу привилегий.</li>
 <li>Ключевой паттерн: бот не получает Docker/root-доступ. Он вызывает только allowlisted helper, который выполняет backup → validate → apply → health check для Xray.</li>
 <li>Доступ: одноразовое приглашение → анкета → ручное одобрение; затем один персональный бессрочный профиль с явным отзывом владельцем.</li>
-<li>UX: Happ получает QR-код, созданный в памяти, и резервную VLESS-ссылку; AmneziaVPN получает текстовый ключ и <code>.txt</code>-файл.</li>
+<li>UX: Happ получает QR-код, созданный в памяти, и резервную VLESS-ссылку; Happ Desktop на ПК — текстовый ключ и <code>.txt</code>-файл. Владелец также может вручную завести профиль родственнику без Telegram.</li>
 <li>Эксплуатация: раздельно проверяются права <code>systemd</code>, права helper и изменяемые каталоги Xray, чтобы ошибка доступа не превращалась в «успешную» выдачу профиля.</li>
 <li>Публичный sanitized bundle: <a href="vpn-telegram-admin-bot.html">artifacts/vpn-telegram-admin-bot</a>.</li>
 <li>Что не публикуется: токен бота, ID канала, домен/IP, UUID, реальные VPN-ссылки, QR-коды, логи и ключи TLS/Reality.</li>
