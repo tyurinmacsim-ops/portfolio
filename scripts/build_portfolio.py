@@ -641,6 +641,7 @@ CONTENT_PAGE_MAP = {
     "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
     "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
     "docs/ARTIFACT_EVIDENCE.md": "pages/artifact-evidence.html",
+    "docs/EUSY_AZURE_EVIDENCE.md": "pages/eusy-azure-evidence.html",
     "docs/RESUME_PORTFOLIO_MAP.md": "pages/resume-portfolio-map.html",
     "projects/platform-engineering-demo/README.md": "pages/platform-engineering-demo.html",
 }
@@ -799,6 +800,7 @@ def write_content_pages(repo_root: Path) -> None:
         "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
         "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
         "docs/ARTIFACT_EVIDENCE.md": ("Дополнительные артефакты", "Подтверждения по рабочим материалам без читаемой git-истории."),
+        "docs/EUSY_AZURE_EVIDENCE.md": ("SWAPP и Azure / EUSY", "Обезличенное подтверждение раннего DevOps-периода по восстановленной git-истории."),
         "docs/RESUME_PORTFOLIO_MAP.md": ("Сопоставление резюме и портфолио", "Как читать резюме вместе с git-данными, графиками и non-git evidence."),
         "projects/platform-engineering-demo/README.md": (
             "Демо-стенд platform engineering",
@@ -1028,7 +1030,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         {
             "title": "Azure / AKS / security",
             "period": "~0.7 года",
-            "text": "AKS, private ingress, Key Vault, network policies, audit trail, platform hardening и подготовка инфраструктурного контура к PCI DSS.",
+            "text": "AKS, private ingress, Key Vault и platform hardening; ранний архив дополнительно подтверждает Terraform/Ansible для Vault, TLS/PKI, DNS, load balancing и PostgreSQL Flexible Server.",
             "areas": [
                 "AKS и private PaaS",
                 "RBAC, TLS, Key Vault",
@@ -1069,7 +1071,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
             "title": "Azure / AKS / PCI DSS readiness",
             "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
             "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
-            "text": "IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.",
+            "text": "IaC, private ingress, network policies и Key Vault; восстановленная история подтверждает 16 прямых коммитов и 2 merge-события под рабочей учёткой sirzak в Azure/Vault/PostgreSQL-контуре.",
             "link": ("Смотреть кейс", "pages/case-studies.html"),
         },
         {
@@ -1156,6 +1158,7 @@ def write_landing_page(path: Path, summary: dict, backup_artifact: dict | None, 
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
+        ("SWAPP и Azure / EUSY", "pages/eusy-azure-evidence.html"),
         ("Backup automation toolkit", "artifacts/backup-automation/README.md"),
         ("K8s-box toolkit", "artifacts/k8s-box/README.md"),
         ("Сопоставление резюме и портфолио", "pages/resume-portfolio-map.html"),
@@ -1555,6 +1558,7 @@ def main() -> None:
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/case-studies.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/public-projects.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/artifact-evidence.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/eusy-azure-evidence.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/resume-portfolio-map.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/platform-engineering-demo.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/artifacts/backup-automation/README.md</loc></url>

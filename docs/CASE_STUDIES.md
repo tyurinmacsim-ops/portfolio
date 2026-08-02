@@ -11,6 +11,8 @@
 ## 2. Azure / AKS / PCI DSS readiness
 
 - Контекст: fintech-инфраструктура в Azure.
+- Подтверждение раннего архива: `16` прямых коммитов `maximtyurin`, `2` merge-коммита под подтверждённой рабочей учёткой `sirzak` и `45` уникальных файлов в прямой авторской истории.
+- Дополнительный подтверждённый слой: Terraform и Ansible для HashiCorp Vault, TLS/PKI, DNS, load balancing, PostgreSQL Flexible Server и сетевой инфраструктуры Azure.
 - Что делал: IaC на `Terraform/Terragrunt`, GitOps через `FluxCD + GitLab CI`, AKS node pools, autoscaling, network policies, private ingress, Key Vault, аудитный след.
 - Что это доказывает: опыт не только deployment-задач, но и platform/security-oriented DevOps работы.
 - Результат: подготовка инфраструктурного контура к внешнему аудиту, ускорение релизного цикла и снижение эксплуатационных рисков.
