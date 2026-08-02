@@ -926,6 +926,7 @@ CONTENT_PAGE_MAP = {
     "docs/PUBLIC_PROJECTS.md": "pages/public-projects.html",
     "docs/APPLICATION_BLURB.md": "pages/application-blurb.html",
     "docs/ARTIFACT_EVIDENCE.md": "pages/artifact-evidence.html",
+    "docs/EUSY_AZURE_EVIDENCE.md": "pages/eusy-azure-evidence.html",
     "docs/ZEROONETECH_EVIDENCE.md": "pages/zeroonetech-evidence.html",
     "docs/SKILLS_ASSESSMENT.md": "pages/skills-assessment.html",
     "docs/RESUME_PUBLIC.md": "pages/resume.html",
@@ -1092,6 +1093,7 @@ def write_content_pages(repo_root: Path) -> None:
         "docs/PUBLIC_PROJECTS.md": ("Публичные демо-проекты", "Отдельные воспроизводимые артефакты для техпроверки."),
         "docs/APPLICATION_BLURB.md": ("Краткое описание", "Короткая версия описания портфолио для отклика."),
         "docs/ARTIFACT_EVIDENCE.md": ("Дополнительные артефакты", "Подтверждения по рабочим материалам без читаемой git-истории."),
+        "docs/EUSY_AZURE_EVIDENCE.md": ("SWAPP и Azure / EUSY", "Обезличенное подтверждение раннего DevOps-периода по восстановленной git-истории."),
         "docs/ZEROONETECH_EVIDENCE.md": ("Дополнительные данные по tgbot/tgbots", "Безопасная публичная выжимка только по tgbot/tgbots: Retool, Debezium и migration flow."),
         "docs/SKILLS_ASSESSMENT.md": ("Матрица навыков", "Выжимка и графики по заполненному DevOps-опроснику."),
         "docs/RESUME_PUBLIC.md": ("Резюме", "Краткая публичная версия резюме для HR и технического интервью."),
@@ -1381,7 +1383,7 @@ def write_landing_page(
         {
             "title": "Azure, AKS и безопасность",
             "period": "~0.7 года",
-            "text": "AKS, private ingress, Key Vault, network policies, audit trail, platform hardening и подготовка инфраструктурного контура к PCI DSS.",
+            "text": "AKS, private ingress, Key Vault и platform hardening; ранний архив дополнительно подтверждает Terraform/Ansible для Vault, TLS/PKI, DNS, load balancing и PostgreSQL Flexible Server.",
             "areas": [
                 "AKS и private PaaS",
                 "RBAC, TLS, Key Vault",
@@ -1451,13 +1453,13 @@ def write_landing_page(
             "title": "Azure, AKS и подготовка к PCI DSS",
             "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
             "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
-            "text": "IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.",
+            "text": "IaC, private ingress, network policies и Key Vault; восстановленная история подтверждает 16 прямых коммитов и 2 merge-события под рабочей учёткой sirzak в Azure/Vault/PostgreSQL-контуре.",
             "role": "DevOps / Cloud Engineer",
             "categories": ["platform", "kubernetes", "iac", "gitops", "security", "mlops"],
             "flow": ["Terraform", "AKS", "FluxCD", "Key Vault"],
             "interview": "Private ingress, network policies, секреты, audit trail и границы ответственности IaC/GitOps в security-oriented контуре.",
             "limitation": "Портфолио описывает инфраструктурную подготовку и пройденный аудит, но не выдаёт её за личную сертификацию PCI DSS.",
-            "link": ("Смотреть кейс", "pages/case-studies.html"),
+            "link": ("Смотреть подтверждение", "pages/eusy-azure-evidence.html"),
         },
         {
             "title": "Yandex Cloud и платформенный набор",
@@ -1758,6 +1760,7 @@ def write_landing_page(
         ("Кейсы", "pages/case-studies.html"),
         ("Публичные демо-проекты", "pages/public-projects.html"),
         ("Дополнительные артефакты", "pages/artifact-evidence.html"),
+        ("SWAPP и Azure / EUSY", "pages/eusy-azure-evidence.html"),
         ("Дополнительные данные по tgbot/tgbots", "pages/zeroonetech-evidence.html"),
         *skills_quick_links,
         ("Backup automation toolkit", "pages/backup-automation.html"),
@@ -2200,6 +2203,7 @@ def main() -> None:
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/case-studies.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/public-projects.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/artifact-evidence.html</loc></url>
+  <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/eusy-azure-evidence.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/zeroonetech-evidence.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/skills-assessment.html</loc></url>
   <url><loc>https://tyurinmacsim-ops.github.io/portfolio/pages/resume.html</loc></url>
