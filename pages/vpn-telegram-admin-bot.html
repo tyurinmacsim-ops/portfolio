@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VPN Telegram Admin Bot • Портфолио</title>
+  <meta name="description" content="Личный VPN-контур: закрытый доступ, персональные профили и безопасное администрирование.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>VPN Telegram Admin Bot</h1>
+        <p class="content-lead">Личный VPN-контур: закрытый доступ, персональные профили и безопасное администрирование.</p>
+      </header>
+      <article class="prose">
+        <h1>VPN Telegram Admin Bot</h1>
+<p>Обезличенный портфельный пример личного VPN-контура на небольшом VPS: Telegram-бот на Python управляет доступом небольшой группы пользователей, а VPN остаётся отдельным сервисом <code>Xray + Nginx</code>.</p>
+<p>Решение рассчитано на личное использование и примерно 5 пользователей. Это не тяжёлая панель и не Kubernetes-стек: <code>long polling</code>, SQLite, systemd и один небольшой privileged helper.</p>
+<p><a href="https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/vpn-telegram-admin-bot">Открыть исходный код на GitHub</a></p>
+<h2>Что демонстрирует</h2>
+<ul>
+<li>закрытый семейный onboarding: одноразовая ссылка-приглашение → короткая анкета → ручное approve/reject владельцем;</li>
+<li>русскоязычный Telegram-интерфейс: выдача одного бессрочного профиля на человека, QR-импорт для Happ на телефоне и инструкции для Happ Desktop на ПК;</li>
+<li>выдачу VLESS-ключа также текстовым файлом для импорта в Happ Desktop;</li>
+<li>ручную выдачу отдельного профиля родственнику без Telegram: имя → QR/VLESS/<code>.txt</code> → отзыв из общего списка;</li>
+<li>объяснение безопасного обхода VPN для Госуслуг/VK: правила Routing/Bypass зависят от версии Happ и не применяются автоматически;</li>
+<li>проверку административного allowlist по Telegram ID;</li>
+<li>безопасную выдачу профиля <code>VLESS + WS + TLS</code> через приватный чат;</li>
+<li>паттерн заявок в канал: approve/reject → eligibility → self-service activation;</li>
+<li>статус VPS, nginx и Xray через фиксированный helper;</li>
+<li>SQLite для пользователей, сроков, аудита и выданных профилей;</li>
+<li>изоляцию systemd-сервиса и минимальный <code>sudoers</code> allowlist;</li>
+<li>Xray только на <code>127.0.0.1:10000</code>, TLS и WebSocket reverse proxy в nginx;</li>
+<li>backup/validate/reload как обязательный workflow перед изменением Xray.</li>
+</ul>
+<h2>Пользовательский поток</h2>
+<ul>
+<li>Владелец создаёт одноразовую ссылку и отправляет её конкретному родственнику.</li>
+<li>Родственник представляет себя в короткой анкете; владелец сверяет человека в знакомом личном чате и одобряет заявку.</li>
+<li>Бот создаёт персональный VLESS-профиль. Он не истекает сам и остаётся в приложении до ручного отзыва владельцем. Если у человека нет Telegram, владелец создаёт профиль вручную по имени.</li>
+<li>На телефоне бот отправляет QR-код, сформированный только в памяти, и резервную VLESS-ссылку. На ПК — установщик Happ Desktop, текстовый ключ и <code>.txt</code>-файл.</li>
+<li>Владелец может посмотреть список, временно отключить или отозвать профиль; отзыв удаляет клиента и из Xray, и из учёта бота.</li>
+</ul>
+<h2>Операционные выводы</h2>
+<ul>
+<li>Система считает выдачу успешной только после изменения Xray и фиксации записи в SQLite; при ошибке не оставляет «полувыданный» профиль.</li>
+<li><code>systemd</code>-изоляция не должна мешать ровно тем операциям, которые выполняет ограниченный root helper. Поэтому он получает доступ только к каталогу состояния бота и bind-mounted конфигурации Xray, а не к домашним каталогам или Docker socket бота.</li>
+<li><code>NoNewPrivileges=yes</code> здесь неприменим: helper вызывается через <code>sudo</code>. Вместо этого граница строится из отдельного пользователя, точечного <code>sudoers</code>, allowlist действий, проверки аргументов и отсутствия <code>shell=True</code>.</li>
+<li>Перед деплоем проверяются импорты, unit-тесты, перезапуск сервиса и его состояние. Ошибка выдачи не маскируется как успешная активация.</li>
+</ul>
+<h2>Архитектура</h2>
+<pre><code>Пользователь -&gt; заявка в Telegram-канал -&gt; одобрение владельцем
+                                      -&gt; личный Telegram-бот
+                                      -&gt; SQLite (доступы и аудит)
+                                      -&gt; ограниченный root helper
+                                      -&gt; Xray config / nginx status
+
+VPN-клиент -&gt; HTTPS :443 /vpn-ws -&gt; nginx -&gt; 127.0.0.1:10000 -&gt; Xray</code></pre>
+<h2>Безопасность</h2>
+<ul>
+<li>В git нет токенов, доменов, IP, UUID, реальных QR-кодов, клиентских ссылок, логов или TLS-ключей.</li>
+<li>Сам бот не добавляется в группу <code>docker</code> и не получает общий root/SSH-доступ.</li>
+<li>Helper принимает только заранее заданные действия и не использует <code>shell=True</code>.</li>
+<li>Чувствительный профиль выдаётся только в личный чат с <code>protect_content=True</code>; QR создаётся в памяти, а в audit log попадает только результат операции.</li>
+<li>Для полного падения VPS нужен независимый внешний HTTP/TCP мониторинг: внутренний бот в этот момент не сможет отправить alert.</li>
+</ul>
+<h2>Состав</h2>
+<ul>
+<li><code>app/</code> — минимальный async Python sample с русскими сообщениями.</li>
+<li><code>scripts/vpn-bot-helper.py</code> — пример root-owned status helper.</li>
+<li><code>systemd/</code> — unit и точечный sudoers allowlist.</li>
+<li><code>deploy/</code> — localhost-only Xray и nginx WebSocket location.</li>
+<li><code>.env.example</code> — только placeholder-переменные.</li>
+<li><code>tests/</code> — проверка параметров выдаваемого WS+TLS профиля.</li>
+</ul>
+<h2>Проверка</h2>
+<pre><code>python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+PYTHONPATH=. .venv/bin/python -m unittest discover -s tests -v</code></pre>
+<h2>Граница примера</h2>
+<p>В рабочем варианте выдача/отзыв клиента выполняются транзакционно: lock → backup конфигурации → валидация Xray → атомарное применение → health check → rollback при ошибке. В этом публичном артефакте не публикуются реальные команды, реквизиты или действующие профили.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

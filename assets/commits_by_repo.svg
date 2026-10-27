@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="374" viewBox="0 0 1100 374">
+<style>
+text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
+</style>
+<defs>
+<linearGradient id="barFill" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="#0f766e"/>
+<stop offset="100%" stop-color="#d97706"/>
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="1100" height="374" rx="28" ry="28" fill="#fffaf4"/>
+<text class="title" x="30" y="44">Коммиты по ключевым потокам</text>
+<text class="subtitle" x="30" y="68">Крупнейшие подтверждённые направления по объёму вклада.</text>
+<text class="label" x="30" y="103">Project 07 - ArgoCD delivery platform</text>
+<rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="url(#barFill)"/>
+<text class="value" x="1066" y="103">2953</text>
+<text class="label" x="30" y="147">Project 02 - Ops automation / Ansible + Terraform</text>
+<rect x="300" y="130" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="130" rx="8" ry="8" width="392" height="24" fill="url(#barFill)"/>
+<text class="value" x="704" y="147">1538</text>
+<text class="label" x="30" y="191">Project 01 - GitOps / FluxCD platform</text>
+<rect x="300" y="174" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="174" rx="8" ry="8" width="329" height="24" fill="url(#barFill)"/>
+<text class="value" x="641" y="191">1292</text>
+<text class="label" x="30" y="235">Project 08 - Helm chart fleet</text>
+<rect x="300" y="218" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="218" rx="8" ry="8" width="197" height="24" fill="url(#barFill)"/>
+<text class="value" x="509" y="235">775</text>
+<text class="label" x="30" y="279">Project 09 - GitLab templates for bot delivery</text>
+<rect x="300" y="262" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="262" rx="8" ry="8" width="62" height="24" fill="url(#barFill)"/>
+<text class="value" x="374" y="279">245</text>
+<text class="label" x="30" y="323">Project 10 - Access management platform</text>
+<rect x="300" y="306" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="306" rx="8" ry="8" width="39" height="24" fill="url(#barFill)"/>
+<text class="value" x="351" y="323">155</text>
+</svg>

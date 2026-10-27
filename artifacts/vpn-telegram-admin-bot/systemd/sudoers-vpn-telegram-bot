@@ -1,0 +1,2 @@
+# Validate with visudo -cf before installing.
+vpn-bot ALL=(root) NOPASSWD: /usr/local/sbin/vpn-bot-helper status

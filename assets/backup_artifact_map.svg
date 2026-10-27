@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="374" viewBox="0 0 1100 374">
+<style>
+text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
+</style>
+<defs>
+<linearGradient id="barFill" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="#0f766e"/>
+<stop offset="100%" stop-color="#d97706"/>
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="1100" height="374" rx="28" ry="28" fill="#fffaf4"/>
+<text class="title" x="30" y="44">Состав backup automation toolkit</text>
+<text class="subtitle" x="30" y="68">Отдельный рабочий артефакт без git-истории, вынесенный в портфолио как non-git evidence.</text>
+<text class="label" x="30" y="103">Python</text>
+<rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="86" rx="8" ry="8" width="150" height="24" fill="url(#barFill)"/>
+<text class="value" x="462" y="103">3</text>
+<text class="label" x="30" y="147">Shell</text>
+<rect x="300" y="130" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="130" rx="8" ry="8" width="301" height="24" fill="url(#barFill)"/>
+<text class="value" x="613" y="147">6</text>
+<text class="label" x="30" y="191">YAML</text>
+<rect x="300" y="174" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="174" rx="8" ry="8" width="754" height="24" fill="url(#barFill)"/>
+<text class="value" x="1066" y="191">15</text>
+<text class="label" x="30" y="235">Dockerfile</text>
+<rect x="300" y="218" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="218" rx="8" ry="8" width="150" height="24" fill="url(#barFill)"/>
+<text class="value" x="462" y="235">3</text>
+<text class="label" x="30" y="279">Env files</text>
+<rect x="300" y="262" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="262" rx="8" ry="8" width="150" height="24" fill="url(#barFill)"/>
+<text class="value" x="462" y="279">3</text>
+<text class="label" x="30" y="323">Kustomize</text>
+<rect x="300" y="306" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
+<rect x="300" y="306" rx="8" ry="8" width="100" height="24" fill="url(#barFill)"/>
+<text class="value" x="412" y="323">2</text>
+</svg>

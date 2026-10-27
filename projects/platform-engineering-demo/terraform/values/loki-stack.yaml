@@ -1,0 +1,23 @@
+loki:
+  enabled: true
+  isDefault: false
+  persistence:
+    enabled: false
+
+promtail:
+  enabled: true
+
+grafana:
+  enabled: false
+
+prometheus:
+  enabled: false
+
+fluent-bit:
+  enabled: false
+
+filebeat:
+  enabled: false
+
+test_pod:
+  enabled: false

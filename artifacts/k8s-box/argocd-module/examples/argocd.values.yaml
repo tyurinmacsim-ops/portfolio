@@ -1,0 +1,29 @@
+global:
+  domain: argocd.example.com
+
+configs:
+  params:
+    server.insecure : true
+server:
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      cert-manager.io/cluster-issuer: tetst-issuer
+    ingressClassName: nginx-internal
+    hostname: "argocd.example.com"
+    extraTls:
+      - hosts:
+          - argocd.example.com
+        secretName: "argocd-tls"
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false
+
+controller:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: false

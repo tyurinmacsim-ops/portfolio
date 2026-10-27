@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480">
+<style>
+text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
+</style>
+<rect x="0" y="0" width="1200" height="480" rx="28" ry="28" fill="#fffaf4"/>
+<text class="title" x="30" y="46">Ключевые рабочие потоки во времени</text>
+<text class="subtitle" x="30" y="70">Видно, какие направления шли дольше и где был самый плотный вклад.</text>
+<line x1="421.7" y1="88" x2="421.7" y2="446" stroke="#eadfce"/>
+<text class="axis" x="407.7" y="78">2024</text>
+<line x1="756.4" y1="88" x2="756.4" y2="446" stroke="#eadfce"/>
+<text class="axis" x="742.4" y="78">2025</text>
+<line x1="1090.3" y1="88" x2="1090.3" y2="446" stroke="#eadfce"/>
+<text class="axis" x="1076.3" y="78">2026</text>
+<text class="label" x="30" y="106">Project 07 - ArgoCD delivery platform</text>
+<rect x="793.9" y="92" width="238.7" height="18.0" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="793.9" cy="101.0" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="1032.7" cy="101.0" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="1042.7" y="104">2953 коммитов</text>
+<text class="label" x="30" y="154">Project 02 - Ops automation / Ansible + Terraform</text>
+<rect x="313.7" y="140" width="713.5" height="14.2" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="313.7" cy="147.1" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="1027.2" cy="147.1" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="1037.2" y="152">1538 коммитов</text>
+<text class="label" x="30" y="202">Project 01 - GitOps / FluxCD platform</text>
+<rect x="316.5" y="188" width="158.2" height="13.5" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="316.5" cy="194.8" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="474.7" cy="194.8" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="484.7" y="200">1292 коммитов</text>
+<text class="label" x="30" y="250">Project 08 - Helm chart fleet</text>
+<rect x="316.5" y="236" width="715.3" height="12.1" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="316.5" cy="242.0" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="1031.8" cy="242.0" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="1041.8" y="248">775 коммитов</text>
+<text class="label" x="30" y="298">Project 09 - GitLab templates for bot delivery</text>
+<rect x="398.8" y="284" width="569.9" height="10.7" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="398.8" cy="289.3" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="968.7" cy="289.3" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="978.7" y="296">245 коммитов</text>
+<text class="label" x="30" y="346">Project 10 - Access management platform</text>
+<rect x="1078.4" y="332" width="64.0" height="10.4" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="1078.4" cy="337.2" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="1142.4" cy="337.2" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="1152.4" y="344">155 коммитов</text>
+<text class="label" x="30" y="394">Workstream 07</text>
+<rect x="300.0" y="380" width="10.1" height="10.3" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="300.0" cy="385.2" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="310.1" cy="385.2" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="320.1" y="392">126 коммитов</text>
+<text class="label" x="30" y="442">Project 11 - Kubernetes platform box</text>
+<rect x="1145.2" y="428" width="12.8" height="10.3" rx="10" ry="10" fill="#0f766e" opacity="0.88"/>
+<circle cx="1145.2" cy="433.2" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<circle cx="1158.0" cy="433.2" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="value" x="1168.0" y="440">122 коммитов</text>
+</svg>

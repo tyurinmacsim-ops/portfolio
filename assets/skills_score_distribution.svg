@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="390" viewBox="0 0 900 390">
+<style>
+text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
+</style>
+<rect x="0" y="0" width="900" height="390" rx="28" ry="28" fill="#fffaf4"/>
+<text class="title" x="30" y="46">Распределение оценок по опроснику</text>
+<text class="subtitle" x="30" y="70">Честная skill-матрица на 100 технологий: сильный профиль сосредоточен в релевантных DevOps-зонах, а нерелевантные инструменты не завышались.</text>
+<line x1="76" y1="314.0" x2="862" y2="314.0" stroke="#eadfce"/>
+<text class="axis" x="20" y="318.0">0</text>
+<line x1="76" y1="256.5" x2="862" y2="256.5" stroke="#eadfce"/>
+<text class="axis" x="20" y="260.5">3</text>
+<line x1="76" y1="199.0" x2="862" y2="199.0" stroke="#eadfce"/>
+<text class="axis" x="20" y="203.0">7</text>
+<line x1="76" y1="141.5" x2="862" y2="141.5" stroke="#eadfce"/>
+<text class="axis" x="20" y="145.5">11</text>
+<line x1="76" y1="84.0" x2="862" y2="84.0" stroke="#eadfce"/>
+<text class="axis" x="20" y="88.0">15</text>
+<rect x="92.5" y="99.3" width="45.6" height="214.7" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="104.5" y="89.3">14</text>
+<text class="axis" x="101.3" y="360">1/10</text>
+<rect x="171.1" y="84.0" width="45.6" height="230.0" rx="16" ry="16" fill="#d97706"/>
+<text class="value" x="183.1" y="74.0">15</text>
+<text class="axis" x="179.9" y="360">2/10</text>
+<rect x="249.7" y="84.0" width="45.6" height="230.0" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="261.7" y="74.0">15</text>
+<text class="axis" x="258.5" y="360">3/10</text>
+<rect x="328.3" y="114.7" width="45.6" height="199.3" rx="16" ry="16" fill="#c2410c"/>
+<text class="value" x="340.3" y="104.7">13</text>
+<text class="axis" x="337.1" y="360">4/10</text>
+<rect x="406.9" y="191.3" width="45.6" height="122.7" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="418.9" y="181.3">8</text>
+<text class="axis" x="415.7" y="360">5/10</text>
+<rect x="485.5" y="176.0" width="45.6" height="138.0" rx="16" ry="16" fill="#d97706"/>
+<text class="value" x="497.5" y="166.0">9</text>
+<text class="axis" x="494.3" y="360">6/10</text>
+<rect x="564.1" y="99.3" width="45.6" height="214.7" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="576.1" y="89.3">14</text>
+<text class="axis" x="572.9" y="360">7/10</text>
+<rect x="642.7" y="130.0" width="45.6" height="184.0" rx="16" ry="16" fill="#c2410c"/>
+<text class="value" x="654.7" y="120.0">12</text>
+<text class="axis" x="651.5" y="360">8/10</text>
+<rect x="721.3" y="314.0" width="45.6" height="0.0" rx="16" ry="16" fill="#0f766e"/>
+<text class="value" x="733.3" y="304.0">0</text>
+<text class="axis" x="730.1" y="360">9/10</text>
+<rect x="799.9" y="314.0" width="45.6" height="0.0" rx="16" ry="16" fill="#d97706"/>
+<text class="value" x="811.9" y="304.0">0</text>
+<text class="axis" x="808.7" y="360">10/10</text>
+</svg>

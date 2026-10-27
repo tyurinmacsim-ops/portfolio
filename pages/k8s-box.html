@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Платформенный набор k8s-box • Портфолио</title>
+  <meta name="description" content="Sanitized toolkit для Yandex Cloud, Kubernetes, Vault и GitOps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Платформенный набор k8s-box</h1>
+        <p class="content-lead">Sanitized toolkit для Yandex Cloud, Kubernetes, Vault и GitOps.</p>
+      </header>
+      <article class="prose">
+        <h1>K8s-box в Yandex Cloud (Terraform + Terragrunt)</h1>
+<p>Публичная sanitized-копия рабочего toolkit для портфолио.</p>
+<p>Что исключено из этой копии:</p>
+<ul>
+<li><code>.git</code> и локальная история;</li>
+<li><code>.env</code> с рабочими значениями;</li>
+<li><code>.generated</code> и runtime-артефакты;</li>
+<li>клиентские VPN-конфиги из <code>.artifacts/vpn-clients</code>;</li>
+<li>дублирующий рабочий каталог <code>k8s-box-main</code>.</li>
+</ul>
+<p>Что не входит в эту публичную копию:</p>
+<ul>
+<li>соседний GitOps/runtime-репозиторий <code>infrastructure</code>, на который ссылается часть automation и документации.</li>
+</ul>
+<p>Репозиторий поднимает test-платформу в Yandex Cloud:</p>
+<ul>
+<li><code>folder</code></li>
+<li><code>vpc</code></li>
+<li><code>security-group</code></li>
+<li><code>vpn-vm</code> (опциональная VPN-точка входа)</li>
+<li><code>infra-runner</code> (внешний GitLab runner, опционально)</li>
+<li><code>test-cluster-k8s</code></li>
+<li><code>vault-infra</code></li>
+<li><code>argocd</code></li>
+</ul>
+<p>Далее ArgoCD разворачивает runtime-приложения из соседнего репозитория <code>infrastructure</code> (Vault, Observability).</p>
+<h2>Что уже вариативно</h2>
+<p>Решение уже можно использовать как внутренний инженерный toolkit под разные вводные заказчика, но с честными границами текущей реализации.</p>
+<p>Через код уже переключается:</p>
+<ul>
+<li>инфраструктурный профиль кластера:</li>
+<li>версия Kubernetes,</li>
+<li>release channel,</li>
+<li>CNI (<code>calico|cilium</code>),</li>
+<li>публичность master endpoint,</li>
+<li>разрешение/запрет публичных LoadBalancer-сервисов,</li>
+<li>autoscaling и sizing node groups,</li>
+<li>выделенная monitoring-группа,</li>
+<li>security rules и CIDR-доступы, включая <code>nlb_hc</code>;</li>
+<li>Vault infra:</li>
+<li>KMS key,</li>
+<li>rotation period,</li>
+<li>backup bucket,</li>
+<li>service accounts;</li>
+<li>Vault runtime:</li>
+<li><code>test|prod</code> профиль,</li>
+<li>подключение backup-manifests,</li>
+<li>включение/выключение backup-manifests в test;</li>
+<li>Observability runtime:</li>
+<li><code>vm-loki-grafana</code> или <code>prom-loki-grafana</code>,</li>
+<li><code>test|dev|prod</code> профиль,</li>
+<li>провайдер Telegram-секрета для Alertmanager:</li>
+<li><code>vso</code>,</li>
+<li><code>external-secrets</code>,</li>
+<li><code>manual</code>.</li>
+</ul>
+<p>Границы текущей реализации:</p>
+<ul>
+<li>решение целенаправленно поддерживает только <code>Yandex Cloud</code>;</li>
+<li>вариативность предусмотрена для разных клиентских сценариев и профилей внутри <code>YC</code>;</li>
+</ul>
+<p>Дополнительно:</p>
+<ul>
+<li>runtime-вариант Vault и Observability можно задавать через env/CI variables без ручной правки соседнего <code>infrastructure</code>;</li>
+<li>единая точка входа для этого режима: <code>./scripts/apply-platform-runtime-profile.sh</code>;</li>
+<li>если рядом нет checkout <code>infrastructure</code>, automation может подтянуть его через <code>./scripts/ensure-infra-repo.sh</code>.</li>
+</ul>
+<p>Готовые profile-файлы для запуска и CI:</p>
+<ul>
+<li><a href="../artifacts/k8s-box/profiles/test-minimal.env">profiles/test-minimal.env</a></li>
+<li><a href="../artifacts/k8s-box/profiles/dev-standard.env">profiles/dev-standard.env</a></li>
+<li><a href="../artifacts/k8s-box/profiles/prod-baseline.env">profiles/prod-baseline.env</a></li>
+</ul>
+<p>Рекомендуемая схема:</p>
+<ul>
+<li>секреты держать в <code>.env</code> или GitLab CI variables;</li>
+<li>несекретные параметры выбирать одним profile-файлом;</li>
+<li>поверх profile при необходимости переопределять отдельные значения.</li>
+</ul>
+<p>---</p>
+<h2>Маршрут чтения (сверху вниз по сложности)</h2>
+<ul>
+<li>Новичок, первый запуск: <a href="../artifacts/k8s-box/docs/quickstart-test-cluster.md">docs/quickstart-test-cluster.md</a></li>
+<li>Модель конфигурации и источники значений: <a href="../artifacts/k8s-box/docs/configuration-model.md">docs/configuration-model.md</a></li>
+<li>Внутренний инфра-пайплайн (runner + CI-поток): <a href="../artifacts/k8s-box/docs/internal-infra-pipeline.md">docs/internal-infra-pipeline.md</a></li>
+<li>Запуск от требований (requirements -&gt; готовый стек): <a href="../artifacts/k8s-box/docs/requirements-driven-stack.md">docs/requirements-driven-stack.md</a></li>
+<li>Опросник для инженера по требованиям заказчика: <a href="../artifacts/k8s-box/docs/customer-requirements-questionnaire.md">docs/customer-requirements-questionnaire.md</a></li>
+<li>Полное руководство запуска/удаления: <a href="../artifacts/k8s-box/docs/deployment-launch-runbook.md">docs/deployment-launch-runbook.md</a></li>
+<li>Эксплуатация и обновления: <a href="../artifacts/k8s-box/docs/platform-update-maintenance.md">docs/platform-update-maintenance.md</a></li>
+<li>Vault + Observability: <a href="../artifacts/k8s-box/docs/vault-observability-runbook.md">docs/vault-observability-runbook.md</a></li>
+<li>Типовые ошибки и принятые решения: <a href="../artifacts/k8s-box/docs/known-errors-decisions.md">docs/known-errors-decisions.md</a></li>
+<li>VPN VM и WireGuard: <a href="../artifacts/k8s-box/docs/vpn-runbook.md">docs/vpn-runbook.md</a></li>
+</ul>
+<p>---</p>
+<h2>Быстрый старт (минимум шагов)</h2>
+<h3>1. Подготовь инструменты</h3>
+<ul>
+<li><code>terraform</code></li>
+<li><code>terragrunt</code></li>
+<li><code>yc</code></li>
+<li><code>kubectl</code></li>
+</ul>
+<h3>2. Заполни <code>env.hcl</code></h3>
+<p>Обязательные поля:</p>
+<ul>
+<li><code>cloud_id</code></li>
+<li><code>yc_zone</code></li>
+<li><code>network_name</code></li>
+<li><code>folder_name</code></li>
+</ul>
+<p>Важно:</p>
+<ul>
+<li>если просто поменять <code>folder_name</code> в том же state, Terraform переименует управляемый folder;</li>
+<li>для отдельного второго folder нужен отдельный state (отдельная копия <code>k8s-box</code> без <code>.terragrunt-cache/.terraform</code>).</li>
+</ul>
+<h3>2.1 Подготовь локальный <code>.env</code> по шаблону</h3>
+<pre><code>cp .env.example .env</code></pre>
+<p>Для рабочего запуска заполни в <code>.env</code> обязательно:</p>
+<ul>
+<li><code>TF_VAR_YC_TOKEN</code> (или <code>YC_TOKEN</code>)</li>
+<li><code>K8S_BOX_GITLAB_API_URL</code></li>
+<li><code>K8S_BOX_GITLAB_GROUP_PATH</code></li>
+<li><code>K8S_BOX_GITLAB_SUBGROUP</code></li>
+<li><code>K8S_BOX_STATIC_GIT_REPO_BASE_URL</code></li>
+<li><code>K8S_BOX_GITLAB_REPO_USER</code></li>
+<li><code>K8S_BOX_GITLAB_REPO_TOKEN</code> (или <code>GITLAB_TOKEN</code>)</li>
+<li><code>ARGOCD_ADMIN_PASSWORD</code></li>
+<li><code>K8S_BOX_VAULT_PROFILE</code></li>
+<li><code>K8S_BOX_VAULT_ENABLE_BACKUP_MANIFESTS</code></li>
+<li><code>K8S_BOX_VAULT_ENABLE_BACKUP_MANIFESTS_IN_TEST</code></li>
+<li><code>K8S_BOX_OBSERVABILITY_STACK</code></li>
+<li><code>K8S_BOX_OBSERVABILITY_PROFILE</code></li>
+<li><code>K8S_BOX_OBSERVABILITY_SECRET_PROVIDER</code></li>
+<li><code>K8S_BOX_OBSERVABILITY_ENABLE_SECRET_SYNC_IN_TEST</code></li>
+</ul>
+<p>Для test-стенда дополнительно рекомендуется явно держать:</p>
+<ul>
+<li><code>K8S_BOX_ALLOW_PUBLIC_LOAD_BALANCERS=false</code></li>
+<li><code>K8S_BOX_ENABLE_NLB_HC_RULE=false</code></li>
+</ul>
+<p><code> .env</code> уже игнорируется git и не должен попадать в репозиторий.</p>
+<p>Проверка заполнения <code>.env</code>:</p>
+<pre><code>./scripts/check-env.sh</code></pre>
+<p>Скрипт валидирует обязательные переменные и <code>CHANGE_ME</code> плейсхолдеры.</p>
+<h3>2.2 (Опционально) Подготовь стек на основе собранных требований</h3>
+<p>Если по проекту еще нет готового профиля, инженер сначала собирает вводные по нагрузке, сети, доступам, отказоустойчивости и ограничениям среды. На основе этих требований можно использовать генератор как вспомогательный инструмент для подготовки стартового стека:</p>
+<pre><code>cp profiles/cluster-requirements.example.env profiles/&lt;company&gt;-&lt;env&gt;.env
+./scripts/scaffold-stack-from-requirements.sh \
+  --requirements profiles/&lt;company&gt;-&lt;env&gt;.env \
+  --validate-only
+./scripts/scaffold-stack-from-requirements.sh \
+  --requirements profiles/&lt;company&gt;-&lt;env&gt;.env \
+  --output ../k8s-box-&lt;company&gt;-&lt;env&gt;</code></pre>
+<p>Подробно: <a href="../artifacts/k8s-box/docs/requirements-driven-stack.md">docs/requirements-driven-stack.md</a> Опросник для сбора вводных: <a href="../artifacts/k8s-box/docs/customer-requirements-questionnaire.md">docs/customer-requirements-questionnaire.md</a></p>
+<p>Генератор не заменяет инженерное решение, а ускоряет подготовку базовой конфигурации под типовой сценарий.</p>
+<p>Если используется готовый profile-файл, его можно проверить отдельно:</p>
+<pre><code>./scripts/validate-profile-file.sh profiles/test-minimal.env</code></pre>
+<h3>3. Задай токен</h3>
+<pre><code>export TF_VAR_YC_TOKEN=&quot;$(yc iam create-token)&quot;
+export TF_VAR_yc_token=&quot;$TF_VAR_YC_TOKEN&quot;</code></pre>
+<h3>4. Запусти bootstrap</h3>
+<p>Только runner (для начальной настройки CI):</p>
+<pre><code>./scripts/bootstrap-k8s-box.sh apply-runner</code></pre>
+<p>Для <code>apply-runner</code> обязательно задать:</p>
+<ul>
+<li><code>K8S_BOX_GITLAB_RUNNER_REGISTRATION_TOKEN</code> (или <code>K8S_BOX_GITLAB_RUNNER_TOKEN</code>)</li>
+<li><code>K8S_BOX_GITLAB_URL</code> (или <code>K8S_BOX_GITLAB_API_URL</code>, из которого URL будет вычислен)</li>
+</ul>
+<p>Только VPN VM:</p>
+<pre><code>./scripts/bootstrap-k8s-box.sh apply-vpn
+./scripts/vpn-smoke-check.sh</code></pre>
+<p>Для VPN test/dev сценария рекомендуемый operational-режим:</p>
+<ul>
+<li><code>K8S_BOX_VPN_VM_SSH_MODE=native</code></li>
+<li><code>K8S_BOX_VPN_VM_ENABLE_OSLOGIN=false</code></li>
+<li><code>K8S_BOX_VPN_VM_SSH_PUBLIC_KEY_PATH=~/.ssh/id_ed25519.pub</code></li>
+<li><code>K8S_BOX_VPN_VM_SSH_PRIVATE_KEY_PATH=~/.ssh/id_ed25519</code></li>
+</ul>
+<p>Если в организации принудительно включен <code>OS Login</code>, operational-доступ нужно переключать на:</p>
+<ul>
+<li><code>K8S_BOX_VPN_VM_SSH_MODE=yc</code></li>
+</ul>
+<p>В этом режиме <code>vpn-smoke-check.sh</code> и <code>vpn-create-wireguard-client.sh</code> используют <code>yc compute ssh</code>, а не обычный локальный <code>ssh</code>.</p>
+<p>Рекомендуемый VPN-стек для инженеров:</p>
+<ul>
+<li><code>WireGuard</code> как основной путь;</li>
+<li><code>OpenVPN</code> только как legacy-флаг в модуле, без полноценной operational-поддержки.</li>
+</ul>
+<p>Только кластер:</p>
+<pre><code>./scripts/bootstrap-k8s-box.sh apply-cluster</code></pre>
+<p>Полный стек (кластер + <code>vault-infra</code> + <code>argocd</code>):</p>
+<pre><code>./scripts/bootstrap-k8s-box.sh apply</code></pre>
+<h3>5. Проверь результат</h3>
+<p>После <code>apply-cluster</code>:</p>
+<pre><code>kubectl get nodes</code></pre>
+<p>Для test-профиля доступ к сервисам предполагается без внешнего LoadBalancer:</p>
+<ul>
+<li>через <code>kubectl port-forward</code>,</li>
+<li>через VPN VM (<code>WireGuard</code>),</li>
+<li>через внутренние <code>ClusterIP</code>/Ingress-маршруты внутри контура.</li>
+</ul>
+<p>Это сделано намеренно: test должен проверять общую концепцию кластера и платформы без лишних облачных расходов.</p>
+<p>После полного <code>apply</code> (с ArgoCD):</p>
+<pre><code>kubectl get nodes
+kubectl -n argocd get applications</code></pre>
+<p>Если контекст не появился автоматически:</p>
+<pre><code>cd test-cluster-k8s
+CLUSTER_ID=&quot;$(terragrunt output -raw cluster_id)&quot;
+cd ..
+yc managed-kubernetes cluster get-credentials --id &quot;$CLUSTER_ID&quot; --external --force</code></pre>
+<p>---</p>
+<h2>Команды (по назначению)</h2>
+<h3>Установка/удаление стека</h3>
+<pre><code>./scripts/bootstrap-k8s-box.sh --help
+./scripts/bootstrap-k8s-box.sh plan
+./scripts/bootstrap-k8s-box.sh apply
+./scripts/bootstrap-k8s-box.sh plan-vpn
+./scripts/bootstrap-k8s-box.sh apply-vpn
+./scripts/bootstrap-k8s-box.sh destroy-vpn
+./scripts/bootstrap-k8s-box.sh plan-runner
+./scripts/bootstrap-k8s-box.sh apply-runner
+./scripts/bootstrap-k8s-box.sh destroy-runner
+./scripts/bootstrap-k8s-box.sh apply-cluster
+./scripts/bootstrap-k8s-box.sh destroy
+./scripts/bootstrap-k8s-box.sh destroy-cluster
+./scripts/bootstrap-k8s-box.sh recreate
+./scripts/bootstrap-k8s-box.sh recreate-cluster</code></pre>
+<p>Примечания:</p>
+<ul>
+<li>по умолчанию <code>destroy</code> не удаляет folder (<code>SKIP_FOLDER_DESTROY=true</code>);</li>
+<li>для удаления folder: <code>SKIP_FOLDER_DESTROY=false ./scripts/bootstrap-k8s-box.sh destroy</code>;</li>
+<li>при <code>destroy</code> для <code>vault-infra</code> скрипт сам выставляет <code>kms_key_deletion_protection=false</code>.</li>
+</ul>
+<h3>Эксплуатация и обновления (после развертывания)</h3>
+<pre><code>./scripts/set-vault-profile.sh test --enable-backup-manifests true --enable-backup-in-test false
+./scripts/set-vault-profile.sh prod --enable-backup-manifests true
+./scripts/set-observability-stack.sh vm-loki-grafana --profile test
+./scripts/set-observability-stack.sh prom-loki-grafana --profile test
+./scripts/set-observability-stack.sh vm-loki-grafana --profile prod --secret-provider vso
+./scripts/set-observability-stack.sh prom-loki-grafana --profile prod --secret-provider external-secrets
+./scripts/apply-platform-runtime-profile.sh
+./scripts/platform-maintenance.sh plan-k8s
+./scripts/platform-maintenance.sh apply-k8s
+./scripts/platform-maintenance.sh plan-vault-infra
+./scripts/platform-maintenance.sh apply-vault-infra
+./scripts/platform-maintenance.sh plan-argocd
+./scripts/platform-maintenance.sh apply-argocd
+./scripts/platform-maintenance.sh sync-gitops
+./scripts/platform-maintenance.sh upgrade-vault-observability
+./scripts/platform-maintenance.sh status
+./scripts/platform-maintenance.sh smoke-services</code></pre>
+<p>Переключение observability-стека:</p>
+<ul>
+<li><code>vm-loki-grafana</code> — VictoriaMetrics + Loki + Grafana.</li>
+<li><code>prom-loki-grafana</code> — kube-prometheus-stack + Loki + Grafana.</li>
+<li><code>--secret-provider vso</code> — рекомендованный вариант по умолчанию для централизованной работы с Vault.</li>
+<li><code>--secret-provider external-secrets</code> — вариант для внешнего secret backend.</li>
+<li><code>--secret-provider manual</code> — fallback, если операторы секретов не нужны или еще не готовы.</li>
+</ul>
+<p>Переключение Vault runtime:</p>
+<ul>
+<li><code>./scripts/set-vault-profile.sh test</code> — облегченный standalone профиль.</li>
+<li><code>./scripts/set-vault-profile.sh prod --enable-backup-manifests true</code> — базовый HA/profile для продового сценария.</li>
+</ul>
+<p>Единая синхронизация runtime-варианта платформы:</p>
+<ul>
+<li><code>./scripts/apply-platform-runtime-profile.sh</code> — берет значения из <code>K8S_BOX_VAULT_<em></code> и <code>K8S_BOX_OBSERVABILITY_</em></code>, применяет их в <code>infrastructure</code> и сразу валидирует GitOps-рендер.</li>
+</ul>
+<h3>Ручной режим по модулям</h3>
+<p>Если нужен ручной режим, запускай <code>terragrunt</code> в порядке зависимостей:</p>
+<p><code>folder -&gt; vpc -&gt; security-group -&gt; vpn-vm -&gt; infra-runner -&gt; test-cluster-k8s -&gt; vault-infra -&gt; argocd</code></p>
+<p>Подробно: <a href="../artifacts/k8s-box/docs/deployment-launch-runbook.md">docs/deployment-launch-runbook.md</a></p>
+<h3>CI-режим (внутренний infra-pipeline)</h3>
+<p>Текущий пайплайн встроен в репозиторий <code>k8s-box</code>:</p>
+<ul>
+<li>На <code>push</code>/<code>MR</code> запускается <code>plan</code> по измененным директориям.</li>
+<li>После merge в <code>main</code> запускается <code>apply</code>.</li>
+<li>После <code>apply</code> запускаются <code>verify</code> проверки.</li>
+<li><code>destroy</code> оставлен manual.</li>
+</ul>
+<p>Для platform-стадий pipeline теперь сам:</p>
+<ul>
+<li>подтягивает соседний GitOps-репозиторий <code>infrastructure</code>;</li>
+<li>синхронизирует runtime-профиль Vault/Observability из CI variables;</li>
+<li>только после этого запускает <code>plan/apply/verify</code>.</li>
+</ul>
+<p>Требуется внешний GitLab runner с тегом <code>infra-runner</code>. Подробно: <a href="../artifacts/k8s-box/docs/internal-infra-pipeline.md">docs/internal-infra-pipeline.md</a></p>
+<p>---</p>
+<h2>Важно про test/prod</h2>
+<ul>
+<li>В этом репозитории есть модуль кластера только для test: <code>test-cluster-k8s</code>.</li>
+<li>Отдельного terragrunt-модуля <code>prod-cluster-k8s</code> сейчас нет.</li>
+<li><code>test/prod</code> в репозитории <code>infrastructure</code> — это профили приложений, а не создание разных кластеров.</li>
+</ul>
+<p>---</p>
+<h2>Структура репозитория</h2>
+<ul>
+<li><code>env.hcl</code> — общие параметры (<code>cloud_id</code>, <code>folder_name</code>, зона, сеть).</li>
+<li><code>folder/</code>, <code>vpc/</code>, <code>security-group/</code>, <code>vpn-vm/</code>, <code>infra-runner/</code>, <code>test-cluster-k8s/</code>, <code>vault-infra/</code>, <code>argocd/</code> — terragrunt-слои.</li>
+<li><code>yc-*-module/</code>, <code>argocd-module/</code> — terraform-модули, включая <code>yc-runner-module</code> и <code>yc-vpn-vm-module</code>.</li>
+<li><code>scripts/bootstrap-k8s-box.sh</code> — основной lifecycle-скрипт установки/удаления.</li>
+<li><code>scripts/platform-maintenance.sh</code> — скрипт обновлений и операций после развертывания.</li>
+<li><code>scripts/repair-folder-state.sh</code> — исправление устаревшего <code>folder state</code> (если <code>folder plan</code> ругается <code>folder not found</code>).</li>
+<li><code>scripts/yc-iam-smoke-check.sh</code> — короткая проверка create/bind/unbind/delete для YC IAM перед <code>apply-cluster</code>.</li>
+<li><code>scripts/scaffold-stack-from-requirements.sh</code> — генерация отдельного стека/state по входным требованиям.</li>
+<li><code>profiles/cluster-requirements.example.env</code> — шаблон входных параметров заказчика.</li>
+<li><code>docs/</code> — руководства и операционные материалы.</li>
+</ul>
+<p>README каждого модуля лежит внутри его директории.</p>
+<p>---</p>
+<h2>Частые проблемы</h2>
+<p>| Проблема | Что делать | |----------|------------| | <code>token has expired</code> / <code>UNAUTHENTICATED</code> | Обновить токен: <code>export TF_VAR_YC_TOKEN=&quot;$(yc iam create-token)&quot;</code> и повторить запуск. | | <code>AlreadyExists</code> при создании folder | Имя уже занято. Используй новое имя или отдельный state для второго стека. | | <code>folder not found</code> в <code>folder plan</code> | Выполни <code>./scripts/repair-folder-state.sh</code>, затем повтори <code>terragrunt plan</code>. | | <code>service account</code> / <code>folder IAM member</code> висят в <code>Still creating...</code> | Сначала выполни <code>./scripts/bootstrap-k8s-box.sh preflight-iam</code>. Если он зависает по timeout, это внешний блокер YC IAM backend, а не обычная ошибка HCL. | | <code>WARN ... has no outputs, but mock outputs provided</code> на <code>plan</code> | На пустом стеке это ожидаемое предупреждение Terragrunt при использовании <code>mock_outputs</code>. Сам план при этом валиден и показывает будущие ресурсы. | | <code>argocd</code> падает с <code>b64enc: invalid value; expected string</code> | Не задан токен репозитория. Проверь <code>K8S_BOX_GITLAB_REPO_TOKEN</code> или <code>GITLAB_TOKEN</code>. | | <code>argocd</code> падает без kube-context | Получи контекст через <code>yc ... get-credentials</code> или запускай через bootstrap/maintenance с авто-подхватом context. | | <code>healthcheck/redeploy</code> ожидает старые monitoring-app имена | Обновить <code>k8s-box</code> до актуальной версии: старые флаги ESO заменены на <code>alertmanagerTelegram.secretProvider</code> и новый набор приложений VSO/ESO/manual. | | После <code>destroy</code> остался KMS | Повтори <code>./scripts/bootstrap-k8s-box.sh destroy</code> (в скрипте уже встроено отключение deletion protection). |</p>
+<p>---</p>
+<h2>Соседний репозиторий <code>infrastructure</code></h2>
+<p><code>argocd</code> модуль настраивает доступ ArgoCD к GitOps-репозиторию:</p>
+<ul>
+<li>базовый путь задается через <code>K8S_BOX_STATIC_GIT_REPO_BASE_URL</code> (пример: <code>https://gitlab.example.com/my-group/infrastructure</code>)</li>
+<li>профили приложений (<code>test</code>/<code>prod</code>) находятся уже там.</li>
+</ul>
+<p>В публичную копию портфолио этот соседний runtime-репозиторий не входит.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

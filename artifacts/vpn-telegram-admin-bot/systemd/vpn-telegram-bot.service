@@ -1,0 +1,26 @@
+[Unit]
+Description=Personal VPN Telegram administration bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=vpn-bot
+Group=vpn-bot
+WorkingDirectory=/opt/vpn-telegram-bot
+EnvironmentFile=/etc/vpn-telegram-bot/bot.env
+ExecStart=/opt/vpn-telegram-bot/.venv/bin/python -m app.main
+Restart=on-failure
+RestartSec=5
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/vpn-telegram-bot
+# Helper вызывается через sudo и меняет только bind-mounted конфиг Xray.
+# NoNewPrivileges здесь нельзя включать: sudo тогда не сможет перейти к root.
+ReadWritePaths=/var/lib/amnezia-xray
+MemoryMax=180M
+CPUQuota=25%
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

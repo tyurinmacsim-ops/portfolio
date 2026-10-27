@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Демо-стенд platform engineering • Портфолио</title>
+  <meta name="description" content="Воспроизводимый Terraform + Kubernetes + observability стенд.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Демо-стенд platform engineering</h1>
+        <p class="content-lead">Воспроизводимый Terraform + Kubernetes + observability стенд.</p>
+      </header>
+      <article class="prose">
+        <h1>Демо-стенд platform engineering</h1>
+<p>Демонстрационный проект для портфолио, который показывает практическую работу сразу по нескольким направлениям:</p>
+<ul>
+<li>bootstrap платформы через Terraform;</li>
+<li>доставка приложения в Kubernetes;</li>
+<li>CI/CD на GitHub Actions;</li>
+<li>метрики и логи через Prometheus, Grafana и Loki.</li>
+</ul>
+<p>Репозиторий специально сделан как local-first демо. Он использует одноразовый <code>kind</code>-кластер, поэтому весь сценарий можно поднять на ноутбуке или в GitHub Actions без облачных учётных данных.</p>
+<h2>Что это демонстрирует</h2>
+<ul>
+<li>Terraform управляет платформенными add-on&#x27;ами через Helm;</li>
+<li>Kubernetes manifests описывают приложение в production-shaped виде;</li>
+<li>CI/CD не декоративный, а реально проверяет репозиторий и делает smoke deploy;</li>
+<li>observability встроена в приложение, а не добавлена постфактум.</li>
+</ul>
+<h2>Архитектура</h2>
+<pre><code>flowchart LR
+    GH[GitHub Actions] --&gt; KIND[kind cluster]
+    TF[Terraform] --&gt; HELM[Helm releases]
+    HELM --&gt; KPS[kube-prometheus-stack]
+    HELM --&gt; LOKI[Loki stack]
+    APP[demo-api manifests] --&gt; KIND
+    APP --&gt; SM[ServiceMonitor]
+    SM --&gt; KPS
+    APP --&gt; LOGS[Container logs]
+    LOGS --&gt; LOKI
+    KPS --&gt; GRAFANA[Grafana]</code></pre>
+<h2>Структура репозитория</h2>
+<pre><code>.
+├── .github/workflows/ci.yml
+├── app/
+├── kind/
+├── k8s/demo-api/
+├── scripts/
+├── terraform/
+└── Makefile</code></pre>
+<h2>Быстрый локальный старт</h2>
+<p>Требования:</p>
+<ul>
+<li><code>docker</code></li>
+<li><code>kind</code></li>
+<li><code>kubectl</code></li>
+<li><code>helm</code></li>
+<li><code>terraform</code></li>
+</ul>
+<p>Поднять кластер и платформу:</p>
+<pre><code>make kind-up
+make tf-apply
+make app-deploy
+make smoke</code></pre>
+<p><code>make kind-up</code> экспортирует отдельный kubeconfig в <code>.tmp/kubeconfig</code>, поэтому демо не зависит от состояния вашего <code>~/.kube/config</code>. <code>make tf-apply</code> также инициализирует Helm-репозитории в изолированном локальном кеше <code>.tmp/helm</code>, чтобы не наследовать сломанные глобальные настройки рабочего окружения.</p>
+<p>Открыть Grafana:</p>
+<pre><code>make grafana</code></pre>
+<p>Логин по умолчанию:</p>
+<ul>
+<li>user: <code>admin</code></li>
+<li>password: <code>admin123</code></li>
+</ul>
+<p>Открыть Prometheus:</p>
+<pre><code>make prometheus</code></pre>
+<h2>Как устроен CI/CD</h2>
+<p>GitHub Actions pipeline состоит из двух jobs:</p>
+<h3><code>validate</code></h3>
+<ul>
+<li><code>terraform fmt -check</code></li>
+<li><code>terraform validate</code></li>
+<li><code>kubectl kustomize</code> render check</li>
+</ul>
+<h3><code>smoke</code></h3>
+<ul>
+<li>создаёт временный <code>kind</code>-кластер</li>
+<li>собирает образ приложения</li>
+<li>загружает образ в <code>kind</code></li>
+<li>применяет Terraform-ресурсы платформы</li>
+<li>деплоит manifests приложения</li>
+<li>проверяет health и metrics</li>
+</ul>
+<h2>Нюансы локального kind</h2>
+<ul>
+<li>Репозиторий прогнан end-to-end на локальном <code>kind</code>-кластере.</li>
+<li><code>HPA</code> здесь production-shaped, но обычный <code>kind</code> не отдаёт resource metrics из коробки. Приложение при этом разворачивается корректно; autoscaling становится активным, когда в кластере появляется metrics API.</li>
+</ul>
+<h2>Почему структура именно такая</h2>
+<ul>
+<li><code>Terraform</code> отвечает за namespaces и платформенные сервисы.</li>
+<li><code>Kubernetes manifests</code> отвечают за само приложение.</li>
+<li><code>GitHub Actions</code> подтверждают, что репозиторий рабочий, а не декоративный.</li>
+<li><code>kind</code> делает демо переносимым и дешёвым в запуске.</li>
+</ul>
+<h2>Полезные команды</h2>
+<pre><code>make fmt
+make validate
+make kind-up
+make tf-apply
+make app-deploy
+make smoke
+make grafana
+make prometheus
+make kind-down</code></pre>
+<h2>Дальше можно расширять</h2>
+<ul>
+<li>добавить Argo CD для pull-based GitOps delivery;</li>
+<li>добавить policy checks через OPA или Kyverno;</li>
+<li>добавить alert rules и synthetic checks;</li>
+<li>добавить managed-cloud вариант для EKS или AKS.</li>
+</ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

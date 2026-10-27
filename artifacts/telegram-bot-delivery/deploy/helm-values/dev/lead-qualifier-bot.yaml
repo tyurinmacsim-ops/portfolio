@@ -1,0 +1,44 @@
+replicaCount: 1
+
+image:
+  repository: registry.example.com/tg-bots/crm/lead-qualifier-bot
+  tag: dev-abcdef12-1001
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: docker-pull-secret
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
+securityContext:
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  allowPrivilegeEscalation: false
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/bots-dev-k8s-role
+
+podAnnotations:
+  vault.security.banzaicloud.io/vault-addr: https://vault.infra-internal.example.com
+  vault.security.banzaicloud.io/vault-path: k8s-dev
+  vault.security.banzaicloud.io/vault-role: default
+  vault.security.banzaicloud.io/vault-env-from-path: bots-dev/data/apps/lead-qualifier-bot
+
+ingress:
+  enabled: true
+  istioSelector: external-ingress-gateway
+  host: lead-qualifier-bot.dev.example.com
+  tls:
+    secretName: bots-dev-cert
+    mode: SIMPLE
+    host: lead-qualifier-bot.dev.example.com

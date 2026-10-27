@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Автоматизация резервного копирования и восстановления • Портфолио</title>
+  <meta name="description" content="Redacted toolkit: backup/restore, проверки и эксплуатационные сценарии.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell">
+    <section class="content-panel">
+      <nav class="content-nav">
+        <a class="brand" href="../index.html">Назад к портфолио</a>
+      </nav>
+      <header class="content-head">
+        <p class="eyebrow">Материал</p>
+        <h1>Автоматизация резервного копирования и восстановления</h1>
+        <p class="content-lead">Redacted toolkit: backup/restore, проверки и эксплуатационные сценарии.</p>
+      </header>
+      <article class="prose">
+        <h1>Артефакты автоматизации резервного копирования</h1>
+<p>Публичный набор redacted-копий рабочих automation-артефактов по резервному копированию и восстановлению данных.</p>
+<p>Что здесь важно:</p>
+<ul>
+<li>это не учебные примеры с нуля, а обезличенные публичные версии рабочих скриптов;</li>
+<li>приватные идентификаторы, внутренние имена и детали окружений убраны;</li>
+<li>логика сохранена: <code>AWS S3</code>, <code>Secrets Manager</code>, <code>Slack alerting</code>, <code>PostgreSQL</code>, <code>MariaDB</code>, <code>MongoDB</code>, <code>Kubernetes CronJob</code>, shell-based dump/restore pipelines.</li>
+</ul>
+<p>Структура:</p>
+<ul>
+<li><a href="../artifacts/backup-automation/backup-k8s/files/daily_backups_lambda.py">backup-k8s/files/daily_backups_lambda.py</a></li>
+<li><a href="../artifacts/backup-automation/backup-k8s/files/restore_backups.py">backup-k8s/files/restore_backups.py</a></li>
+<li><a href="../artifacts/backup-automation/backup-mongo-k8s/files/daily_backups_mongodb.py">backup-mongo-k8s/files/daily_backups_mongodb.py</a></li>
+</ul>
+<p>Что это подтверждает:</p>
+<ul>
+<li>эксплуатацию stateful сервисов, а не только CI/CD и деплой;</li>
+<li>работу с recovery workflows и проверкой восстановления;</li>
+<li>умение собирать операционный контур вокруг дампов, шифрования, хранения и оповещений.</li>
+</ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
