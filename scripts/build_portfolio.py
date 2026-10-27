@@ -1286,6 +1286,7 @@ def write_landing_page(
     k8s_box_artifact: dict | None,
     skills_profile: dict | None,
     recent_activity: dict,
+    gitlab_activity: dict,
 ) -> None:
     repos = summary["repos"]
     monthly = summary["monthly"]
@@ -1872,7 +1873,7 @@ def write_landing_page(
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css?v=20260723">
-  <link rel="stylesheet" href="assets/home.css?v=20261027-2">
+  <link rel="stylesheet" href="assets/home.css?v=20261027-3">
   <script src="assets/site.js?v=20260723-2" defer></script>
 </head>
 <body>
@@ -1960,13 +1961,13 @@ def write_landing_page(
     <section class="panel recent-work audience-section" id="recent-work" data-audiences="hr tech interview ai">
       <div class="section-head">
         <p class="eyebrow">Актуальная практика · 2026</p>
-        <h2>Perx / MyNaghi: инфраструктура, delivery, надёжность</h2>
-        <p>Развивал и сопровождал платформы в Yandex Cloud, AWS, Selectel и bare-metal Kubernetes. Подтверждённая Git-активность: {escape(recent_activity['period']['from'])} — {escape(recent_activity['period']['to'])}. Исходные репозитории приватные.</p>
+        <h2>Perx / MyNaghi: решения в инфраструктуре, а не список инструментов</h2>
+        <p>Yandex Cloud, AWS, Selectel и bare-metal Kubernetes. Подтверждённая Git-активность: {escape(recent_activity['period']['from'])} — {escape(recent_activity['period']['to'])}. Исходные репозитории и merge requests приватные.</p>
       </div>
       <div class="recent-work-grid">
         <div class="recent-metric"><strong>{format_int(recent_activity['unique_commits'])}</strong><span>уникальных коммитов</span><small>по SHA, без дублей рабочих копий</small></div>
-        <div class="recent-metric"><strong>{format_int(recent_activity['non_merge_commits'])}</strong><span>не merge-коммитов</span><small>отдельно от интеграционных merge</small></div>
-        <div class="recent-metric"><strong>{format_int(recent_activity['merge_commits'])}</strong><span>merge-коммитов</span><small>не считаются самостоятельной задачей</small></div>
+        <div class="recent-metric"><strong>{format_int(gitlab_activity['merged_merge_requests'])}</strong><span>объединённых merge requests</span><small>снимок приватного GitLab на {escape(gitlab_activity['observed_on'])}</small></div>
+        <div class="recent-metric"><strong>22</strong><span>Selectel-ВМ</span><small>последовательное обновление Traefik</small></div>
       </div>
       <div class="recent-topics">
         <span>Terraform / Terragrunt / GitOps</span>
@@ -1975,9 +1976,9 @@ def write_landing_page(
         <span>Airflow / Kubernetes workers</span>
       </div>
       <div class="recent-outcomes">
-        <article><strong>Контролируемые изменения</strong><p>Инфраструктурный pipeline: проверки, plan, управляемый apply и контроль расхождений.</p></article>
-        <article><strong>Надёжность workloads</strong><p>Автоматизация жизненного цикла временных Kubernetes workers; настройка метрик, алертов и Airflow.</p></article>
-        <article><strong>Эксплуатация хостов</strong><p>Последовательные инфраструктурные изменения на парке из 22 Selectel-ВМ с обновлением Traefik.</p></article>
+        <article><strong>Контролируемое IaC</strong><p>Validate → plan → управляемый apply и drift. Приватный Kubernetes API доступен pipeline через GitLab Agent, без публичного ingress.</p></article>
+        <article><strong>Безопасные временные workers</strong><p>Crossplane + Airflow: очистка устаревшей Node только после проверки отсутствия VM и активных pod; исправлены повторные алерты.</p></article>
+        <article><strong>Восстановление и rollout</strong><p>Traefik обновлялся последовательно на 22 ВМ. После сбоя зон Yandex Cloud участвовал в восстановлении сайтов и подготовке переноса.</p></article>
       </div>
       <p class="recent-disclaimer">Это свидетельство недавней инженерной активности, а не оценка качества или масштаба результатов. Детали задач готов обсудить на собеседовании без раскрытия приватной инфраструктуры.</p>
       <a class="text-link" href="pages/activity-2026.html">Методика и разбор направлений →</a>
@@ -2216,6 +2217,8 @@ def main() -> None:
     skills_profile = build_skill_profile(read_skill_matrix(SKILLS_MATRIX_PATH))
     recent_path = repo_root / "data" / "perx_commit_summary.json"
     recent_activity = json.loads(recent_path.read_text(encoding="utf-8"))
+    gitlab_path = repo_root / "data" / "gitlab_activity_2026.json"
+    gitlab_activity = json.loads(gitlab_path.read_text(encoding="utf-8"))
 
     write_json(repo_root / "data" / "commit_summary.json", summary)
     write_csv(repo_root / "data" / "repo_overview.csv", summary["repos"])
@@ -2224,7 +2227,7 @@ def main() -> None:
     write_artifact_evidence(repo_root / "docs" / "ARTIFACT_EVIDENCE.md", backup_artifact)
     write_skills_assessment(repo_root / "docs" / "SKILLS_ASSESSMENT.md", skills_profile)
     k8s_box_artifact = analyze_public_toolkit(repo_root / K8S_BOX_PUBLIC_ROOT)
-    write_landing_page(repo_root / "index.html", summary, backup_artifact, k8s_box_artifact, skills_profile, recent_activity)
+    write_landing_page(repo_root / "index.html", summary, backup_artifact, k8s_box_artifact, skills_profile, recent_activity, gitlab_activity)
     write_content_pages(repo_root)
     (repo_root / ".nojekyll").write_text("", encoding="utf-8")
     (repo_root / "robots.txt").write_text(

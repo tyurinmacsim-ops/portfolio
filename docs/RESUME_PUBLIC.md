@@ -15,8 +15,8 @@ DevOps / Platform Engineer с `4+` годами коммерческого оп�
 
 - `Linux`, `Docker`, `Kubernetes`, `Helm`
 - `GitLab CI/CD`, `ArgoCD`, `FluxCD`
-- `Terraform`, `Terragrunt`, `Ansible`
-- `AWS`, `Azure`, `Yandex Cloud`
+- `OpenTofu/Terraform`, `Terragrunt`, `Ansible`
+- `AWS`, `Azure`, `Yandex Cloud`, `Selectel`
 - `PostgreSQL`, `Redis`, `Kafka`, `RabbitMQ`, `MongoDB`, `ClickHouse`
 - `Prometheus`, `Grafana`, `Loki`, `VictoriaMetrics`, `Vault`
 
@@ -30,15 +30,16 @@ DevOps / Platform Engineer с `4+` годами коммерческого оп�
 
 ## Опыт
 
-### Perx / MyNaghi | подтверждённая Git-активность 2026-08 — 2026-10
+### PERX / MyNaghi | 2026-08 — 2026-10
 
-- развивал инфраструктуру в `Yandex Cloud`, `AWS`, `Selectel` и bare-metal `Kubernetes`: OpenTofu/Terraform, Ansible, Helm и Argo CD;
-- построил инфраструктурный GitLab pipeline с этапами проверки, plan, контролируемого apply и контроля расхождений;
-- сопровождал GitLab Runner, приватный доступ через NetBird, мониторинг и сетевые правила;
-- автоматизировал жизненный цикл временных Kubernetes workers в Yandex Cloud и AWS; разбирал зависшие Node и повторные алерты;
-- настраивал Prometheus/Grafana, параметры Airflow и importer workloads: параллелизм, requests/limits и размещение pod'ов;
-- участвовал в последовательных инфраструктурных изменениях на `22` Selectel-ВМ, включая обновление Traefik;
-- локальный Git-архив содержит `922` уникальных коммита; это показатель активности, не масштаба результата. [Методика и ограничения](./ACTIVITY_2026.md).
+Инфраструктура Perx и MyNaghi в Yandex Cloud, AWS, Selectel и bare-metal Kubernetes; production и dev/stage.
+
+- OpenTofu/Terraform для сетей, ВМ, Kubernetes и managed PostgreSQL. В GitLab CI выстроил validate → plan → контролируемый apply, проверки drift и зависимости между стеками.
+- Развивал приватный delivery-контур: GitLab Runner с доступом через NetBird и мониторингом, Ansible для хостов, Helm и Argo CD для релизов.
+- Для Airflow/importer настроил ресурсы и параллелизм; автоматизировал временные worker-ноды через Crossplane в Yandex Cloud и AWS. Добавил безопасную очистку устаревших Node после проверки отсутствия ВМ и активных pod.
+- В Prometheus/Grafana разобрал причины повторных алертов Kubernetes и серверов, исправил правила; устранил ложный `KubeDaemonSetRolloutStuck` от потерянных worker-нод.
+- Поэтапно обновил Traefik на `22` Selectel-ВМ и проверил состояние сервисов. Участвовал в восстановлении сайтов после сбоя зон Yandex Cloud и подготовке переноса сервисов на Selectel.
+- Для MyNaghi сопровождал публикацию сайта из S3 через CloudFront и управление кэшем. [Разбор решений и методика](./ACTIVITY_2026.md).
 
 ### Hilbert Team | 2025-12 — 2026-03
 

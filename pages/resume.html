@@ -38,8 +38,8 @@
 <ul>
 <li><code>Linux</code>, <code>Docker</code>, <code>Kubernetes</code>, <code>Helm</code></li>
 <li><code>GitLab CI/CD</code>, <code>ArgoCD</code>, <code>FluxCD</code></li>
-<li><code>Terraform</code>, <code>Terragrunt</code>, <code>Ansible</code></li>
-<li><code>AWS</code>, <code>Azure</code>, <code>Yandex Cloud</code></li>
+<li><code>OpenTofu/Terraform</code>, <code>Terragrunt</code>, <code>Ansible</code></li>
+<li><code>AWS</code>, <code>Azure</code>, <code>Yandex Cloud</code>, <code>Selectel</code></li>
 <li><code>PostgreSQL</code>, <code>Redis</code>, <code>Kafka</code>, <code>RabbitMQ</code>, <code>MongoDB</code>, <code>ClickHouse</code></li>
 <li><code>Prometheus</code>, <code>Grafana</code>, <code>Loki</code>, <code>VictoriaMetrics</code>, <code>Vault</code></li>
 </ul>
@@ -52,15 +52,15 @@
 <li>сопровождал production-инфраструктуру для <code>100+</code> микросервисов.</li>
 </ul>
 <h2>Опыт</h2>
-<h3>Perx / MyNaghi | подтверждённая Git-активность 2026-08 — 2026-10</h3>
+<h3>PERX / MyNaghi | 2026-08 — 2026-10</h3>
+<p>Инфраструктура Perx и MyNaghi в Yandex Cloud, AWS, Selectel и bare-metal Kubernetes; production и dev/stage.</p>
 <ul>
-<li>развивал инфраструктуру в <code>Yandex Cloud</code>, <code>AWS</code>, <code>Selectel</code> и bare-metal <code>Kubernetes</code>: OpenTofu/Terraform, Ansible, Helm и Argo CD;</li>
-<li>построил инфраструктурный GitLab pipeline с этапами проверки, plan, контролируемого apply и контроля расхождений;</li>
-<li>сопровождал GitLab Runner, приватный доступ через NetBird, мониторинг и сетевые правила;</li>
-<li>автоматизировал жизненный цикл временных Kubernetes workers в Yandex Cloud и AWS; разбирал зависшие Node и повторные алерты;</li>
-<li>настраивал Prometheus/Grafana, параметры Airflow и importer workloads: параллелизм, requests/limits и размещение pod&#x27;ов;</li>
-<li>участвовал в последовательных инфраструктурных изменениях на <code>22</code> Selectel-ВМ, включая обновление Traefik;</li>
-<li>локальный Git-архив содержит <code>922</code> уникальных коммита; это показатель активности, не масштаба результата. <a href="activity-2026.html">Методика и ограничения</a>.</li>
+<li>OpenTofu/Terraform для сетей, ВМ, Kubernetes и managed PostgreSQL. В GitLab CI выстроил validate → plan → контролируемый apply, проверки drift и зависимости между стеками.</li>
+<li>Развивал приватный delivery-контур: GitLab Runner с доступом через NetBird и мониторингом, Ansible для хостов, Helm и Argo CD для релизов.</li>
+<li>Для Airflow/importer настроил ресурсы и параллелизм; автоматизировал временные worker-ноды через Crossplane в Yandex Cloud и AWS. Добавил безопасную очистку устаревших Node после проверки отсутствия ВМ и активных pod.</li>
+<li>В Prometheus/Grafana разобрал причины повторных алертов Kubernetes и серверов, исправил правила; устранил ложный <code>KubeDaemonSetRolloutStuck</code> от потерянных worker-нод.</li>
+<li>Поэтапно обновил Traefik на <code>22</code> Selectel-ВМ и проверил состояние сервисов. Участвовал в восстановлении сайтов после сбоя зон Yandex Cloud и подготовке переноса сервисов на Selectel.</li>
+<li>Для MyNaghi сопровождал публикацию сайта из S3 через CloudFront и управление кэшем. <a href="activity-2026.html">Разбор решений и методика</a>.</li>
 </ul>
 <h3>Hilbert Team | 2025-12 — 2026-03</h3>
 <ul>
