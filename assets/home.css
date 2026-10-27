@@ -697,6 +697,31 @@ summary:focus-visible {
   font-size: 0.7rem;
 }
 
+.recent-outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.recent-outcomes article {
+  padding: 22px;
+  border: 1px solid var(--home-line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.recent-outcomes strong {
+  color: var(--home-text);
+}
+
+.recent-outcomes p {
+  margin: 9px 0 0;
+  color: var(--home-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
 .recent-disclaimer {
   margin: 20px 0 0;
   font-size: 0.82rem;
@@ -1186,6 +1211,7 @@ th {
   .mode-grid,
   .hr-grid,
   .recent-work-grid,
+  .recent-outcomes,
   .interview-grid,
   .case-grid,
   .artifact-grid,

@@ -1540,9 +1540,9 @@ def write_landing_page(
     timeline_items.append(
         {
             "period": "авг - окт 2026",
-            "title": "IaC, GitOps и эксплуатация Kubernetes",
+            "title": "Perx / MyNaghi — платформенная инфраструктура",
             "meta": "локальный Git-архив",
-            "text": "Подтверждена активность в Terraform/Terragrunt, Helm, Ansible, CI/CD и мониторинге. Код приватный; опубликованы только обезличенные агрегаты.",
+            "text": "Yandex Cloud, AWS, Selectel и bare-metal Kubernetes: IaC, GitOps, CI/CD, monitoring и эксплуатация. Код приватный; опубликованы только агрегаты и описание задач.",
             "tags": ["Terraform", "Terragrunt", "Helm", "Ansible", "observability"],
         }
     )
@@ -1872,7 +1872,7 @@ def write_landing_page(
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css?v=20260723">
-  <link rel="stylesheet" href="assets/home.css?v=20261027">
+  <link rel="stylesheet" href="assets/home.css?v=20261027-2">
   <script src="assets/site.js?v=20260723-2" defer></script>
 </head>
 <body>
@@ -1960,8 +1960,8 @@ def write_landing_page(
     <section class="panel recent-work audience-section" id="recent-work" data-audiences="hr tech interview ai">
       <div class="section-head">
         <p class="eyebrow">Актуальная практика · 2026</p>
-        <h2>Работал с платформой до октября 2026</h2>
-        <p>Отдельный локальный Git-архив за {escape(recent_activity['period']['from'])} — {escape(recent_activity['period']['to'])}. Репозитории приватные: здесь только проверенные агрегаты и обезличенные направления, не клиентский код.</p>
+        <h2>Perx / MyNaghi: инфраструктура, delivery, надёжность</h2>
+        <p>Развивал и сопровождал платформы в Yandex Cloud, AWS, Selectel и bare-metal Kubernetes. Подтверждённая Git-активность: {escape(recent_activity['period']['from'])} — {escape(recent_activity['period']['to'])}. Исходные репозитории приватные.</p>
       </div>
       <div class="recent-work-grid">
         <div class="recent-metric"><strong>{format_int(recent_activity['unique_commits'])}</strong><span>уникальных коммитов</span><small>по SHA, без дублей рабочих копий</small></div>
@@ -1973,6 +1973,11 @@ def write_landing_page(
         <span>Helm и конфигурация окружений</span>
         <span>Ansible / CI runners / monitoring</span>
         <span>Airflow / Kubernetes workers</span>
+      </div>
+      <div class="recent-outcomes">
+        <article><strong>Контролируемые изменения</strong><p>Инфраструктурный pipeline: проверки, plan, управляемый apply и контроль расхождений.</p></article>
+        <article><strong>Надёжность workloads</strong><p>Автоматизация жизненного цикла временных Kubernetes workers; настройка метрик, алертов и Airflow.</p></article>
+        <article><strong>Эксплуатация хостов</strong><p>Последовательные инфраструктурные изменения на парке из 22 Selectel-ВМ с обновлением Traefik.</p></article>
       </div>
       <p class="recent-disclaimer">Это свидетельство недавней инженерной активности, а не оценка качества или масштаба результатов. Детали задач готов обсудить на собеседовании без раскрытия приватной инфраструктуры.</p>
       <a class="text-link" href="pages/activity-2026.html">Методика и разбор направлений →</a>
