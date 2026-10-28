@@ -3,8 +3,8 @@
 text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
 </style>
 <rect x="0" y="0" width="1200" height="480" rx="28" ry="28" fill="#fffaf4"/>
-<text class="title" x="30" y="46">Ключевые рабочие потоки во времени</text>
-<text class="subtitle" x="30" y="70">Видно, какие направления шли дольше и где был самый плотный вклад.</text>
+<text class="title" x="30" y="46">Потоки во времени · исторический архив</text>
+<text class="subtitle" x="30" y="70">Периоды по отдельной архивной выгрузке по март 2026.</text>
 <line x1="421.7" y1="88" x2="421.7" y2="446" stroke="#eadfce"/>
 <text class="axis" x="407.7" y="78">2024</text>
 <line x1="756.4" y1="88" x2="756.4" y2="446" stroke="#eadfce"/>

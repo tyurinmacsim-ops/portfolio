@@ -3,8 +3,8 @@
 text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { font-size: 26px; font-weight: 800; }.subtitle { font-size: 13px; fill: #627084; }.label { font-size: 14px; }.axis { font-size: 12px; fill: #6d7a8d; }.value { font-size: 14px; font-weight: 700; }
 </style>
 <rect x="0" y="0" width="900" height="390" rx="28" ry="28" fill="#fffaf4"/>
-<text class="title" x="30" y="46">Коммиты по годам</text>
-<text class="subtitle" x="30" y="70">Сводная интенсивность по подтверждённым периодам.</text>
+<text class="title" x="30" y="46">Коммиты по годам · исторический архив</text>
+<text class="subtitle" x="30" y="70">Отдельная архивная выгрузка по март 2026; не включает свежий срез августа—октября.</text>
 <line x1="76" y1="314.0" x2="862" y2="314.0" stroke="#eadfce"/>
 <text class="axis" x="20" y="318.0">0</text>
 <line x1="76" y1="256.5" x2="862" y2="256.5" stroke="#eadfce"/>

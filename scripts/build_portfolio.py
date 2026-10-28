@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 32708)
+Total output lines: 2390
+
 #!/usr/bin/env python3
 
 import csv
@@ -298,6 +301,7 @@ def build_summary(source_root: Path) -> dict:
         "invalid_git_copies_skipped": len(invalid_repos),
         "repos_with_my_commits": len(summary),
         "total_my_commits": sum(item["commits"] for item in summary),
+        "counting_method": "Коммиты считаются по репозиториям; одинаковые SHA из повторных рабочих копий отдельно не дедуплицируются.",
         "author_variants": author_variants.most_common(),
         "author_aliases_detected": len(author_variants),
         "invalid_repos": invalid_repos,
@@ -586,15 +590,14 @@ def make_bar_svg(title: str, subtitle: str, labels: list[str], values: list[int]
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def make_stat_cards_svg(summary: dict, output_path: Path) -> None:
-    monthly = summary["monthly"]
-    yearly = summary["yearly"]
+def make_stat_cards_svg(recent_activity: dict, output_path: Path) -> None:
+    monthly = recent_activity["monthly_unique_commits"]
     top_month, top_month_value = max(monthly.items(), key=lambda item: item[1])
-    top_year, top_year_value = max(yearly.items(), key=lambda item: item[1])
+    period = recent_activity["period"]
     cards = [
-        ("Подтверждённые коммиты", format_int(summary["total_my_commits"])),
-        ("Активные потоки", str(summary["repos_with_my_commits"])),
-        ("Сильнейший год", f"{top_year} / {format_int(top_year_value)}"),
+        ("Уникальные коммиты", format_int(recent_activity["unique_commits"])),
+        ("Репозитории со вкладом", str(recent_activity["repositories_with_author_commits"])),
+        ("Данные актуальны на", period["to"]),
         ("Пиковый месяц", f"{top_month} / {format_int(top_month_value)}"),
     ]
 
@@ -615,7 +618,7 @@ def make_stat_cards_svg(summary: dict, output_path: Path) -> None:
         "</style>",
         f'<rect x="0" y="0" width="{width}" height="{height}" rx="30" ry="30" fill="#fffaf4"/>',
         '<text class="title" x="30" y="46">Снимок портфолио</text>',
-        '<text class="subtitle" x="30" y="70">Ключевые числа по масштабу, стабильности и интенсивности поставки изменений.</text>',
+        '<text class="subtitle" x="30" y="70">Свежий локальный Git-срез Perx / MyNaghi; коммиты дедуплицированы по SHA.</text>',
     ]
 
     for idx, (label, value) in enumerate(cards):
@@ -679,10 +682,10 @@ def make_line_svg(title: str, subtitle: str, labels: list[str], values: list[int
         lines.append(f'<text class="axis" x="22" y="{y + 4:.1f}">{value}</text>')
 
     for idx, label in enumerate(labels):
-        if idx % 3 != 0 and idx != len(labels) - 1:
+        if len(labels) > 6 and idx % 3 != 0 and idx != len(labels) - 1:
             continue
         x = left + (plot_width * idx / max(1, len(labels) - 1))
-        lines.append(f'<text class="axis" x="{x - 18:.1f}" y="{height - 28}">{escape(label)}</text>')
+        lines.append(f'<text class="axis" x="{x:.1f}" y="{height - 28}" text-anchor="middle">{escape(label)}</text>')
 
     for x, y in points:
         lines.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>')
@@ -799,7 +802,7 @@ def make_timeline_svg(title: str, subtitle: str, repos: list[dict], output_path:
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_highlights(path: Path, summary: dict) -> None:
+def write_highlights(path: Path, summary: dict, recent_activity: dict) -> None:
     repos = summary["repos"]
     yearly = summary["yearly"]
     monthly = summary["monthly"]
@@ -812,36 +815,53 @@ def write_highlights(path: Path, summary: dict) -> None:
     lines = [
         "# Ключевые выводы",
         "",
-        f"- Подтверждено `{format_int(summary['total_my_commits'])}` коммитов в `{summary['repos_with_my_commits']}` рабочих потоках с читаемой git-историей.",
-        f"- Самый сильный год в текущем архиве: `{top_year}` с `{format_int(top_year_value)}` коммитами.",
-        f"- Пиковый месяц по интенсивности: `{top_month}` с `{format_int(top_month_value)}` коммитами.",
-        f"- Крупнейший подтверждённый поток: `{top_repo['public_name']}` с `{format_int(top_repo['commits'])}` коммитами за период `{top_repo['first_date']}` -> `{top_repo['last_date']}`.",
+        f"- Свежий срез Perx / MyNaghi за `{recent_activity['period']['from']}` — `{recent_activity['period']['to']}`: `{format_int(recent_activity['unique_commits'])}` уникальных коммитов в `{recent_activity['repositories_with_author_commits']}` репозиториях.",
+        f"- В свежем срезе самый активный месяц: `{max(recent_activity['monthly_unique_commits'].items(), key=lambda item: item[1])[0]}` — `{max(recent_activity['monthly_unique_commits'].values())}` коммитов.",
+        "- Это отдельный набор данных: он не объединён с историческим архивом ниже из-за разрыва в доступных периодах и различия методик подсчёта.",
+        "",
+        "## Исторический Git-архив по март 2026",
+        "",
+        f"- В исторической выгрузке — `{format_int(summary['total_my_commits'])}` появлений авторских коммитов в `{summary['repos_with_my_commits']}` рабочих потоках; повторы между копиями не удалялись.",
+        f"- Самый сильный год в исторической выгрузке: `{top_year}` с `{format_int(top_year_value)}` появлениями коммитов.",
+        f"- Пиковый месяц в исторической выгрузке: `{top_month}` — `{format_int(top_month_value)}` появлений коммитов.",
+        f"- Крупнейший поток в исторической выгрузке: `{top_repo['public_name']}` — `{format_int(top_repo['commits'])}` появлений за период `{top_repo['first_date']}` -> `{top_repo['last_date']}`.",
         f"- Наиболее часто подтверждаемый стек по числу потоков: {strongest_tech}.",
         "",
         "## Как читать графики",
         "",
         "- `Снимок портфолио` даёт самый быстрый обзор для HR.",
-        "- `Тренд активности по месяцам` показывает темп и стабильность работы.",
-        "- `Коммиты по годам` подсвечивают интенсивность по периодам.",
-        "- `Покрытие стека по потокам` показывает ширину практического опыта.",
-        "- `Ключевые рабочие потоки во времени` помогают техспециалисту быстро понять длительность основных направлений.",
+        "- `Тренд активности по месяцам` показывает свежий срез за август–октябрь 2026.",
+        "- Графики по годам, потокам и стеку показывают отдельный исторический архив по март 2026.",
+        "- `Покрытие стека` показывает ширину опыта в отдельном историческом архиве.",
+        "- `Потоки во времени` показывают периоды только исторической выборки.",
     ]
 
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_activity_summary(path: Path, summary: dict) -> None:
+def write_activity_summary(path: Path, summary: dict, recent_activity: dict) -> None:
     repos = summary["repos"]
     top_months = sorted(summary["monthly"].items(), key=lambda item: item[1], reverse=True)[:7]
     lines = [
         "# Сводка активности",
         "",
+        "## Свежий срез: август–октябрь 2026",
+        "",
+        f"- Период: `{recent_activity['period']['from']}` — `{recent_activity['period']['to']}`.",
+        f"- Уникальных коммитов после дедупликации по SHA: `{format_int(recent_activity['unique_commits'])}`; обычных: `{format_int(recent_activity['non_merge_commits'])}`; merge: `{format_int(recent_activity['merge_commits'])}`.",
+        f"- Репозиториев с авторскими коммитами: `{recent_activity['repositories_with_author_commits']}` из `{recent_activity['repositories_scanned']}` просмотренных.",
+        "- По месяцам: " + "; ".join(f"`{month}` — `{count}`" for month, count in recent_activity["monthly_unique_commits"].items()) + ".",
+        "- Этот свежий архив учитывает уникальные SHA; данные ниже относятся к отдельной исторической выгрузке и не суммируются с ним.",
+        "",
+        "## Историческая выгрузка по март 2026",
+        "",
         f"- Просканировано git-репозиториев: `{summary['total_repos_scanned']}`",
         f"- Валидных git-репозиториев: `{summary['valid_git_repos_scanned']}`",
         f"- Неполных git-копий пропущено: `{summary['invalid_git_copies_skipped']}`",
         f"- Репозиториев с подтверждёнными авторскими коммитами: `{summary['repos_with_my_commits']}`",
-        f"- Подтверждённых авторских коммитов: `{summary['total_my_commits']}`",
+        f"- Появлений авторских коммитов: `{summary['total_my_commits']}`.",
+        f"- Методика подсчёта: {summary['counting_method']}",
         "",
         "## Крупнейшие рабочие потоки",
         "",
@@ -852,7 +872,7 @@ def write_activity_summary(path: Path, summary: dict) -> None:
             f"- `{repo['public_name']}` -> `{repo['commits']}` коммитов, `{repo['first_date']}` -> `{repo['last_date']}`, стек: `{tech}`"
         )
 
-    lines.extend(["", "## Пиковые месяцы", ""])
+    lines.extend(["", "## Пиковые месяцы", "", "Показатели ниже относятся только к исторической выгрузке, а не к свежему тренду.", ""])
     for month, commits in top_months:
         lines.append(f"- `{month}` -> `{commits}` коммитов")
 
@@ -961,6 +981,7 @@ def markdown_to_html(markdown_text: str, href_resolver=None) -> str:
     parts: list[str] = []
     in_list = False
     in_code = False
+    in_table = False
     code_lines: list[str] = []
     paragraph: list[str] = []
 
@@ -976,9 +997,29 @@ def markdown_to_html(markdown_text: str, href_resolver=None) -> str:
             parts.append("</ul>")
             in_list = False
 
+    def flush_table() -> None:
+        nonlocal in_table
+        if in_table:
+            parts.append("</tbody></table>")
+            in_table = False
+
     for raw_line in lines:
         line = raw_line.rstrip("\n")
         stripped = line.strip()
+
+        if stripped.startswith("|"):
+            flush_paragraph()
+            flush_list()
+            cells = [cell.strip() for cell in stripped.strip("|").split("|")]
+            if cells and all(re.fullmatch(r":?-{3,}:?", cell) for cell in cells):
+                continue
+            if not in_table:
+                parts.append("<table><thead><tr>" + "".join(f"<th>{inline_markdown(cell, href_resolver=href_resolver)}</th>" for cell in cells) + "</tr></thead><tbody>")
+                in_table = True
+            else:
+                parts.append("<tr>" + "".join(f"<td>{inline_markdown(cell, href_resolver=href_resolver)}</td>" for cell in cells) + "</tr>")
+            continue
+        flush_table()
 
         if stripped.startswith("```"):
             flush_paragraph()
@@ -1040,6 +1081,7 @@ def markdown_to_html(markdown_text: str, href_resolver=None) -> str:
 
     flush_paragraph()
     flush_list()
+    flush_table()
     if in_code:
         code_html = escape("\n".join(code_lines))
         parts.append(f"<pre><code>{code_html}</code></pre>")
@@ -1243,179 +1285,7 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             "",
             "### 1. GitLab CI template bundle",
             "",
-            "- Что можно показать: reusable `.gitlab-ci` templates для `docker build/push`, manual jobs, release rules, job inheritance через `extends`.",
-            "- Что это подтверждает: практическую работу с `GitLab CI/CD`, шаблонизацией пайплайнов, сборкой контейнеров и регламентом выкладки.",
-            "- Что обязательно вычищать: имена сервисов, registry paths, project labels, внутренние runner tags, URL и внутренние naming conventions.",
-            "",
-            "### 2. Vault + Kubernetes secret delivery bundle",
-            "",
-            "- Что можно показать: `SecretProviderClass`, service account binding, pod manifests для `Vault CSI` / injector, а также обезличенный `Terraform`-lab для `Yandex Cloud Kubernetes`.",
-            "- Что это подтверждает: работу с `Vault`, `Kubernetes`, `CSI`, service accounts, IaC и доставкой секретов в workload.",
-            "- Что обязательно вычищать: реальные secret paths, namespace naming, cloud IDs, `.env`, `.tfstate`, сертификаты, PDF-материалы и любые внутренние инструкции.",
-            "",
-            "### 3. Helm observability bundle",
-            "",
-            "- Что можно показать: redacted `values.yaml`, `Chart.yaml`, exporter configs, service monitor patterns, security context и типовые настройки для monitoring stack.",
-            "- Что это подтверждает: практическую работу с `Helm`, `Prometheus` ecosystem, exporters, chart values и эксплуатационной конфигурацией Kubernetes-сервисов.",
-            "- Что обязательно вычищать: домены, внутренние endpoints, tenant naming, alert routing details и любые кастомные интеграции, ведущие на внутренние системы.",
-            "",
-            "### 4. Terraform / Ansible infrastructure patterns",
-            "",
-            "- Что можно показать: обезличенные модули, сетевые шаблоны, node group definitions, inventory patterns, bootstrap logic.",
-            "- Что это подтверждает: `Terraform`, `Terragrunt`, `Ansible`, сетевую и кластерную автоматизацию, повторяемые инфраструктурные паттерны.",
-            "- Что обязательно вычищать: state files, inventories с IP/FQDN, client/resource names, IAM identities, backend-конфигурацию и provider credentials.",
-            "",
-            "## Что принципиально не публикуется",
-            "",
-            "- чужая commit-история и авторство других инженеров;",
-            "- клиентские названия проектов, домены, namespaces и registry paths;",
-            "- `.env`, `.tfstate`, kubeconfig, inventories, сертификаты и access-данные;",
-            "- внутренние презентации, PDF, runbooks и документы, по которым можно восстановить контекст заказчика;",
-            "- полный рабочий репозиторий, если его ценность для портфолио можно показать через 2-5 обезличенных файлов.",
-        ]
-    )
-
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
-def write_landing_page(
-    path: Path,
-    summary: dict,
-    backup_artifact: dict | None,
-    k8s_box_artifact: dict | None,
-    skills_profile: dict | None,
-    recent_activity: dict,
-    gitlab_activity: dict,
-) -> None:
-    repos = summary["repos"]
-    monthly = summary["monthly"]
-    yearly = summary["yearly"]
-    tech_counter = build_tech_counter(summary)
-    top_month, top_month_value = max(monthly.items(), key=lambda item: item[1])
-    top_year, top_year_value = max(yearly.items(), key=lambda item: item[1])
-    strongest_stack = [name for name, _count in tech_counter.most_common(6)]
-    first_period = min(monthly)
-    last_period = max(monthly)
-
-    stat_cards = [
-        ("Подтверждённые коммиты", format_int(summary["total_my_commits"])),
-        ("Подтверждённые потоки", str(summary["repos_with_my_commits"])),
-        ("Период активности", f"{first_period} -> {last_period}"),
-        ("Сильнейший год", f"{top_year} / {format_int(top_year_value)}"),
-    ]
-
-    route_cards = [
-        (
-            "Для HR",
-            "Здесь собраны резюме, git-статистика, рабочие артефакты и публичный демо-стенд. По ним можно быстро проверить стек, периоды активности и тип задач.",
-        ),
-        (
-            "Для техлида",
-            "От общей сводки можно перейти к конкретным направлениям: Kubernetes, Terraform, GitOps, CI/CD, observability, backup/restore и platform engineering.",
-        ),
-        (
-            "Для собеседования",
-            "Удобно использовать как опорный материал на интервью: здесь есть конкретные проекты, графики, стек и примеры эксплуатационных задач.",
-        ),
-    ]
-
-    result_cards = [
-        (
-            format_int(summary["total_my_commits"]),
-            "подтверждённых коммитов",
-            "Коммиты собраны из локально сохранившихся рабочих репозиториев с читаемой git-историей.",
-        ),
-        (
-            str(summary["repos_with_my_commits"]),
-            "рабочих потоков",
-            "Покрытие идёт по Kubernetes, Terraform, GitOps, Helm, GitLab CI и смежной эксплуатации.",
-        ),
-        (
-            "100+",
-            "сервисов в GitOps-контуре",
-            "Подтверждается production-направление с Helm, GitLab CI/CD, мониторингом и эксплуатационными изменениями.",
-        ),
-        (
-            f"{top_year} / {format_int(top_year_value)}",
-            "самый сильный год",
-            "Пиковая подтверждённая активность приходится на год с наибольшей плотностью инфраструктурных изменений.",
-        ),
-    ]
-
-    if backup_artifact:
-        result_cards.append(
-            (
-                f"{backup_artifact['counts']['Python']} / {backup_artifact['counts']['Shell']} / {backup_artifact['counts']['YAML']}",
-                "набор резервного копирования",
-                "Публично вынесены Python-, shell- и YAML-артефакты для резервного копирования, S3/AWS и CronJob-процессов.",
-            )
-        )
-
-    if k8s_box_artifact:
-        result_cards.append(
-            (
-                str(k8s_box_artifact["total_files"]),
-                "файлов в k8s-box",
-                "Обезличенный платформенный набор по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN-точке входа и эксплуатационной документации.",
-            )
-        )
-
-    stack_cards = [
-        {
-            "title": "Kubernetes, GitOps и доставка изменений",
-            "period": "~5 лет",
-            "text": "EKS, AKS, managed Kubernetes в Yandex Cloud, Helm, ArgoCD, FluxCD, rollout-пайплайны, ingress, observability, миграции сервисов в k8s.",
-            "areas": [
-                "CI/CD и GitOps",
-                "Helm и release management",
-                "наблюдаемость и эксплуатация",
-            ],
-        },
-        {
-            "title": "AWS, EKS и эксплуатация данных",
-            "period": "~4.5 года",
-            "text": "Production-контур в AWS: EKS, Terraform, Terragrunt, базы данных, очереди, логирование, backup/restore, cost и release automation.",
-            "areas": [
-                "EKS и AWS-инфраструктура",
-                "RDS, MongoDB, Kafka, RabbitMQ",
-                "S3 и backup automation",
-            ],
-        },
-        {
-            "title": "Azure, AKS и безопасность",
-            "period": "~0.7 года",
-            "text": "AKS, private ingress, Key Vault, network policies, audit trail, platform hardening и подготовка инфраструктурного контура к PCI DSS.",
-            "areas": [
-                "AKS и private PaaS",
-                "RBAC, TLS, Key Vault",
-                "security-oriented DevOps",
-            ],
-        },
-        {
-            "title": "Yandex Cloud и платформенный набор",
-            "period": "~0.3+ года",
-            "text": "Terragrunt-модули, Vault, ArgoCD, runner, VPN entrypoint, observability и profile-driven bootstrap для платформенных стендов.",
-            "areas": [
-                "Yandex Cloud и Terragrunt",
-                "Vault / ArgoCD / runner",
-                "platform bootstrap и runbooks",
-            ],
-        },
-        {
-            "title": "On-prem, виртуализация и администрирование",
-            "period": "~4+ года",
-            "text": "Proxmox, VMware, Hyper-V, Linux/Windows-инфраструктура, backup, AD/GPO, сопровождение хостов и сетевой базовой инфраструктуры.",
-            "areas": [
-                "виртуализация и администрирование",
-                "backup и базовая эксплуатация",
-                "инфраструктурная поддержка",
-            ],
-        },
-    ]
-
-    case_cards = [
-        {
+            "- Что можно показать: reusable `.gitlab-ci` templates для `docker build/push`, manual jobs, release rules, job i…2708 tokens truncated…      {
             "title": "GitOps и Kubernetes в production",
             "result": "100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день",
             "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD"],
@@ -1902,9 +1772,9 @@ def write_landing_page(
           <a class="btn btn-secondary" href="#cases" data-set-mode="tech">Открыть технические доказательства</a>
         </div>
         <div class="proof-strip" aria-label="Ключевые доказательства">
-          <span><strong>{format_int(summary["total_my_commits"])}</strong> коммитов в архиве до марта 2026</span>
-          <span><strong>{summary["repos_with_my_commits"]}</strong> рабочих потоков</span>
-          <span><strong>7</strong> развёрнутых кейсов</span>
+          <span><strong>{format_int(recent_activity["unique_commits"])}</strong> уникальных коммитов · август–октябрь 2026</span>
+          <span><strong>{recent_activity["repositories_with_author_commits"]}</strong> репозиториев со вкладом за этот период</span>
+          <span><strong>22</strong> Selectel-ВМ в последовательном обновлении</span>
         </div>
       </div>
       <aside class="hero-panel">
@@ -2019,7 +1889,7 @@ def write_landing_page(
         <p class="eyebrow">Результаты</p>
         <h2>Что уже можно показать как рабочий результат</h2>
       </div>
-      <div class="section-note">Числа и периоды ниже собраны из локального архива, резюме и уже вынесенных публичных артефактов.</div>
+      <div class="section-note">Недавние рабочие показатели за август–октябрь 2026, плюс публичные артефакты. Исторические графики указаны отдельно.</div>
       <div class="result-grid">
         {result_cards_html}
       </div>
@@ -2041,29 +1911,30 @@ def write_landing_page(
       <div class="section-head">
         <p class="eyebrow">Графики</p>
         <h2>Картина активности и распределения по стеку</h2>
+        <p>Снимок и тренд показывают свежий срез августа–октября 2026. Остальные графики относятся к отдельной исторической Git-выгрузке по март 2026; промежуток апрель–июль в источниках не покрыт.</p>
       </div>
       <div class="chart-grid">
         <figure class="chart-card chart-card-wide">
-          <img src="assets/portfolio_snapshot.svg" alt="Снимок портфолио">
+          <img src="assets/portfolio_snapshot.svg?v=20261028" alt="Свежий снимок портфолио по активности августа–октября 2026">
         </figure>
         <figure class="chart-card chart-card-wide">
-          <img src="assets/commits_trend.svg" alt="Тренд активности по месяцам">
+          <img src="assets/commits_trend.svg?v=20261028" alt="Свежая активность по месяцам: август–октябрь 2026">
         </figure>
         <figure class="chart-card">
-          <img src="assets/commits_by_year.svg" alt="Коммиты по годам">
+          <img src="assets/commits_by_year.svg" alt="Коммиты по годам в историческом архиве до марта 2026">
         </figure>
         <figure class="chart-card">
-          <img src="assets/tech_coverage.svg" alt="Покрытие стека по потокам">
+          <img src="assets/tech_coverage.svg?v=20261028" alt="Покрытие стека в исторической выгрузке до марта 2026">
         </figure>
         <figure class="chart-card">
           <img src="assets/backup_artifact_map.svg" alt="Состав backup automation toolkit">
         </figure>
 {skills_chart_cards_html}
         <figure class="chart-card chart-card-wide">
-          <img src="assets/commits_by_repo.svg" alt="Коммиты по ключевым потокам">
+          <img src="assets/commits_by_repo.svg?v=20261028" alt="Коммиты по потокам в исторической выгрузке до марта 2026">
         </figure>
         <figure class="chart-card chart-card-wide">
-          <img src="assets/workstream_timeline.svg" alt="Ключевые рабочие потоки во времени">
+          <img src="assets/workstream_timeline.svg?v=20261028" alt="Периоды ключевых потоков в исторической выгрузке до марта 2026">
         </figure>
       </div>
     </section>
@@ -2072,6 +1943,7 @@ def write_landing_page(
       <div class="section-head">
         <p class="eyebrow">Техсрез</p>
         <h2>Крупнейшие подтверждённые потоки</h2>
+        <p>Список ниже собран по историческому архиву до марта 2026. Свежая работа Perx / MyNaghi за август–октябрь приведена выше и не смешивается с этой выборкой.</p>
       </div>
       <div class="stack-strip">
         <span>Чаще всего в потоке встречаются:</span>
@@ -2222,8 +2094,8 @@ def main() -> None:
 
     write_json(repo_root / "data" / "commit_summary.json", summary)
     write_csv(repo_root / "data" / "repo_overview.csv", summary["repos"])
-    write_activity_summary(repo_root / "docs" / "ACTIVITY_SUMMARY.md", summary)
-    write_highlights(repo_root / "docs" / "HIGHLIGHTS.md", summary)
+    write_activity_summary(repo_root / "docs" / "ACTIVITY_SUMMARY.md", summary, recent_activity)
+    write_highlights(repo_root / "docs" / "HIGHLIGHTS.md", summary, recent_activity)
     write_artifact_evidence(repo_root / "docs" / "ARTIFACT_EVIDENCE.md", backup_artifact)
     write_skills_assessment(repo_root / "docs" / "SKILLS_ASSESSMENT.md", skills_profile)
     k8s_box_artifact = analyze_public_toolkit(repo_root / K8S_BOX_PUBLIC_ROOT)
@@ -2260,25 +2132,25 @@ def main() -> None:
     month_labels = list(summary["monthly"].keys())
     month_values = list(summary["monthly"].values())
     make_bar_svg(
-        "Коммиты по месяцам",
-        "Динамика подтверждённой активности в локальном архиве.",
+        "Коммиты по месяцам · исторический архив",
+        "Историческая Git-выгрузка до марта 2026; отдельный свежий срез показан рядом.",
         month_labels,
         month_values,
         repo_root / "assets" / "commits_by_month.svg",
     )
     make_line_svg(
-        "Тренд активности по месяцам",
-        "Показывает темп работы и изменение нагрузки по времени.",
-        month_labels,
-        month_values,
+        "Свежая активность по месяцам",
+        "Уникальные коммиты в локальном архиве · август—октябрь 2026 (по 26-е)",
+        list(recent_activity["monthly_unique_commits"].keys()),
+        list(recent_activity["monthly_unique_commits"].values()),
         repo_root / "assets" / "commits_trend.svg",
     )
 
     yearly_labels = list(summary["yearly"].keys())
     yearly_values = list(summary["yearly"].values())
     make_yearly_bar_svg(
-        "Коммиты по годам",
-        "Сводная интенсивность по подтверждённым периодам.",
+        "Коммиты по годам · исторический архив",
+        "Отдельная архивная выгрузка по март 2026; не включает свежий срез августа—октября.",
         yearly_labels,
         yearly_values,
         repo_root / "assets" / "commits_by_year.svg",
@@ -2287,15 +2159,15 @@ def main() -> None:
     repo_labels = [repo["public_name"] for repo in summary["repos"][:6]]
     repo_values = [repo["commits"] for repo in summary["repos"][:6]]
     make_bar_svg(
-        "Коммиты по ключевым потокам",
-        "Крупнейшие подтверждённые направления по объёму вклада.",
+        "Ключевые потоки · исторический архив",
+        "Распределение по отдельной архивной выгрузке по март 2026.",
         repo_labels,
         repo_values,
         repo_root / "assets" / "commits_by_repo.svg",
     )
     make_timeline_svg(
-        "Ключевые рабочие потоки во времени",
-        "Видно, какие направления шли дольше и где был самый плотный вклад.",
+        "Потоки во времени · исторический архив",
+        "Периоды по отдельной архивной выгрузке по март 2026.",
         summary["repos"][:8],
         repo_root / "assets" / "workstream_timeline.svg",
     )
@@ -2304,8 +2176,8 @@ def main() -> None:
     tech_labels = [item[0] for item in tech_counter.most_common(8)]
     tech_values = [item[1] for item in tech_counter.most_common(8)]
     make_bar_svg(
-        "Покрытие стека по потокам",
-        "Сколько подтверждённых потоков содержат практическую работу с конкретным стеком.",
+        "Покрытие стека · исторический архив",
+        "Сколько потоков в отдельной архивной выгрузке по март 2026 содержат технологии.",
         tech_labels,
         tech_values,
         repo_root / "assets" / "tech_coverage.svg",
@@ -2339,7 +2211,7 @@ def main() -> None:
             core_values,
             repo_root / "assets" / "skills_core_stack.svg",
         )
-    make_stat_cards_svg(summary, repo_root / "assets" / "portfolio_snapshot.svg")
+    make_stat_cards_svg(recent_activity, repo_root / "assets" / "portfolio_snapshot.svg")
 
 
 if __name__ == "__main__":

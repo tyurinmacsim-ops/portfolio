@@ -9,8 +9,8 @@ text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { 
 </linearGradient>
 </defs>
 <rect x="0" y="0" width="1100" height="374" rx="28" ry="28" fill="#fffaf4"/>
-<text class="title" x="30" y="44">Коммиты по ключевым потокам</text>
-<text class="subtitle" x="30" y="68">Крупнейшие подтверждённые направления по объёму вклада.</text>
+<text class="title" x="30" y="44">Ключевые потоки · исторический архив</text>
+<text class="subtitle" x="30" y="68">Распределение по отдельной архивной выгрузке по март 2026.</text>
 <text class="label" x="30" y="103">Project 07 - ArgoCD delivery platform</text>
 <rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="#efe5d9"/>
 <rect x="300" y="86" rx="8" ry="8" width="754" height="24" fill="url(#barFill)"/>
