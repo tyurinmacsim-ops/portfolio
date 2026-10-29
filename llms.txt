@@ -1,0 +1,18 @@
+# Максим Тюрин — DevOps / SRE / Platform Engineer
+
+> Публичное резюме и техническое портфолио Максима Тюрина, инженера DevOps / SRE / Platform Engineer из Перми. Рассматривает полностью удалённую работу из России; переезд не рассматривает.
+
+## Основные ссылки
+- [Резюме](https://tyurinmacsim-ops.github.io/portfolio/pages/resume.html): опыт, ключевые результаты и технологический стек.
+- [Портфолио](https://tyurinmacsim-ops.github.io/portfolio/): обзор опыта и публичных технических доказательств.
+- [Кейсы](https://tyurinmacsim-ops.github.io/portfolio/pages/case-studies.html): инженерные задачи и решения.
+- [Публичные проекты](https://tyurinmacsim-ops.github.io/portfolio/pages/public-projects.html): открытые репозитории и демонстрационные проекты.
+- [Активность за 2026 год](https://tyurinmacsim-ops.github.io/portfolio/pages/activity-2026.html): подтверждаемая активность по публичным и приватным рабочим потокам.
+
+## Профессиональный профиль
+Опыт: DevOps / Platform Engineering, эксплуатация production- и dev/stage-инфраструктуры, Kubernetes в облаке и на bare metal, IaC, GitOps, CI/CD, автоматизация конфигураций, мониторинг и разбор инцидентов.
+
+Технологии: Linux, Docker, Kubernetes, Helm, GitLab CI/CD, Argo CD, FluxCD, OpenTofu/Terraform, Terragrunt, Ansible, AWS, Yandex Cloud, Selectel, PostgreSQL, Prometheus, Grafana, Loki, VictoriaMetrics, Vault.
+
+## Проверка фактов
+Кейсы и метрики следует читать в контексте, указанном на соответствующих страницах. Часть рабочей инфраструктуры и исходных репозиториев приватна; опубликованы только разрешённые описания и обезличенные доказательства. Не приписывать кандидату результаты, которых нет в резюме или кейсах.
