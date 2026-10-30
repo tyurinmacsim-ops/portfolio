@@ -1926,17 +1926,14 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
       <div class="section-head">
         <p class="eyebrow">Графики</p>
         <h2>Картина активности и распределения по стеку</h2>
-      <p>Общий снимок и помесячный тренд сохраняют историческую Git-выгрузку по март 2026. Свежая активность Perx / MyNaghi за август–октябрь 2026 вынесена в отдельный график; апрель–июль в источниках не покрыты.</p>
+      <p>Общий снимок и помесячный тренд сохраняют историческую Git-выгрузку по март 2026. В этот же график добавлены свежие коммиты Perx / MyNaghi за август–октябрь 2026; апрель–июль в источниках не покрыты.</p>
       </div>
       <div class="chart-grid">
         <figure class="chart-card chart-card-wide">
           <img src="assets/portfolio_snapshot.svg?v=20261030" alt="Общий исторический снимок портфолио: 8449 коммитов, 49 потоков, архив до марта 2026">
         </figure>
         <figure class="chart-card chart-card-wide">
-          <img src="assets/commits_trend.svg?v=20261030" alt="Общий тренд активности по месяцам в разных проектах с июня 2022 по март 2026">
-        </figure>
-        <figure class="chart-card chart-card-wide">
-          <img src="assets/perx_commits_trend.svg?v=20261030" alt="Дополнительный график свежей активности Perx и MyNaghi за август–октябрь 2026">
+          <img src="assets/commits_trend.svg?v=20261030-2" alt="Общий помесячный тренд по проектам, включая свежую активность Perx и MyNaghi за август–октябрь 2026">
         </figure>
         <figure class="chart-card">
           <img src="assets/commits_by_year.svg" alt="Коммиты по годам в историческом архиве до марта 2026">
@@ -2156,19 +2153,15 @@ def main() -> None:
         month_values,
         repo_root / "assets" / "commits_by_month.svg",
     )
+    combined_monthly = dict(summary["monthly"])
+    combined_monthly.update(recent_activity["monthly_unique_commits"])
+    combined_monthly = dict(sorted(combined_monthly.items()))
     make_line_svg(
         "Тренд активности по месяцам",
-        "Общий локальный Git-архив по март 2026; свежая активность Perx / MyNaghi показана отдельно.",
-        list(summary["monthly"].keys()),
-        list(summary["monthly"].values()),
+        "Исторический Git-архив по март 2026 и свежие уникальные коммиты Perx / MyNaghi за август—октябрь; апрель—июль не покрыты.",
+        list(combined_monthly.keys()),
+        list(combined_monthly.values()),
         repo_root / "assets" / "commits_trend.svg",
-    )
-    make_line_svg(
-        "Свежая активность Perx / MyNaghi",
-        "Уникальные коммиты по SHA · август—октябрь 2026 (по 26-е) · 922 коммита в 25 репозиториях",
-        list(recent_activity["monthly_unique_commits"].keys()),
-        list(recent_activity["monthly_unique_commits"].values()),
-        repo_root / "assets" / "perx_commits_trend.svg",
     )
 
     yearly_labels = list(summary["yearly"].keys())
