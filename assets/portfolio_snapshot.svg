@@ -5,21 +5,21 @@ text { font-family: 'Manrope', 'Segoe UI', sans-serif; fill: #112033; }.title { 
 </style>
 <rect x="0" y="0" width="1100" height="280" rx="30" ry="30" fill="#fffaf4"/>
 <text class="title" x="30" y="46">Снимок портфолио</text>
-<text class="subtitle" x="30" y="70">Свежий локальный Git-срез Perx / MyNaghi; коммиты дедуплицированы по SHA.</text>
+<text class="subtitle" x="30" y="70">Ключевые числа по масштабу, стабильности и интенсивности поставки изменений.</text>
 <rect x="30" y="96" width="245" height="136" rx="24" ry="24" fill="#fff" stroke="#eadfce"/>
 <rect x="48" y="114" width="10" height="100" rx="5" ry="5" fill="#0f766e"/>
-<text class="label" x="74" y="146">Уникальные коммиты</text>
-<text class="big" x="74" y="192">922</text>
+<text class="label" x="74" y="146">Подтверждённые коммиты</text>
+<text class="big" x="74" y="192">8 449</text>
 <rect x="293" y="96" width="245" height="136" rx="24" ry="24" fill="#fff" stroke="#eadfce"/>
 <rect x="311" y="114" width="10" height="100" rx="5" ry="5" fill="#d97706"/>
-<text class="label" x="337" y="146">Репозитории со вкладом</text>
-<text class="big" x="337" y="192">25</text>
+<text class="label" x="337" y="146">Активные потоки</text>
+<text class="big" x="337" y="192">49</text>
 <rect x="556" y="96" width="245" height="136" rx="24" ry="24" fill="#fff" stroke="#eadfce"/>
 <rect x="574" y="114" width="10" height="100" rx="5" ry="5" fill="#b45309"/>
-<text class="label" x="600" y="146">Данные актуальны на</text>
-<text class="big" x="600" y="192">2026-10-26</text>
+<text class="label" x="600" y="146">Сильнейший год</text>
+<text class="big" x="600" y="192">2025 / 4 407</text>
 <rect x="819" y="96" width="245" height="136" rx="24" ry="24" fill="#fff" stroke="#eadfce"/>
 <rect x="837" y="114" width="10" height="100" rx="5" ry="5" fill="#c2410c"/>
 <text class="label" x="863" y="146">Пиковый месяц</text>
-<text class="big" x="863" y="192">2026-09 / 355</text>
+<text class="big" x="863" y="192">2025-07 / 863</text>
 </svg>

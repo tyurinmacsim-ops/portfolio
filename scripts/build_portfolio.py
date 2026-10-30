@@ -590,14 +590,15 @@ def make_bar_svg(title: str, subtitle: str, labels: list[str], values: list[int]
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def make_stat_cards_svg(recent_activity: dict, output_path: Path) -> None:
-    monthly = recent_activity["monthly_unique_commits"]
+def make_stat_cards_svg(summary: dict, output_path: Path) -> None:
+    monthly = summary["monthly"]
+    yearly = summary["yearly"]
     top_month, top_month_value = max(monthly.items(), key=lambda item: item[1])
-    period = recent_activity["period"]
+    top_year, top_year_value = max(yearly.items(), key=lambda item: item[1])
     cards = [
-        ("Уникальные коммиты", format_int(recent_activity["unique_commits"])),
-        ("Репозитории со вкладом", str(recent_activity["repositories_with_author_commits"])),
-        ("Данные актуальны на", period["to"]),
+        ("Подтверждённые коммиты", format_int(summary["total_my_commits"])),
+        ("Активные потоки", str(summary["repos_with_my_commits"])),
+        ("Сильнейший год", f"{top_year} / {format_int(top_year_value)}"),
         ("Пиковый месяц", f"{top_month} / {format_int(top_month_value)}"),
     ]
 
@@ -618,7 +619,7 @@ def make_stat_cards_svg(recent_activity: dict, output_path: Path) -> None:
         "</style>",
         f'<rect x="0" y="0" width="{width}" height="{height}" rx="30" ry="30" fill="#fffaf4"/>',
         '<text class="title" x="30" y="46">Снимок портфолио</text>',
-        '<text class="subtitle" x="30" y="70">Свежий локальный Git-срез Perx / MyNaghi; коммиты дедуплицированы по SHA.</text>',
+        '<text class="subtitle" x="30" y="70">Ключевые числа по масштабу, стабильности и интенсивности поставки изменений.</text>',
     ]
 
     for idx, (label, value) in enumerate(cards):
@@ -1285,7 +1286,7 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             "",
             "### 1. GitLab CI template bundle",
             "",
-            "- Что можно показать: reusable `.gitlab-ci` templates для `docker build/push`, manual jobs, release rules, job i…2708 tokens truncated…      {
+            "- Что можно показать: redacted-шаблоны GitLab CI для docker build/push, manual jobs, release rules и deploy workflow без приватных URL, имён переменных и секретов.",
             "title": "GitOps и Kubernetes в production",
             "result": "100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день",
             "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD"],
@@ -1911,14 +1912,17 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
       <div class="section-head">
         <p class="eyebrow">Графики</p>
         <h2>Картина активности и распределения по стеку</h2>
-        <p>Снимок и тренд показывают свежий срез августа–октября 2026. Остальные графики относятся к отдельной исторической Git-выгрузке по март 2026; промежуток апрель–июль в источниках не покрыт.</p>
+      <p>Общий снимок и помесячный тренд сохраняют историческую Git-выгрузку по март 2026. Свежая активность Perx / MyNaghi за август–октябрь 2026 вынесена в отдельный график; апрель–июль в источниках не покрыты.</p>
       </div>
       <div class="chart-grid">
         <figure class="chart-card chart-card-wide">
-          <img src="assets/portfolio_snapshot.svg?v=20261028" alt="Свежий снимок портфолио по активности августа–октября 2026">
+          <img src="assets/portfolio_snapshot.svg?v=20261030" alt="Общий исторический снимок портфолио: 8449 коммитов, 49 потоков, архив до марта 2026">
         </figure>
         <figure class="chart-card chart-card-wide">
-          <img src="assets/commits_trend.svg?v=20261028" alt="Свежая активность по месяцам: август–октябрь 2026">
+          <img src="assets/commits_trend.svg?v=20261030" alt="Общий тренд активности по месяцам в разных проектах с июня 2022 по март 2026">
+        </figure>
+        <figure class="chart-card chart-card-wide">
+          <img src="assets/perx_commits_trend.svg?v=20261030" alt="Дополнительный график свежей активности Perx и MyNaghi за август–октябрь 2026">
         </figure>
         <figure class="chart-card">
           <img src="assets/commits_by_year.svg" alt="Коммиты по годам в историческом архиве до марта 2026">
@@ -2139,11 +2143,18 @@ def main() -> None:
         repo_root / "assets" / "commits_by_month.svg",
     )
     make_line_svg(
-        "Свежая активность по месяцам",
-        "Уникальные коммиты в локальном архиве · август—октябрь 2026 (по 26-е)",
+        "Тренд активности по месяцам",
+        "Общий локальный Git-архив по март 2026; свежая активность Perx / MyNaghi показана отдельно.",
+        list(summary["monthly"].keys()),
+        list(summary["monthly"].values()),
+        repo_root / "assets" / "commits_trend.svg",
+    )
+    make_line_svg(
+        "Свежая активность Perx / MyNaghi",
+        "Уникальные коммиты по SHA · август—октябрь 2026 (по 26-е) · 922 коммита в 25 репозиториях",
         list(recent_activity["monthly_unique_commits"].keys()),
         list(recent_activity["monthly_unique_commits"].values()),
-        repo_root / "assets" / "commits_trend.svg",
+        repo_root / "assets" / "perx_commits_trend.svg",
     )
 
     yearly_labels = list(summary["yearly"].keys())
@@ -2211,7 +2222,7 @@ def main() -> None:
             core_values,
             repo_root / "assets" / "skills_core_stack.svg",
         )
-    make_stat_cards_svg(recent_activity, repo_root / "assets" / "portfolio_snapshot.svg")
+    make_stat_cards_svg(summary, repo_root / "assets" / "portfolio_snapshot.svg")
 
 
 if __name__ == "__main__":

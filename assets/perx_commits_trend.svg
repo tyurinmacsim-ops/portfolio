@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420">
+<style>text{font-family:Manrope,"Segoe UI",sans-serif;fill:#112033}.title{font-size:26px;font-weight:800}.subtitle{font-size:13px;fill:#627084}.axis{font-size:12px;fill:#6d7a8d}</style>
+<defs><linearGradient id="trendFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#0f766e" stop-opacity=".30"/><stop offset="100%" stop-color="#0f766e" stop-opacity=".02"/></linearGradient></defs>
+<rect width="1100" height="420" rx="28" fill="#fffaf4"/>
+<text class="title" x="30" y="46">Активность Perx / MyNaghi по месяцам</text>
+<text class="subtitle" x="30" y="70">Уникальные коммиты · август—октябрь 2026 (октябрь по 26-е) · 922 коммита в 25 репозиториях</text>
+<polyline points="76,344 76.0,117.0 570.0,84.0 1064.0,155.8 1064,344" fill="url(#trendFill)" stroke="none"/>
+<polyline points="76.0,117.0 570.0,84.0 1064.0,155.8" fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="76" y1="344.0" x2="1064" y2="344.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="348.0">0</text>
+<line x1="76" y1="279.0" x2="1064" y2="279.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="283.0">88</text>
+<line x1="76" y1="214.0" x2="1064" y2="214.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="218.0">177</text>
+<line x1="76" y1="149.0" x2="1064" y2="149.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="153.0">266</text>
+<line x1="76" y1="84.0" x2="1064" y2="84.0" stroke="#eadfce"/>
+<text class="axis" x="22" y="88.0">355</text>
+<text class="axis" x="76.0" y="392" text-anchor="middle">2026-08</text>
+<circle cx="76.0" cy="117.0" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="axis" x="570.0" y="392" text-anchor="middle">2026-09</text>
+<circle cx="570.0" cy="84.0" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+<text class="axis" x="1064.0" y="392" text-anchor="middle">2026-10</text>
+<circle cx="1064.0" cy="155.8" r="5" fill="#fffaf4" stroke="#0f766e" stroke-width="3"/>
+</svg>
