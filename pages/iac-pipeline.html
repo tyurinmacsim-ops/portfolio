@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitLab CI/CD для OpenTofu: validate, plan, apply и drift • Максим Тюрин</title>
+  <meta name="description" content="Интерактивная схема GitLab CI/CD pipeline для OpenTofu: проверки, тесты, security scan, артефакт plan, ручной apply и scheduled drift detection.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="canonical" href="https://tyurinmacsim-ops.github.io/portfolio/pages/iac-pipeline.html">
+  <meta property="og:title" content="Как устроен мой GitLab CI/CD pipeline для OpenTofu">
+  <meta property="og:description" content="Проверки до plan, сохранённый plan artifact, ручной apply и поиск drift по расписанию.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://tyurinmacsim-ops.github.io/portfolio/pages/iac-pipeline.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../assets/iac-pipeline.css?v=20261030-1">
+  <script src="../assets/iac-pipeline.js?v=20261030-1" defer></script>
+</head>
+<body class="iac-page">
+  <main class="iac-shell">
+    <nav class="iac-nav" aria-label="Навигация">
+      <a class="iac-back" href="../index.html">← Портфолио</a>
+      <span>Инфраструктура как код · GitLab CI/CD</span>
+    </nav>
+
+    <header class="iac-hero">
+      <p class="iac-eyebrow"><span></span> OpenTofu · GitLab CI/CD · Yandex Cloud</p>
+      <h1>Сначала понять изменение.<br><em>Потом менять инфраструктуру.</em></h1>
+      <p class="iac-lead">Пайплайн разделяет проверку конфигурации, построение плана и его применение. Посмотри, где именно стоят контрольные точки.</p>
+    </header>
+
+    <section class="pipeline-window" aria-labelledby="pipeline-title">
+      <div class="window-toolbar">
+        <div class="window-brand"><span class="gitlab-mark" aria-hidden="true">◆</span><strong>GitLab CI/CD</strong><i>/</i><span>OpenTofu pipeline</span></div>
+        <span class="schematic-label"><span></span> Схема по конфигурации</span>
+      </div>
+      <div class="pipeline-heading">
+        <div>
+          <p class="iac-eyebrow">Pipeline flow</p>
+          <h2 id="pipeline-title">Путь инфраструктурного изменения</h2>
+          <p>Нажми на этап, чтобы увидеть его проверки и защитные механизмы.</p>
+        </div>
+        <div class="pipeline-legend"><span><i class="legend-check">✓</i> автоматическая проверка</span><span><i class="legend-human">●</i> решение инженера</span></div>
+      </div>
+
+      <div class="trigger-switch" role="group" aria-label="Показать путь для типа запуска">
+        <button type="button" data-trigger="merge" aria-pressed="true">Merge request</button>
+        <button type="button" data-trigger="default" aria-pressed="false">Default branch</button>
+        <button type="button" data-trigger="schedule" aria-pressed="false">Schedule</button>
+      </div>
+      <p class="trigger-caption" data-trigger-caption aria-live="polite">Изменения проверяются и получают plan; apply не запускается из merge request.</p>
+
+      <div class="board-scroll" tabindex="0" aria-label="Схема этапов GitLab pipeline. На узком экране прокручивается по горизонтали.">
+        <div class="pipeline-board" data-path="merge">
+          <button class="stage-card is-active" type="button" data-stage="validate" aria-pressed="true">
+            <span class="stage-top"><span class="stage-index">01</span><span class="stage-symbol">✓</span></span>
+            <strong>validate</strong><small>Формат и схема</small>
+            <span class="job-node"><i>✓</i><b>fmt</b><em>fmt -check</em></span>
+            <span class="job-node"><i>✓</i><b>validate</b><em>tofu validate</em></span>
+            <span class="job-count">и проверки целевых конфигураций</span>
+          </button>
+          <span class="stage-arrow" aria-hidden="true">›</span>
+          <button class="stage-card" type="button" data-stage="test" aria-pressed="false">
+            <span class="stage-top"><span class="stage-index">02</span><span class="stage-symbol">✓</span></span>
+            <strong>test</strong><small>Тесты и анализ</small>
+            <span class="job-node"><i>✓</i><b>tofu test</b><em>без облачных ресурсов</em></span>
+            <span class="job-node"><i>✓</i><b>Trivy config</b><em>HIGH / CRITICAL</em></span>
+            <span class="job-count">плюс тесты cost-scheduler</span>
+          </button>
+          <span class="stage-arrow" aria-hidden="true">›</span>
+          <button class="stage-card" type="button" data-stage="secrets" aria-pressed="false">
+            <span class="stage-top"><span class="stage-index">03</span><span class="stage-symbol stage-symbol-template">◆</span></span>
+            <strong>secret-detection</strong><small>Поиск секретов</small>
+            <span class="job-node"><i>◆</i><b>Secret Detection</b><em>шаблон GitLab</em></span>
+            <span class="job-count">отдельная стадия pipeline</span>
+          </button>
+          <span class="stage-arrow" aria-hidden="true">›</span>
+          <button class="stage-card" type="button" data-stage="plan" aria-pressed="false">
+            <span class="stage-top"><span class="stage-index">04</span><span class="stage-symbol">▤</span></span>
+            <strong>plan</strong><small>Предпросмотр diff</small>
+            <span class="job-node"><i>▤</i><b>tofu plan</b><em>-detailed-exitcode</em></span>
+            <span class="job-node artifact-node"><i>↳</i><b>plan.cache</b><em>artifact · 1 день</em></span>
+            <span class="job-count">plan.json доступен в MR</span>
+          </button>
+          <span class="human-gate" aria-label="Просмотр плана и решение инженера"><i>●</i><span>Проверить<br>план вручную</span></span>
+          <button class="stage-card apply-card" type="button" data-stage="apply" aria-pressed="false">
+            <span class="stage-top"><span class="stage-index">05</span><span class="stage-symbol stage-symbol-human">▶</span></span>
+            <strong>apply</strong><small>Изменение ресурсов</small>
+            <span class="job-node manual-node"><i>▶</i><b>ручной запуск</b><em>manual job</em></span>
+            <span class="job-node"><i>↳</i><b>plan.cache</b><em>тот же план</em></span>
+            <span class="job-count">только default branch</span>
+          </button>
+          <span class="stage-arrow" aria-hidden="true">›</span>
+          <button class="stage-card drift-card" type="button" data-stage="drift" aria-pressed="false">
+            <span class="stage-top"><span class="stage-index">06</span><span class="stage-symbol">↻</span></span>
+            <strong>drift</strong><small>Контроль расхождений</small>
+            <span class="job-node"><i>↻</i><b>tofu plan</b><em>по расписанию</em></span>
+            <span class="job-node"><i>!</i><b>есть diff?</b><em>pipeline сигнализирует</em></span>
+            <span class="job-count">ничего не применяет</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="stage-detail" aria-live="polite">
+        <div class="detail-mark" data-detail-mark>01</div>
+        <div><p class="detail-kicker" data-detail-kicker>Этап 1 · проверка до облака</p><h3 data-detail-title>validate — поймать ошибки в конфигурации</h3><p data-detail-copy>Проверяются форматирование OpenTofu и корректность конфигурации. Набор validate-job выбирается по изменённым каталогам; на этом этапе инфраструктура не меняется.</p></div>
+        <div class="detail-guardrail"><span>Зачем это нужно</span><strong data-detail-guardrail>Ошибки синтаксиса и структуры останавливаются до получения плана и доступа к облачным изменениям.</strong></div>
+      </div>
+      <p class="pipeline-footnote"><strong>Важно:</strong> это интерактивная визуализация структуры jobs и правил из `.gitlab-ci.yml`, а не снимок конкретного запуска. GitLab stage <code>review</code> в конфигурации нет: просмотр plan — человеческая контрольная точка перед ручным apply.</p>
+    </section>
+
+    <section class="iac-explainer" aria-label="Ключевые решения pipeline">
+      <article><span>01 / План отдельно от применения</span><h2>Diff можно изучить до изменения ресурсов</h2><p>Plan сохраняется как артефакт. Apply получает именно его, поэтому между просмотром diff и применением не строится новый, потенциально отличный план.</p></article>
+      <article><span>02 / Apply требует действия</span><h2>В merge request инфраструктура не меняется</h2><p>Для default branch apply задан как ручная задача и зависит от артефакта plan. В merge request остаются проверки и предварительный план.</p></article>
+      <article><span>03 / Drift только обнаруживает</span><h2>Расхождение становится видимым сигналом</h2><p>Плановая проверка ищет разницу между описанной и фактической инфраструктурой. При обнаружении изменений pipeline завершается ошибкой — автоматического apply здесь нет.</p></article>
+    </section>
+
+    <footer class="iac-footer">
+      <div><p class="iac-eyebrow">Инженерный подход</p><h2>Контроль изменений — часть надёжности</h2><p>Так я выстраиваю инфраструктурные изменения: проверяемая конфигурация, обозримый план, ручной контроль применения и отдельная проверка drift.</p></div>
+      <div class="iac-actions"><a class="iac-primary" href="resume.html">Открыть резюме</a><a class="iac-secondary" href="../index.html#contacts">Связаться со мной</a></div>
+    </footer>
+  </main>
+</body>
+</html>
