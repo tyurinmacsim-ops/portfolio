@@ -1500,6 +1500,20 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             f"mailto:{CONTACT_EMAIL}",
             "Написать письмо",
         ),
+        (
+            "Резюме на hh.ru",
+            "Максим Тюрин",
+            "Опыт, навыки и актуальная информация о поиске работы.",
+            "https://perm.hh.ru/resume/96e16841ff03f2062d0039ed1f5968795a6d61?hhtmFrom=profile",
+            "Открыть резюме",
+        ),
+        (
+            "LinkedIn",
+            "Максим Тюрин",
+            "Профессиональный профиль и контакты.",
+            "https://www.linkedin.com/in/%D0%BC%D0%B0%D0%BA%D1%81%D0%B8%D0%BC-%D1%82%D1%8E%D1%80%D0%B8%D0%BD-166b85242/",
+            "Открыть профиль",
+        ),
     ]
     footer_links = [
         ("Резюме", "pages/resume.html", "открыть"),
