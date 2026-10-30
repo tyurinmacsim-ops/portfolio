@@ -40,7 +40,7 @@
       <header class="content-head">
         <p class="eyebrow">Материал</p>
         <h1>Резюме</h1>
-        <p class="content-lead">Краткая публичная версия резюме для HR и технического интервью.</p>
+        <p class="content-lead">DevOps / Platform Engineer из Перми. Ищу полностью удалённую работу в русскоязычной команде.</p>
       </header>
       <article class="prose">
         <h1>Резюме</h1>
@@ -52,24 +52,22 @@
 <li>Контакты: <code>tyurinmacsim@gmail.com</code>, <code>@Max_Tyrin</code></li>
 </ul>
 <h2>Кратко</h2>
-<p>DevOps / Platform Engineer с <code>4+</code> годами коммерческого опыта в DevOps и <code>9+</code> годами в IT. Рассматриваю полностью удалённую работу по России; переезд не рассматриваю. Рабочий язык — русский, английским не владею.</p>
-<p>Ищу работу инженером DevOps, SRE или Platform Engineer: эксплуатация Kubernetes и Linux-инфраструктуры, автоматизация CI/CD и IaC, надёжность production-сервисов. Рассматриваю удалённую работу из Перми в русскоязычной команде.</p>
-<p>Основной стек:</p>
+<p>DevOps / Platform Engineer с <code>4+</code> годами коммерческого опыта в DevOps и <code>9+</code> годами в IT. Ищу полностью удалённую работу из Перми в русскоязычной команде; переезд не рассматриваю. Английский — B1.</p>
+<p>Развиваю и сопровождаю Kubernetes- и Linux-инфраструктуру, автоматизирую CI/CD и IaC, повышаю надёжность production-сервисов.</p>
+<p>Ключевые навыки по направлениям:</p>
 <ul>
-<li><code>Linux</code>, <code>Docker</code>, <code>Kubernetes</code>, <code>Helm</code></li>
-<li><code>GitLab CI/CD</code>, <code>ArgoCD</code>, <code>FluxCD</code></li>
-<li><code>OpenTofu/Terraform</code>, <code>Terragrunt</code>, <code>Ansible</code></li>
-<li><code>AWS</code>, <code>Azure</code>, <code>Yandex Cloud</code>, <code>Selectel</code></li>
-<li><code>PostgreSQL</code>, <code>Redis</code>, <code>Kafka</code>, <code>RabbitMQ</code>, <code>MongoDB</code>, <code>ClickHouse</code></li>
-<li><code>Prometheus</code>, <code>Grafana</code>, <code>Loki</code>, <code>VictoriaMetrics</code>, <code>Vault</code></li>
+<li>Облака и IaC: <code>AWS</code>, <code>Yandex Cloud</code>, <code>Selectel</code>, <code>Azure</code>, <code>OpenTofu/Terraform</code>, <code>Terragrunt</code>, <code>Ansible</code></li>
+<li>Kubernetes и доставка: <code>Kubernetes</code>, <code>Docker</code>, <code>Helm</code>, <code>GitLab CI/CD</code>, <code>Argo CD</code>, <code>FluxCD</code></li>
+<li>Наблюдаемость и безопасность: <code>Prometheus</code>, <code>Grafana</code>, <code>VictoriaMetrics</code>, <code>Loki</code>, <code>Vault</code></li>
+<li>Базы данных и очереди: <code>PostgreSQL</code>, <code>Redis</code>, <code>Kafka</code>, <code>RabbitMQ</code>, <code>MongoDB</code>, <code>ClickHouse</code></li>
 </ul>
 <h2>Ключевые результаты</h2>
 <ul>
-<li>сократил время релиза с <code>1.5 часов</code> до <code>10–15 минут</code>;</li>
-<li>повысил частоту релизов с <code>1–2</code> до <code>5–10</code> в день;</li>
-<li>снизил <code>MTTR</code> на <code>45–60%</code> за счёт мониторинга и алертинга;</li>
-<li>оптимизировал cloud-расходы на <code>15–35%</code> в разных контурах;</li>
-<li>сопровождал production-инфраструктуру для <code>100+</code> микросервисов.</li>
+<li>сократил время релиза с <code>1,5 часа</code> до <code>10–15 минут</code> в 01.tech;</li>
+<li>снизил ручные операции при релизах на <code>80–90%</code>, частота выкладок выросла до <code>5–10</code> в день;</li>
+<li>снизил <code>MTTR</code> примерно на <code>45–60%</code> в разных проектах;</li>
+<li>оптимизировал расходы на инфраструктуру на <code>15–35%</code> в разных проектах;</li>
+<li>сопровождал production-платформу из <code>100+</code> микросервисов и очереди до <code>10 млн</code> сообщений.</li>
 </ul>
 <h2>Опыт</h2>
 <h3>PERX / MyNaghi | 2026-08 — 2026-10</h3>
@@ -79,37 +77,61 @@
 <li>Развивал приватный delivery-контур: GitLab Runner с доступом через NetBird и мониторингом, Ansible для хостов, Helm и Argo CD для релизов.</li>
 <li>Для Airflow/importer настроил ресурсы и параллелизм; автоматизировал временные worker-ноды через Crossplane в Yandex Cloud и AWS. Добавил безопасную очистку устаревших Node после проверки отсутствия ВМ и активных pod.</li>
 <li>В Prometheus/Grafana разобрал причины повторных алертов Kubernetes и серверов, исправил правила; устранил ложный <code>KubeDaemonSetRolloutStuck</code> от потерянных worker-нод.</li>
-<li>Поэтапно обновил Traefik на <code>22</code> Selectel-ВМ и проверил состояние сервисов. Участвовал в восстановлении сайтов после сбоя зон Yandex Cloud и подготовке переноса сервисов на Selectel.</li>
+<li>Участвовал в восстановлении доступности после сбоя зон Yandex Cloud и подготовке переноса сервисов в Selectel. Поэтапно обновил Traefik на <code>22</code> Selectel-ВМ.</li>
 <li>Для MyNaghi сопровождал публикацию сайта из S3 через CloudFront и управление кэшем. <a href="activity-2026.html">Разбор решений и методика</a>.</li>
 </ul>
 <h3>Hilbert Team | 2025-12 — 2026-03</h3>
+<p>Проектный контракт для Magnit Tech: DWH и аналитическая платформа.</p>
 <ul>
-<li><code>Yandex Cloud</code>, <code>Kubernetes</code>, <code>Terraform/Terragrunt</code>, <code>GitLab CI/CD</code>, <code>Helm</code></li>
-<li>monitoring / alerting: <code>Prometheus</code>, <code>VictoriaMetrics</code>, <code>Grafana</code>, <code>Loki</code></li>
-<li>сопровождение <code>PostgreSQL</code>, <code>MongoDB</code>, <code>ClickHouse</code>, <code>Kafka</code>, <code>RabbitMQ</code></li>
+<li>Сопровождал Kubernetes и ресурсы Yandex Cloud; поддерживал GitOps и CI/CD на FluxCD, GitLab CI/CD, Helm и Kustomize.</li>
+<li>Эксплуатировал Airflow, Trino, JupyterHub, Kafka Connect и GitLab Runner; сопровождал ClickHouse, PostgreSQL, Kafka и S3-совместимое хранилище.</li>
+<li>Поддерживал Vault, External Secrets, сертификаты, ingress и registry; участвовал в настройке алертов HTTP/gRPC по ошибкам, 5xx и задержкам p95/p99.</li>
 </ul>
 <h3>01.tech | 2023-09 — 2025-11</h3>
+<p>Telegram-платформа на Node.js с более чем 100 микросервисами в production.</p>
 <ul>
-<li><code>AWS</code>, <code>EKS</code>, <code>Kubernetes</code>, <code>Docker</code>, <code>Helm</code></li>
-<li><code>GitLab CI/CD</code>, <code>ArgoCD</code>, <code>Terraform</code>, <code>Terragrunt</code></li>
-<li>production-контур с <code>100+</code> микросервисами</li>
-<li>асинхронные Telegram-контуры с массовой доставкой и большими очередями до <code>10 млн</code> сообщений</li>
-<li>adjacent platform/data tooling в зоне <code>tgbot/tgbots</code>: <code>Retool</code>, <code>Debezium</code>, migration jobs и migration/revert-процессы вокруг сервисных БД</li>
-<li>deployment-связки для Telegram bot/API-сервисов: <code>Helm</code>, <code>ArgoCD ApplicationSet</code>, values по окружениям, <code>Vault</code>, <code>ExternalDNS</code>, <code>Istio Gateway</code></li>
-<li>администрирование <code>FortiGate/FortiClient VPN</code> для доступа к tgbots-контурам: сетевые объекты, маршрутизация и политики доступа</li>
-<li>observability: <code>Prometheus</code>, <code>Grafana</code>, <code>Loki</code>, <code>VictoriaMetrics</code></li>
+<li>Сопровождал AWS/EKS и участвовал в миграции сервисов с EC2 и Docker Compose в Kubernetes.</li>
+<li>Автоматизировал инфраструктуру через Terraform/Terragrunt; развивал доставку через GitLab CI/CD, Helm, Argo CD и FluxCD.</li>
+<li>Сопровождал PostgreSQL, Redis, Kafka, RabbitMQ, MongoDB и ClickHouse; разбирал очереди, повторы и ограничения частоты запросов.</li>
+<li>Поддерживал ingress, TLS, DNS, секреты, VPN и мониторинг на VictoriaMetrics, Grafana, Loki и Alertmanager.</li>
+<li>Сократил время релиза с <code>1,5 часа</code> до <code>10–15 минут</code>, ручные операции — на <code>80–90%</code>; частота выкладок выросла с 1–2 в неделю до 5–10 в день.</li>
+<li>Снизил MTTR примерно на <code>60%</code> и расходы на инфраструктуру на <code>25–35%</code>; сопровождал контуры массовой доставки с очередями до <code>10 млн</code> сообщений.</li>
+<li>Настроил резервное копирование и проверку восстановления для RDS и MongoDB; поддерживал контролируемое применение и откат миграций БД.</li>
 </ul>
 <h3>xero | 2022-07 — 2023-08</h3>
+<p>Финтех-стартап на Azure. Участвовал в подготовке инфраструктуры к аудиту PCI DSS.</p>
 <ul>
-<li><code>Azure</code>, <code>AKS</code>, <code>Terraform/Terragrunt</code></li>
-<li><code>FluxCD</code>, <code>GitLab CI</code>, private ingress, <code>Key Vault</code></li>
-<li>подготовка инфраструктурного контура к <code>PCI DSS</code></li>
+<li>Создал Terraform/Terragrunt-модули; настроил GitOps-доставку через FluxCD и GitLab CI, Helm-чарты и канареечные релизы.</li>
+<li>Сопровождал AKS, автомасштабирование, сетевые политики, приватные ingress и интеграции с Azure PaaS.</li>
+<li>Поддерживал мониторинг, централизованные логи, TLS, RBAC/IAM и аудит действий.</li>
+<li>Сократил время вывода релиза с нескольких часов до <code>15–20 минут</code>, MTTR примерно на <code>45%</code>; вместе с командой снизил расходы на <code>15–20%</code>.</li>
 </ul>
 <h3>SWAPP Protocol | 2021-11 — 2022-06</h3>
+<p>DevOps-инженер в стартапе криптокошелька.</p>
 <ul>
-<li><code>AWS</code>, <code>Hetzner</code>, <code>Terraform</code>, <code>Ansible</code></li>
-<li><code>Docker</code>, <code>Kubernetes</code>, <code>Proxmox</code>, <code>Cloudflare</code></li>
-<li><code>PostgreSQL</code>, <code>MySQL</code>, <code>Redis</code>, <code>ClickHouse</code></li>
+<li>Поддерживал AWS и Hetzner, описывал ресурсы через Terraform и автоматизировал настройку серверов Ansible.</li>
+<li>Сопровождал Docker- и Kubernetes-среды, Proxmox, Nginx, DNS и Cloudflare.</li>
+<li>Работал с PostgreSQL, MySQL, Redis и ClickHouse.</li>
+</ul>
+<h3>ООО «Пермнефтеотдача» | 2019-07 — 2021-11</h3>
+<p>Системный администратор парка более 100 хостов.</p>
+<ul>
+<li>Поддерживал Active Directory и групповые политики.</li>
+<li>Сопровождал VMware и Hyper-V; обеспечивал резервное копирование серверов и рабочих станций.</li>
+</ul>
+<h3>Сетелем Банк | 2017-08 — 2019-03</h3>
+<p>Поддерживал компьютерную и телекоммуникационную инфраструктуру банка: рабочие места, периферию и ПО; диагностировал неисправности и помогал сотрудникам.</p>
+<h3>ООО «ЛОГИСТИК ПРО» | 2015-10 — 2016-05</h3>
+<p>Контролировал состояние инженерно-технических систем объекта с помощью SCADA, отслеживал отклонения и передавал информацию ответственным специалистам.</p>
+<h3>НП «Сотис» | 2015-06</h3>
+<p>Администрировал сайт и пользовательские настройки, работал с учётными записями, подписками и платежами, выполнял резервное копирование, размещал информационные материалы.</p>
+<h3>ОАО «МРСК» | 2014-06</h3>
+<p>Производственная практика по информационным системам: участвовал в настройке и поддержке компьютеров, локальной сети и оргтехники.</p>
+<h2>Образование и сертификат</h2>
+<ul>
+<li>ПНИПУ, «Информационные системы и технологии» — неоконченное высшее, 2021.</li>
+<li>Пермский колледж транспорта и сервиса, «Информационные системы» — среднее профессиональное, 2016.</li>
+<li>Slurm, SRE: data-driven, 2024.</li>
 </ul>
 <h2>Дополнение</h2>
 <ul>
