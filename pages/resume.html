@@ -75,7 +75,8 @@
 <ul>
 <li>OpenTofu/Terraform для сетей, ВМ, Kubernetes и managed PostgreSQL. В GitLab CI выстроил validate → plan → контролируемый apply, проверки drift и зависимости между стеками.</li>
 <li>Развивал приватный delivery-контур: GitLab Runner с доступом через NetBird и мониторингом, Ansible для хостов, Helm и Argo CD для релизов.</li>
-<li>Для Airflow/importer настроил ресурсы и параллелизм; автоматизировал временные worker-ноды через Crossplane в Yandex Cloud и AWS. Добавил безопасную очистку устаревших Node после проверки отсутствия ВМ и активных pod.</li>
+<li>Сопровождал self-managed Kubernetes-кластеры: Perx dev — 4 узла (1 control plane, 3 worker), включая выделенный heavy worker 8 vCPU/24 ГБ; MyNaghi prod — 3 узла (1 control plane m5.large и 2 worker: t3.2xlarge и t3.xlarge).</li>
+<li>Для Airflow/importer настраивал ресурсы и параллелизм; автоматизировал временные worker-ноды через Crossplane: Yandex Cloud — 4 vCPU/12 ГБ (dev) и 2 vCPU/12 ГБ (stage), AWS prod — c7i.4xlarge (Auto Scaling Group 0–1 узел). Добавил безопасную очистку устаревших Node после проверки отсутствия ВМ и активных pod.</li>
 <li>В Prometheus/Grafana разобрал причины повторных алертов Kubernetes и серверов, исправил правила; устранил ложный <code>KubeDaemonSetRolloutStuck</code> от потерянных worker-нод.</li>
 <li>Участвовал в восстановлении доступности после сбоя зон Yandex Cloud и переносе с переключением сервисов между двумя облачными площадками: около <code>30</code> ВМ в Yandex Cloud и платформа Selectel с <code>22</code> ВМ и примерно <code>8</code> сервисами. Поэтапно обновил Traefik на 22 ВМ Selectel.</li>
 <li>Для MyNaghi сопровождал публикацию сайта из S3 через CloudFront и управление кэшем. <a href="activity-2026.html">Разбор решений и методика</a>.</li>
