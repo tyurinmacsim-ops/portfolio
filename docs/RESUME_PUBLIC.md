@@ -30,7 +30,7 @@ DevOps / Platform Engineer с `4+` годами коммерческого оп�
 
 ## Опыт
 
-### Hilbert Team | 2025-12 — 2026-03
+### Hilbert Team | 2025-12 — 2026-08
 
 - `Yandex Cloud`, `Kubernetes`, `Terraform/Terragrunt`, `GitLab CI/CD`, `Helm`
 - monitoring / alerting: `Prometheus`, `VictoriaMetrics`, `Grafana`, `Loki`
