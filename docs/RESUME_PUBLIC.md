@@ -41,7 +41,7 @@ DevOps / Platform Engineer с `4+` годами коммерческого оп�
 - Поэтапно обновил Traefik на `22` Selectel-ВМ и проверил состояние сервисов. Участвовал в восстановлении сайтов после сбоя зон Yandex Cloud и подготовке переноса сервисов на Selectel.
 - Для MyNaghi сопровождал публикацию сайта из S3 через CloudFront и управление кэшем. [Разбор решений и методика](./ACTIVITY_2026.md).
 
-### Hilbert Team | 2025-12 — 2026-03
+### Hilbert Team | 2025-12 — 2026-08
 
 - `Yandex Cloud`, `Kubernetes`, `Terraform/Terragrunt`, `GitLab CI/CD`, `Helm`
 - monitoring / alerting: `Prometheus`, `VictoriaMetrics`, `Grafana`, `Loki`
