@@ -32,7 +32,7 @@
   - корректная формулировка здесь не `десятки тысяч RPS`, а `high-throughput queue-heavy workload`, где важны backlog, retries, rate limits, worker scaling и observability.
 - Вывод: это самый сильный и лучше всего подтверждённый период в портфолио.
 
-## Hilbert Team | Декабрь 2025 — Март 2026
+## Hilbert Team | Декабрь 2025 — Август 2026
 
 - В резюме: Yandex Cloud, Kubernetes, Terraform/Terragrunt, GitLab CI/CD, Helm, monitoring, alerting, базы и брокеры.
 - В портфолио подтверждается:
