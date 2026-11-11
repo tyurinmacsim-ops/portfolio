@@ -224,7 +224,7 @@
           observer.disconnect();
           runPipeline();
         }
-      }, { threshold: 0.25 });
+      }, { threshold: 0.08 });
       pipelineObserver.observe(pipeline);
     } else {
       runPipeline();
