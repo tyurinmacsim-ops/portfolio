@@ -34,8 +34,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css?v=20260723">
-  <link rel="stylesheet" href="assets/home.css?v=20261027-3">
-  <script src="assets/site.js?v=20260723-2" defer></script>
+  <link rel="stylesheet" href="assets/home.css?v=20261111-1">
+  <script src="assets/site.js?v=20261111-1" defer></script>
 </head>
 <body>
   <div class="bg-orb bg-orb-a"></div>
@@ -60,12 +60,12 @@
         <p class="hero-lead">Работа из Перми, полностью удалённо по России. Рабочий язык — русский; английским не владею. Развиваю Kubernetes и облачную инфраструктуру, автоматизирую CI/CD и IaC, поддерживаю production и восстанавливаю доступность сервисов.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="pages/resume.html">Открыть резюме</a>
-          <a class="btn btn-secondary" href="#recent-work">Кейсы и результаты</a>
+          <a class="btn btn-secondary" href="#release-lab">Посмотреть CI/CD в деле</a>
         </div>
-        <div class="proof-strip" aria-label="Ключевые доказательства">
-          <span><strong>922</strong> уникальных коммита · август–октябрь 2026</span>
-          <span><strong>25</strong> репозиториев со вкладом за этот период</span>
-          <span><strong>22</strong> Selectel-ВМ в последовательном обновлении</span>
+        <div class="proof-strip" aria-label="Ключевые направления опыта">
+          <span><strong>4+ года</strong> коммерческого DevOps-опыта</span>
+          <span><strong>5 облачных платформ</strong> и Kubernetes</span>
+          <span><strong>1 стенд</strong> для воспроизводимой техпроверки</span>
         </div>
       </div>
       <aside class="hero-panel">
@@ -119,30 +119,27 @@
       <div class="intro-actions"><a class="btn btn-primary" href="pages/resume.html">Открыть резюме</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio">GitHub</a><button class="btn btn-ghost" type="button" data-copy="hr">Скопировать краткое интро</button><button class="btn btn-ghost" type="button" data-copy="tech">Скопировать техническое интро</button></div>
     </section>
 
-    <section class="panel recent-work audience-section" id="recent-work" data-audiences="hr tech interview ai">
+    <section class="panel release-lab audience-section" id="release-lab" data-audiences="hr tech interview ai" aria-labelledby="release-lab-title">
       <div class="section-head">
-        <p class="eyebrow">Актуальная практика · 2026</p>
-        <h2>Perx / MyNaghi: решения в инфраструктуре, а не список инструментов</h2>
-        <p>Yandex Cloud, AWS, Selectel и bare-metal Kubernetes. Свежий срез: 2026-08-07 — 2026-10-26. Исходные репозитории и merge requests приватные.</p>
+        <p class="eyebrow">Интерактивная схема · demo mode</p>
+        <h2 id="release-lab-title">От коммита до метрик — безопасный путь релиза</h2>
+        <p>Нажмите «Запустить pipeline» и посмотрите, как проходит обычная проверка изменений. Это локальная симуляция интерфейса; воспроизводимый проект и GitHub Actions доступны ниже.</p>
       </div>
-      <div class="recent-work-grid">
-        <div class="recent-metric"><strong>922</strong><span>уникальных коммитов</span><small>по SHA, без дублей рабочих копий</small></div>
-        <div class="recent-metric"><strong>183</strong><span>объединённых merge requests</span><small>снимок приватного GitLab на 2026-10-27</small></div>
-        <div class="recent-metric"><strong>22</strong><span>Selectel-ВМ</span><small>последовательное обновление Traefik</small></div>
+      <div class="pipeline-lab" data-pipeline aria-label="Демонстрация CI/CD pipeline">
+        <div class="pipeline-track" role="list">
+          <article class="pipeline-stage is-complete" data-pipeline-step="0" role="listitem"><span class="stage-icon">⌘</span><small>01 / SOURCE</small><strong>Commit</strong><span class="stage-state">Код готов</span></article>
+          <i class="pipeline-edge" aria-hidden="true"></i>
+          <article class="pipeline-stage" data-pipeline-step="1" role="listitem"><span class="stage-icon">✓</span><small>02 / QUALITY</small><strong>Checks</strong><span class="stage-state">Ожидание</span></article>
+          <i class="pipeline-edge" aria-hidden="true"></i>
+          <article class="pipeline-stage" data-pipeline-step="2" role="listitem"><span class="stage-icon">▣</span><small>03 / BUILD</small><strong>Image</strong><span class="stage-state">Ожидание</span></article>
+          <i class="pipeline-edge" aria-hidden="true"></i>
+          <article class="pipeline-stage" data-pipeline-step="3" role="listitem"><span class="stage-icon">⇧</span><small>04 / DELIVERY</small><strong>Deploy</strong><span class="stage-state">Ожидание</span></article>
+          <i class="pipeline-edge" aria-hidden="true"></i>
+          <article class="pipeline-stage" data-pipeline-step="4" role="listitem"><span class="stage-icon">◉</span><small>05 / OBSERVE</small><strong>Monitor</strong><span class="stage-state">Ожидание</span></article>
+        </div>
+        <div class="pipeline-console"><span class="console-prompt">$ release --safe</span><p data-pipeline-log aria-live="polite">Изменения ждут проверки. Проверки — до сборки, health check — после выкладки.</p><button class="btn btn-primary" type="button" data-run-pipeline>Запустить pipeline <span aria-hidden="true">↗</span></button></div>
       </div>
-      <div class="recent-topics">
-        <span>Terraform / Terragrunt / GitOps</span>
-        <span>Helm и конфигурация окружений</span>
-        <span>Ansible / CI runners / monitoring</span>
-        <span>Airflow / Kubernetes workers</span>
-      </div>
-      <div class="recent-outcomes">
-        <article><strong>Контролируемое IaC</strong><p>Validate → plan → ручной apply и drift-check по расписанию. Приватный Kubernetes API доступен pipeline через GitLab Agent, без публичного ingress.</p><a class="text-link" href="pages/iac-pipeline.html">Посмотреть схему GitLab pipeline →</a></article>
-        <article><strong>Безопасные временные workers</strong><p>Crossplane + Airflow: очистка устаревшей Node только после проверки отсутствия VM и активных pod; исправлены повторные алерты.</p></article>
-        <article><strong>Восстановление и rollout</strong><p>Traefik обновлялся последовательно на 22 ВМ. После сбоя зон Yandex Cloud участвовал в восстановлении сайтов и подготовке переноса.</p></article>
-      </div>
-      <p class="recent-disclaimer">Это свидетельство недавней инженерной активности, а не оценка качества или масштаба результатов. Детали задач готов обсудить на собеседовании без раскрытия приватной инфраструктуры.</p>
-      <a class="text-link" href="pages/activity-2026.html">Методика и разбор направлений →</a>
+      <div class="pipeline-foot"><span>✓ Проверяем до выкладки</span><span>↻ Обновляем постепенно</span><span>⌁ Следим за health и метриками</span></div>
     </section>
 
     <section class="panel ai-fit audience-section" id="ai-fit" data-audiences="ai">
@@ -168,12 +165,9 @@
         <h2>Как читать это портфолио</h2>
       </div>
       <div class="route-grid">
-        <article class="route-card"><h3>Для HR</h3><p>Здесь собраны резюме, git-статистика, рабочие артефакты и публичный демо-стенд. По ним можно быстро проверить стек, периоды активности и тип задач.</p></article>
-<article class="route-card"><h3>Для техлида</h3><p>От общей сводки можно перейти к конкретным направлениям: Kubernetes, Terraform, GitOps, CI/CD, observability, backup/restore и platform engineering.</p></article>
-<article class="route-card"><h3>Для собеседования</h3><p>Удобно использовать как опорный материал на интервью: здесь есть конкретные проекты, графики, стек и примеры эксплуатационных задач.</p></article>
-      </div>
-      <div class="note-box">
-        <strong>Важно.</strong> В графиках показаны только те репозитории, где локально сохранилась читаемая git-история. Ранние копии части рабочих каталогов, включая некоторые архивы 2021–2022 годов, местами сохранились неполно и поэтому недопредставлены в статистике.
+        <article class="route-card"><h3>Для HR</h3><p>Короткий профиль, резюме, подтверждённые результаты и контакты — всё на одной странице.</p></article>
+<article class="route-card"><h3>Для техлида</h3><p>Публичный код, схема доставки изменений, воспроизводимый стенд и разбор эксплуатационных решений.</p></article>
+<article class="route-card"><h3>Для собеседования</h3><p>Кейсы дают опорные темы: Kubernetes, IaC, GitOps, CI/CD, наблюдаемость и восстановление.</p></article>
       </div>
     </section>
 
@@ -182,14 +176,14 @@
         <p class="eyebrow">Результаты</p>
         <h2>Что уже можно показать как рабочий результат</h2>
       </div>
-      <div class="section-note">Недавние рабочие показатели за август–октябрь 2026, плюс публичные артефакты. Исторические графики указаны отдельно.</div>
+      <div class="section-note">Измеримые результаты из резюме и проекты, которые можно открыть и изучить.</div>
       <div class="result-grid">
-        <article class="result-card"><strong>922</strong><span>уникальных коммита · август–октябрь 2026</span><p>Свежий локальный Git-срез после дедупликации повторных рабочих копий по SHA.</p></article>
-<article class="result-card"><strong>25</strong><span>репозиториев с авторским вкладом</span><p>Число относится к отдельному свежему архиву, не к количеству самостоятельных проектов.</p></article>
-<article class="result-card"><strong>183</strong><span>объединённых merge requests</span><p>Снимок приватного GitLab на 2026-10-27; метрика не публично проверяема.</p></article>
-<article class="result-card"><strong>22</strong><span>Selectel-ВМ в последовательном обновлении Traefik</span><p>Подтверждённая недавняя задача на парке виртуальных машин.</p></article>
-<article class="result-card"><strong>3 / 6 / 15</strong><span>набор резервного копирования</span><p>Публично вынесены Python-, shell- и YAML-артефакты для резервного копирования, S3/AWS и CronJob-процессов.</p></article>
-<article class="result-card"><strong>136</strong><span>файлов в k8s-box</span><p>Обезличенный платформенный набор по Yandex Cloud, Terragrunt, ArgoCD, Vault, VPN-точке входа и эксплуатационной документации.</p></article>
+        <article class="result-card"><strong>1,5 ч → 10–15 мин</strong><span>время подготовки релиза</span><p>Автоматизация повторяемых операций и стандартизация пайплайна.</p></article>
+<article class="result-card"><strong>−80–90%</strong><span>ручных операций при релизах</span><p>Меньше повторяющихся шагов, предсказуемее выкладка и откат.</p></article>
+<article class="result-card"><strong>−45–60%</strong><span>времени восстановления</span><p>Наблюдаемость и алерты помогали быстрее локализовать проблемы.</p></article>
+<article class="result-card"><strong>100+</strong><span>production-микросервисов</span><p>Эксплуатация платформы с частыми релизами и очередями.</p></article>
+<article class="result-card"><strong>10 млн</strong><span>сообщений в очередях</span><p>Опыт работы с асинхронной доставкой и нагрузочными контурами.</p></article>
+<article class="result-card"><strong>Open</strong><span>публичные демо и артефакты</span><p>Проверяемый код и воспроизводимый Platform Engineering стенд на GitHub.</p></article>
       </div>
     </section>
 
@@ -209,78 +203,16 @@
 
 
 
-    <section class="panel audience-section" id="charts" data-audiences="tech">
-      <div class="section-head">
-        <p class="eyebrow">Графики</p>
-        <h2>Картина активности и распределения по стеку</h2>
-        <p>Общий снимок и помесячный тренд сохраняют историческую Git-выгрузку по март 2026. В этот же график добавлены свежие коммиты Perx / MyNaghi за август–октябрь 2026; апрель–июль в источниках не покрыты.</p>
+    <section class="panel architecture-panel audience-section" id="architecture" data-audiences="tech interview ai">
+      <div class="section-head"><p class="eyebrow">Схема платформы</p><h2>Изменение проходит через контрольные точки</h2><p>Сборка, доставка, запуск и наблюдение — одна цепочка с проверяемым результатом на каждом этапе.</p></div>
+      <div class="architecture-flow" aria-label="Схема доставки приложения">
+        <article><small>01 · CHANGE</small><strong>Git</strong><span>ревью и версия</span></article><b>→</b>
+        <article><small>02 · VERIFY</small><strong>CI</strong><span>lint · tests · scan</span></article><b>→</b>
+        <article><small>03 · PACKAGE</small><strong>Registry</strong><span>immutable image</span></article><b>→</b>
+        <article><small>04 · RELEASE</small><strong>GitOps</strong><span>Helm · Argo CD</span></article><b>→</b>
+        <article><small>05 · RUNTIME</small><strong>Kubernetes</strong><span>health · metrics</span></article>
       </div>
-      <div class="chart-grid">
-        <figure class="chart-card chart-card-wide">
-          <img src="assets/portfolio_snapshot.svg?v=20261030" alt="Общий исторический снимок портфолио: 8449 коммитов, 49 потоков, архив до марта 2026">
-        </figure>
-        <figure class="chart-card chart-card-wide">
-          <img src="assets/commits_trend.svg?v=20261030-2" alt="Общий помесячный тренд по проектам, включая свежую активность Perx и MyNaghi за август–октябрь 2026">
-        </figure>
-        <figure class="chart-card">
-          <img src="assets/commits_by_year.svg?v=20261028" alt="Коммиты по годам в историческом архиве до марта 2026">
-        </figure>
-        <figure class="chart-card">
-          <img src="assets/tech_coverage.svg?v=20261028" alt="Покрытие стека в исторической выгрузке до марта 2026">
-        </figure>
-        <figure class="chart-card">
-          <img src="assets/backup_artifact_map.svg" alt="Состав backup automation toolkit">
-        </figure>
-
-        <figure class="chart-card chart-card-wide">
-          <img src="assets/commits_by_repo.svg?v=20261028" alt="Коммиты по потокам в исторической выгрузке до марта 2026">
-        </figure>
-        <figure class="chart-card chart-card-wide">
-          <img src="assets/workstream_timeline.svg?v=20261028" alt="Периоды ключевых потоков в исторической выгрузке до марта 2026">
-        </figure>
-      </div>
-    </section>
-
-    <section class="panel audience-section" id="tech" data-audiences="tech">
-      <div class="section-head">
-        <p class="eyebrow">Техсрез</p>
-        <h2>Крупнейшие потоки в историческом архиве</h2>
-        <p>Список ниже собран по архиву до марта 2026. Свежая работа Perx / MyNaghi за август–октябрь приведена выше и не смешивается с этой выборкой.</p>
-      </div>
-      <div class="stack-strip">
-        <span>Чаще всего в потоке встречаются:</span>
-        <ul>
-          <li>Kubernetes</li>
-<li>GitLab CI</li>
-<li>Helm</li>
-<li>Terraform</li>
-<li>Ansible</li>
-<li>Docker</li>
-        </ul>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Поток</th>
-              <th>Коммиты</th>
-              <th>Старт</th>
-              <th>Финиш</th>
-              <th>Стек</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Project 07 - ArgoCD delivery platform</td><td>2953</td><td>2025-02-11</td><td>2025-10-30</td><td>Helm, Kubernetes</td></tr>
-<tr><td>Project 02 - Ops automation / Ansible + Terraform</td><td>1538</td><td>2023-09-05</td><td>2025-10-24</td><td>Ansible, GitLab CI, Kubernetes, Terraform</td></tr>
-<tr><td>Project 01 - GitOps / FluxCD platform</td><td>1292</td><td>2023-09-08</td><td>2024-02-28</td><td>Helm, Kubernetes</td></tr>
-<tr><td>Project 08 - Helm chart fleet</td><td>775</td><td>2023-09-08</td><td>2025-10-29</td><td>Helm</td></tr>
-<tr><td>Project 09 - GitLab templates for bot delivery</td><td>245</td><td>2023-12-07</td><td>2025-08-21</td><td>mixed</td></tr>
-<tr><td>Project 10 - Access management platform</td><td>155</td><td>2025-12-19</td><td>2026-02-27</td><td>GitLab CI, Kubernetes, Terraform, Terragrunt</td></tr>
-<tr><td>Workstream 07</td><td>126</td><td>2023-08-21</td><td>2023-09-01</td><td>Helm, Kubernetes</td></tr>
-<tr><td>Project 11 - Kubernetes platform box</td><td>122</td><td>2026-03-02</td><td>2026-03-16</td><td>GitLab CI, Terraform, Terragrunt</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <div class="architecture-feedback"><span>Prometheus / Grafana / Loki</span><i aria-hidden="true">↶</i><span>сигналы эксплуатации возвращаются в цикл изменений</span></div>
     </section>
 
     <section class="panel audience-section" id="cases" data-audiences="hr tech interview ai">
@@ -329,8 +261,8 @@
 <article class="timeline-card"><span class="timeline-period">ноя 2021 - июн 2022</span><div class="timeline-body"><div class="timeline-head"><h3>SWAPP / AWS + Hetzner + Proxmox</h3><span>~0.7 года</span></div><p>Terraform, Ansible, Docker, Kubernetes, AWS, Hetzner, Proxmox, Cloudflare. Ранний production-опыт в cloud и контейнерной инфраструктуре.</p><ul class="timeline-tags"><li>AWS</li><li>Hetzner</li><li>Proxmox</li><li>Terraform</li><li>Ansible</li></ul></div></article>
 <article class="timeline-card"><span class="timeline-period">июл 2022 - авг 2023</span><div class="timeline-body"><div class="timeline-head"><h3>Azure / AKS / PCI DSS</h3><span>~1.1 года</span></div><p>AKS, private ingress, Key Vault, audit trail, platform hardening, IaC и подготовка инфраструктуры к security-аудиту.</p><ul class="timeline-tags"><li>Azure</li><li>AKS</li><li>Terraform</li><li>FluxCD</li><li>security</li></ul></div></article>
 <article class="timeline-card"><span class="timeline-period">сен 2023 - ноя 2025</span><div class="timeline-body"><div class="timeline-head"><h3>AWS / EKS / 100+ microservices</h3><span>~2.3 года</span></div><p>Production-платформа с интенсивным релизным циклом и асинхронными Telegram-контурами: GitLab CI/CD, ArgoCD, EKS, observability, data services, большие очереди и backup automation.</p><ul class="timeline-tags"><li>AWS</li><li>EKS</li><li>GitOps</li><li>Helm</li><li>observability</li></ul></div></article>
-<article class="timeline-card"><span class="timeline-period">дек 2025 - авг 2026</span><div class="timeline-body"><div class="timeline-head"><h3>Yandex Cloud / k8s-box / platform engineering</h3><span>~0.3+ года</span></div><p>YC-проекты, Terragrunt, Vault, runner, VPN entrypoint, profile-driven platform toolkit и публичный sanitized `k8s-box`.</p><ul class="timeline-tags"><li>Yandex Cloud</li><li>Terragrunt</li><li>Vault</li><li>ArgoCD</li><li>toolkit</li></ul></div></article>
-<article class="timeline-card"><span class="timeline-period">авг - окт 2026</span><div class="timeline-body"><div class="timeline-head"><h3>Perx / MyNaghi — платформенная инфраструктура</h3><span>локальный Git-архив</span></div><p>Yandex Cloud, AWS, Selectel и bare-metal Kubernetes: IaC, GitOps, CI/CD, monitoring и эксплуатация. Код приватный; опубликованы только агрегаты и описание задач.</p><ul class="timeline-tags"><li>Terraform</li><li>Terragrunt</li><li>Helm</li><li>Ansible</li><li>observability</li></ul></div></article>
+<article class="timeline-card"><span class="timeline-period">дек 2025 - мар 2026</span><div class="timeline-body"><div class="timeline-head"><h3>Hilbert Team · Yandex Cloud · platform engineering</h3><span>2025–2026</span></div><p>Kubernetes и аналитическая платформа: Terragrunt, Vault, GitOps, CI/CD и observability. В публичной части — обезличенный платформенный набор и документация.</p><ul class="timeline-tags"><li>Yandex Cloud</li><li>Terragrunt</li><li>Vault</li><li>ArgoCD</li><li>Kubernetes</li></ul></div></article>
+<article class="timeline-card"><span class="timeline-period">авг - окт 2026</span><div class="timeline-body"><div class="timeline-head"><h3>Perx / MyNaghi — платформенная инфраструктура</h3><span>DevOps</span></div><p>Yandex Cloud, AWS, Selectel и bare-metal Kubernetes: IaC, GitOps, CI/CD, monitoring и эксплуатация production.</p><ul class="timeline-tags"><li>Terraform</li><li>Terragrunt</li><li>Helm</li><li>Ansible</li><li>observability</li></ul></div></article>
       </div>
     </section>
 
@@ -368,9 +300,9 @@
       <div class="demo-card">
         <div>
           <h3>platform-engineering-demo</h3>
-          <p>Отдельный демо-проект внутри портфолио: <code>Terraform + Kubernetes + GitHub Actions + Prometheus/Grafana/Loki</code>. Локально прогнан end-to-end через <code>kind</code>, deployment и smoke-test.</p>
+          <p>Отдельный демо-проект внутри портфолио: <code>Terraform + Kubernetes + GitHub Actions + Prometheus/Grafana/Loki</code>. Репозиторий показывает проверку изменений, деплой и smoke-check.</p>
         </div>
-        <a class="btn btn-primary" href="pages/platform-engineering-demo.html">Открыть описание демо-проекта</a>
+        <div class="demo-actions"><a class="btn btn-primary" href="pages/platform-engineering-demo.html">Открыть описание демо-проекта</a><a class="btn btn-secondary" href="https://github.com/tyurinmacsim-ops/portfolio/blob/gh-pages/.github/workflows/portfolio-check.yml" target="_blank" rel="noopener noreferrer">GitHub Actions ↗</a></div>
       </div>
     </section>
 
@@ -395,7 +327,7 @@
       <ul class="links-list">
         <li><a href="pages/resume.html">Резюме</a></li>
 <li><a href="pages/highlights.html">Ключевые выводы</a></li>
-<li><a href="pages/activity-summary.html">Сводка активности</a></li>
+<li><a href="pages/activity-summary.html">Технические доказательства</a></li>
 <li><a href="pages/case-studies.html">Кейсы</a></li>
 <li><a href="pages/public-projects.html">Публичные демо-проекты</a></li>
 <li><a href="pages/artifact-evidence.html">Дополнительные артефакты</a></li>
@@ -407,7 +339,6 @@
 <li><a href="pages/telegram-bot-delivery.html">Telegram bot bundle</a></li>
 <li><a href="pages/resume-portfolio-map.html">Сопоставление резюме и портфолио</a></li>
 <li><a href="pages/application-blurb.html">Краткое описание</a></li>
-<li><a href="data/commit_summary.json">JSON со статистикой</a></li>
       </ul>
     </section>
   </main>

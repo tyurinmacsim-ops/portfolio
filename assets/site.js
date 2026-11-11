@@ -25,6 +25,36 @@
   const root = document.documentElement;
   root.classList.add("js-ready");
 
+  const progressBar = document.createElement("div");
+  progressBar.className = "scroll-progress";
+  progressBar.setAttribute("aria-hidden", "true");
+  document.body.prepend(progressBar);
+
+  const updateScrollProgress = () => {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    progressBar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+  };
+  window.addEventListener("scroll", updateScrollProgress, { passive: true });
+  window.addEventListener("resize", updateScrollProgress);
+  updateScrollProgress();
+
+  const revealTargets = document.querySelectorAll(".hero-copy, .hero-panel, main .panel");
+  revealTargets.forEach((target) => target.setAttribute("data-reveal", ""));
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealTargets.forEach((target) => revealObserver.observe(target));
+  } else {
+    revealTargets.forEach((target) => target.classList.add("is-revealed"));
+  }
+
   const announce = (message) => {
     let toast = document.querySelector("[data-toast]");
     if (!toast) {
@@ -148,6 +178,43 @@
       button.addEventListener("click", () => filterGroup(bar, button.dataset.filter));
     });
   });
+
+  const pipelineButton = document.querySelector("[data-run-pipeline]");
+  const pipeline = document.querySelector("[data-pipeline]");
+  const pipelineLog = document.querySelector("[data-pipeline-log]");
+  if (pipelineButton && pipeline && pipelineLog) {
+    const stages = [...pipeline.querySelectorAll("[data-pipeline-step]")];
+    const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+    pipelineButton.addEventListener("click", async () => {
+      if (pipelineButton.disabled) return;
+      const stepTime = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : 620;
+      pipelineButton.disabled = true;
+      pipelineButton.textContent = "Pipeline выполняется…";
+      stages.forEach((stage, index) => {
+        stage.classList.toggle("is-done", index === 0);
+        stage.classList.remove("is-active");
+        stage.querySelector(".stage-state").textContent = index === 0 ? "Код готов" : "Ожидание";
+      });
+      pipelineLog.textContent = "Получен commit. Запускаю проверки до сборки артефакта.";
+
+      for (let index = 1; index < stages.length; index += 1) {
+        const stage = stages[index];
+        stage.classList.add("is-active");
+        stage.querySelector(".stage-state").textContent = "Выполняется";
+        const label = stage.querySelector("strong").textContent;
+        pipelineLog.textContent = `${label}: выполняю этап и проверяю его результат…`;
+        await delay(stepTime);
+        stage.classList.remove("is-active");
+        stage.classList.add("is-done");
+        stage.querySelector(".stage-state").textContent = "Успешно";
+      }
+
+      pipelineLog.textContent = "Релиз готов. Health check пройден, метрики и логи доступны для наблюдения.";
+      pipelineButton.textContent = "Запустить ещё раз ↻";
+      pipelineButton.disabled = false;
+      announce("Демо pipeline завершено");
+    });
+  }
 
   const menuButton = document.querySelector("[data-menu-toggle]");
   const navigation = document.querySelector("#site-navigation");

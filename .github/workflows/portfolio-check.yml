@@ -1,0 +1,26 @@
+name: Portfolio quality gate
+
+on:
+  push:
+    branches: [gh-pages]
+  pull_request:
+    branches: [gh-pages]
+
+permissions:
+  contents: read
+
+jobs:
+  site-check:
+    name: Check local links and portfolio controls
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate pages, links, filters, and audience modes
+        run: python scripts/check_site.py
