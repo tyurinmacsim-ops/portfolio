@@ -121,9 +121,9 @@
 
     <section class="panel release-lab audience-section" id="release-lab" data-audiences="hr tech interview ai" aria-labelledby="release-lab-title">
       <div class="section-head">
-        <p class="eyebrow">Интерактивная схема · demo mode</p>
+        <p class="eyebrow">Интерактивная схема · автозапуск при прокрутке</p>
         <h2 id="release-lab-title">От коммита до метрик — безопасный путь релиза</h2>
-        <p>Нажмите «Запустить pipeline» и посмотрите, как проходит обычная проверка изменений. Это локальная симуляция интерфейса; воспроизводимый проект и GitHub Actions доступны ниже.</p>
+        <p>Когда блок появится на экране, демо-пайплайн запустится сам. Кнопкой можно повторить прогон. Это локальная симуляция; воспроизводимый проект и GitHub Actions доступны ниже.</p>
       </div>
       <div class="pipeline-lab" data-pipeline aria-label="Демонстрация CI/CD pipeline">
         <div class="pipeline-track" role="list">
@@ -137,7 +137,7 @@
           <i class="pipeline-edge" aria-hidden="true"></i>
           <article class="pipeline-stage" data-pipeline-step="4" role="listitem"><span class="stage-icon">◉</span><small>05 / OBSERVE</small><strong>Monitor</strong><span class="stage-state">Ожидание</span></article>
         </div>
-        <div class="pipeline-console"><span class="console-prompt">$ release --safe</span><p data-pipeline-log aria-live="polite">Изменения ждут проверки. Проверки — до сборки, health check — после выкладки.</p><button class="btn btn-primary" type="button" data-run-pipeline>Запустить pipeline <span aria-hidden="true">↗</span></button></div>
+        <div class="pipeline-console"><span class="console-prompt">$ release --safe</span><p data-pipeline-log aria-live="polite">Прокрутите до блока, чтобы автоматически запустить demo pipeline.</p><button class="btn btn-primary" type="button" data-run-pipeline>Запустить сейчас <span aria-hidden="true">↗</span></button></div>
       </div>
       <div class="pipeline-foot"><span>✓ Проверяем до выкладки</span><span>↻ Обновляем постепенно</span><span>⌁ Следим за health и метриками</span></div>
     </section>
@@ -176,14 +176,17 @@
         <p class="eyebrow">Результаты</p>
         <h2>Что уже можно показать как рабочий результат</h2>
       </div>
-      <div class="section-note">Измеримые результаты из резюме и проекты, которые можно открыть и изучить.</div>
+      <div class="section-note">Результаты подтверждаются опытом и публичными артефактами. Метрики относятся к разным проектам и периодам.</div>
       <div class="result-grid">
-        <article class="result-card"><strong>1,5 ч → 10–15 мин</strong><span>время подготовки релиза</span><p>Автоматизация повторяемых операций и стандартизация пайплайна.</p></article>
-<article class="result-card"><strong>−80–90%</strong><span>ручных операций при релизах</span><p>Меньше повторяющихся шагов, предсказуемее выкладка и откат.</p></article>
-<article class="result-card"><strong>−45–60%</strong><span>времени восстановления</span><p>Наблюдаемость и алерты помогали быстрее локализовать проблемы.</p></article>
-<article class="result-card"><strong>100+</strong><span>production-микросервисов</span><p>Эксплуатация платформы с частыми релизами и очередями.</p></article>
-<article class="result-card"><strong>10 млн</strong><span>сообщений в очередях</span><p>Опыт работы с асинхронной доставкой и нагрузочными контурами.</p></article>
-<article class="result-card"><strong>Open</strong><span>публичные демо и артефакты</span><p>Проверяемый код и воспроизводимый Platform Engineering стенд на GitHub.</p></article>
+        <article class="result-card"><strong>1,5 ч → 10–15 мин</strong><span>подготовка релиза</span><p>Стандартизировал и автоматизировал повторяемые этапы выкладки.</p></article>
+        <article class="result-card"><strong>5–10 / день</strong><span>релизов в production</span><p>Частота выкладок выросла с 1–2 в неделю на одном из контуров.</p></article>
+        <article class="result-card"><strong>−80–90%</strong><span>ручных операций</span><p>Меньше ручных действий при релизах и меньше поводов для ошибки.</p></article>
+        <article class="result-card"><strong>−45–60%</strong><span>MTTR</span><p>Снижение времени восстановления за счёт мониторинга и алертинга в разных проектах.</p></article>
+        <article class="result-card"><strong>−15–35%</strong><span>расходов на инфраструктуру</span><p>Оптимизация затрат в нескольких инфраструктурных контурах.</p></article>
+        <article class="result-card"><strong>100+</strong><span>production-микросервисов</span><p>Сопровождение платформы с частыми релизами и асинхронной обработкой.</p></article>
+        <article class="result-card"><strong>до 10 млн</strong><span>сообщений в очередях</span><p>Опыт поддержки массовой асинхронной доставки, worker-пулов и retries.</p></article>
+        <article class="result-card"><strong>22 ВМ</strong><span>поэтапное обновление Traefik</span><p>Последовательный rollout с проверкой состояния сервисов после каждого шага.</p></article>
+        <article class="result-card"><strong>4 + 3 узла</strong><span>dev и production Kubernetes</span><p>Кластеры Perx dev и MyNaghi prod с раздельными нагрузками и ресурсами.</p></article>
       </div>
     </section>
 

@@ -39,7 +39,7 @@
   window.addEventListener("resize", updateScrollProgress);
   updateScrollProgress();
 
-  const revealTargets = document.querySelectorAll(".hero-copy, .hero-panel, main .panel");
+  const revealTargets = document.querySelectorAll(".hero-copy, .hero-panel, main .panel, #results .result-card");
   revealTargets.forEach((target) => target.setAttribute("data-reveal", ""));
   if ("IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -185,8 +185,10 @@
   if (pipelineButton && pipeline && pipelineLog) {
     const stages = [...pipeline.querySelectorAll("[data-pipeline-step]")];
     const delay = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
-    pipelineButton.addEventListener("click", async () => {
+    let hasStarted = false;
+    const runPipeline = async () => {
       if (pipelineButton.disabled) return;
+      hasStarted = true;
       const stepTime = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : 620;
       pipelineButton.disabled = true;
       pipelineButton.textContent = "Pipeline выполняется…";
@@ -210,10 +212,23 @@
       }
 
       pipelineLog.textContent = "Релиз готов. Health check пройден, метрики и логи доступны для наблюдения.";
-      pipelineButton.textContent = "Запустить ещё раз ↻";
+      pipelineButton.textContent = "Повторить pipeline ↻";
       pipelineButton.disabled = false;
       announce("Демо pipeline завершено");
-    });
+    };
+
+    pipelineButton.addEventListener("click", runPipeline);
+    if ("IntersectionObserver" in window) {
+      const pipelineObserver = new IntersectionObserver((entries, observer) => {
+        if (entries.some((entry) => entry.isIntersecting) && !hasStarted) {
+          observer.disconnect();
+          runPipeline();
+        }
+      }, { threshold: 0.25 });
+      pipelineObserver.observe(pipeline);
+    } else {
+      runPipeline();
+    }
   }
 
   const menuButton = document.querySelector("[data-menu-toggle]");
