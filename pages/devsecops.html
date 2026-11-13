@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Максим Тюрин — опыт DevSecOps</title>
+  <meta name="description" content="Опыт Максима Тюрина: Kubernetes, IaC, CI/CD, DevSecOps, безопасность Linux и аварийное восстановление. Пермь, удалённо. Английский B1.">
+  <link rel="canonical" href="https://tyurinmacsim-ops.github.io/portfolio/pages/devsecops.html">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div><div class="bg-orb bg-orb-b"></div>
+  <main class="content-shell"><section class="content-panel">
+    <nav class="content-nav"><a class="brand" href="../index.html">Портфолио</a><a href="resume.html">Резюме</a><a href="devsecops.html">DevSecOps</a></nav>
+    <article class="prose"><h1>DevSecOps и безопасность инфраструктуры</h1>
+<p>Мой основной опыт — DevOps и эксплуатация production. Задачи безопасности выполнял совместно с инженером ИБ и командами проектов: переводил требования в политики Kubernetes, Ansible-роли, CI-проверки и настройки доступа.</p>
+<h2>01.tech — Kubernetes и Linux</h2>
+<ul>
+<li><strong>Kyverno:</strong> внедрение политик и переход из Audit в Enforce; runAsNonRoot, read-only root filesystem, seccomp, ограничение capabilities, privileged-контейнеров, host namespaces и hostPath. Сопровождение RBAC-политик и исключений для системных компонентов.</li>
+<li><strong>Trivy Operator:</strong> проверки конфигурации и инфраструктуры Kubernetes, доставка через FluxCD. В проверенной конфигурации включены config audit и infra assessment; сканирование уязвимостей образов отключено. Поэтому этот кейс описываю как контроль конфигураций, а не полноценный контроль CVE контейнеров.</li>
+<li><strong>Ansible и SSH:</strong> автоматизация SecOps-настроек, запрет входа root и парольной аутентификации, интеграция с FreeIPA и проверка конфигурации sshd перед применением.</li>
+<li><strong>Wazuh:</strong> совместное с ИБ внедрение агентов на ВМ через Ansible и подключение хостов к мониторингу безопасности.</li>
+<li><strong>Секреты и доступ:</strong> Vault, External Secrets, TLS, VPN и доставка конфигурации через GitOps.</li>
+</ul>
+<p>Результат: требования ИБ стали частью конфигурации платформы и автоматизации. Внедрение учитывало ограничения существующих приложений и исключения для системных workload.</p>
+<h2>PERX — проверки инфраструктурных изменений</h2>
+<ul>
+<li>Добавил Trivy в GitLab CI для IaC и Kubernetes-конфигураций: HIGH/CRITICAL приводят к ошибке проверки.</li>
+<li>Дорабатывал securityContext и ограничения привилегий контейнеров; исправил выдачу явного короткоживущего ServiceAccount token для Kubernetes API.</li>
+<li>Сопровождал приватный доступ Runner через NetBird и автоматизацию серверов Ansible.</li>
+<li>Сохранял настройки интеграций dev/stage при восстановлении MongoDB, развивал backup/restore через Restic.</li>
+</ul>
+<h2>Hilbert Team — доступы к данным и секреты в CI</h2>
+<ul>
+<li>Управлял группами, ролями и сервисными учётными записями Greenplum, ClickHouse, Trino, JupyterHub и S3 через Git.</li>
+<li>Разбирал конфликты S3 bucket policy с Terraform, вызывавшие ошибки доступа при планировании изменений.</li>
+<li>Сопровождал Vault и External Secrets, убирал вывод учётных данных из CI-логов Airflow-стендов.</li>
+</ul>
+<h2>xero — подготовка к PCI DSS</h2>
+<p>Участвовал в настройке сегментации сети, приватного доступа к Azure PaaS, TLS, RBAC/IAM, управления секретами и журналирования. Это опыт инфраструктурной подготовки, без заявления о самостоятельном проведении аудита или личной сертификации.</p>
+<h2>Основания для описания опыта</h2>
+<p>Задачи 01.tech, PERX и Hilbert сопоставлены с авторской git-историей и изменениями конфигураций. Совместная работа с ИБ и внедрение Wazuh дополнительно подтверждены моим описанием опыта. Наличие инструмента в общем репозитории само по себе не считается моим авторством. Приватные конфигурации, адреса и секреты здесь не публикуются.</p>
+<p><a href="resume.html">Полное резюме</a> · <a href="https://perm.hh.ru/resume/b8488b73ff115787bf0039ed1f6a4859616f78">DevSecOps на hh</a></p></article>
+  </section></main>
+</body>
+</html>

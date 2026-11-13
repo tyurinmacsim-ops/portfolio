@@ -58,3 +58,10 @@
 - Эксплуатация: раздельно проверяются права `systemd`, права helper и изменяемые каталоги Xray, чтобы ошибка доступа не превращалась в «успешную» выдачу профиля.
 - Публичный sanitized bundle: [artifacts/vpn-telegram-admin-bot](../artifacts/vpn-telegram-admin-bot/README.md).
 - Что не публикуется: токен бота, ID канала, домен/IP, UUID, реальные VPN-ссылки, QR-коды, логи и ключи TLS/Reality.
+
+
+## Проверки инфраструктуры в GitLab CI
+
+В PERX подключил Trivy к проверке Terraform/IaC: конфигурация с HIGH/CRITICAL находит ошибку CI. Проверки выполняются до apply, поэтому проблемное изменение можно разобрать до его применения. Для 01.tech подробности о Kyverno и Trivy Operator приведены отдельно: там речь идёт о Kubernetes config audit и infrastructure assessment.
+
+[DevSecOps-кейс](./DEVSECOPS.md)

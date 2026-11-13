@@ -83,3 +83,12 @@ node --check assets/site.js
 ## Кратко
 
 DevOps / Platform Engineer. В дополнение к резюме приложено GitHub-портфолио с подтверждаемыми артефактами по Kubernetes, Terraform, GitOps, CI/CD и observability: агрегированная статистика по рабочим git-репозиториям, кейсы и публичный демо-проект, который можно локально воспроизвести.
+
+## Обновление резюме
+
+Тексты `docs/RESUME_PUBLIC.md` и `docs/DEVSECOPS.md` публикуются без повторного сканирования приватного архива:
+
+```bash
+python3 scripts/render_resume_pages.py
+python3 scripts/check_site.py
+```
