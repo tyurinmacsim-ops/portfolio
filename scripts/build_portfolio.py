@@ -1300,14 +1300,14 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
         },
         {
             "title": "Массовые Telegram-рассылки / большие очереди",
-            "result": "очереди до 10 млн сообщений и high-throughput фоновые контуры",
+            "result": "крупные очереди сообщений и асинхронные фоновые контуры",
             "stack": ["Telegram", "Redis", "RabbitMQ", "Kafka", "Kubernetes", "observability"],
-            "text": "Не история про входящий high-RPS web, а про асинхронную массовую доставку: backlog, retries, rate limits, worker scaling и устойчивость dispatch-процессов.",
+            "text": "Опыт эксплуатации асинхронной массовой доставки: backlog, retries, rate limits, worker scaling и устойчивость dispatch-процессов. Числовой объём очереди не заявляется без подтверждённого замера.",
             "role": "SRE / Infrastructure Engineer",
             "categories": ["sre", "kubernetes", "observability", "data", "mlops"],
             "flow": ["Очередь", "Worker-пулы", "Rate limits", "Метрики"],
             "interview": "Backlog, retries, rate limits, масштабирование worker-слоя и диагностика узких мест асинхронной доставки.",
-            "limitation": "Это кейс про фоновые high-throughput-процессы и большие очереди, а не про заявленный высокий входящий HTTP RPS.",
+            "limitation": "Это кейс про фоновые high-throughput-процессы и крупные очереди, а не про заявленный высокий входящий HTTP RPS; размер backlog не подтверждён замером.",
             "link": ("Открыть кейс", "pages/case-studies.html"),
         },
         {

@@ -32,7 +32,8 @@
 </ul>
 <h2>Ключевые результаты</h2>
 <ul>
-<li>Для типовой выкладки в 01.tech сравнил ручной сценарий на ВМ (около 1,5 часа) с автоматизированной доставкой через GitLab CI/CD, Helm и GitOps (10–15 минут).</li>
+<li>В 01.tech автоматизировал типовые выкладки 100+ микросервисов через GitLab CI/CD, IaC, Helm и Flux/GitOps. Ручные команды на ВМ занимали около 1,5 часа, автоматизированная доставка — 10–15 минут: время выкладки сократилось примерно на 83–89%, ручных действий стало ориентировочно на 80–90% меньше.</li>
+<li>По оценке для проекта, MTTR снизился на 45–60% после стандартизации инфраструктуры через IaC и развития централизованного мониторинга и алертинга (Prometheus, Grafana, Loki, Alertmanager).</li>
 <li>Вместе с ИБ внедрял Kyverno и Trivy в Kubernetes, Wazuh-агенты на ВМ; автоматизировал SSH-hardening через Ansible.</li>
 <li>В PERX участвовал в аварийном восстановлении и переносе сервисов из Yandex Cloud в Selectel; поэтапно обновил Traefik на 22 ВМ.</li>
 <li>Устранил причину повторных Kubernetes-алертов от потерянных временных worker-нод; доработал MongoDB backup в Restic и сохранение настроек окружений при восстановлении.</li>
@@ -52,7 +53,7 @@
 <li>Сопровождал self-managed Kubernetes, Helm и Argo CD, публикацию сайта MyNaghi из S3 через CloudFront и управление кэшем.</li>
 </ul>
 <h3>Hilbert Team | 2025-12 — 2026-08</h3>
-<p>Проектный контракт для Magnit Tech: DWH и аналитическая платформа в Yandex Cloud. Проект завершён.</p>
+<p>Проектный контракт для Magnit Tech: DWH и аналитическая платформа в Yandex Cloud. Работал единственным DevOps-инженером со стороны Hilbert Team.</p>
 <ul>
 <li>Поддерживал production/dev Airflow, Trino, JupyterHub и Kafka Connect в Kubernetes; GitOps и CI/CD через FluxCD, GitLab CI, Helm и Kustomize.</li>
 <li>Участвовал в подготовке перехода на Airflow 3.1: адаптировал CI стендов и управление секретами. Исправлял несовместимость Python-зависимостей, мешавшую миграциям Airflow, и развёртывание при зависшем удалении namespace.</li>
@@ -64,22 +65,24 @@
 <h3>01.tech | 2023-09 — 2025-11</h3>
 <p>Telegram-платформа на Node.js: более 100 микросервисов в production, AWS/EKS. В первый год был единственным DevOps-инженером проекта, затем работал в паре; взаимодействовал с разработчиками, тимлидом и инженером ИБ.</p>
 <ul>
-<li>Автоматизировал типовую выкладку через GitLab CI/CD, Helm и GitOps. По сравнению с ручным сценарием на ВМ (около 1,5 часа) доставка занимала 10–15 минут. Участвовал в миграции сервисов с EC2/Docker Compose в Kubernetes, развивал Terraform/Terragrunt и общие CI-шаблоны.</li>
+<li>Автоматизировал типовые выкладки через GitLab CI/CD, Helm и Flux/GitOps, развивал Terraform/Terragrunt и общие CI-шаблоны. Ручной сценарий на ВМ занимал около 1,5 часа, доставка через pipeline — 10–15 минут; это примерно на 83–89% быстрее и на 80–90% меньше ручных действий. Участвовал в миграции сервисов с EC2/Docker Compose в Kubernetes.</li>
+<li>По оценке для проекта, MTTR снизился на 45–60% после стандартизации инфраструктуры через IaC и развития мониторинга/алертинга на Prometheus, Grafana, Loki и Alertmanager.</li>
 <li>Вместе с ИБ внедрял Kyverno: перевод политик из Audit в Enforce, запуск не от root, read-only root filesystem, seccomp, ограничения capabilities, привилегий, hostPath и host namespaces. Сопровождал RBAC-политики и исключения для системных компонентов.</li>
 <li>Внедрял Trivy Operator для проверок конфигурации и инфраструктуры Kubernetes. Доставлял настройки безопасности через GitOps, адаптировал securityContext приложений.</li>
 <li>Автоматизировал SSH/SecOps через Ansible: доступ по ключам, запрет входа root и паролей, интеграция с FreeIPA, проверка sshd-конфигурации перед применением. Совместно с ИБ внедрял Wazuh-агенты на ВМ и подключал хосты к мониторингу безопасности.</li>
 <li>Сопровождал Vault и External Secrets, TLS, DNS, Istio Gateway, ExternalDNS и обновление приложений при изменении Secret/ConfigMap.</li>
 <li>Поддерживал PostgreSQL/RDS, MongoDB, Redis, Kafka, RabbitMQ и ClickHouse; автоматизировал backup/restore, сопровождал migration jobs и откат миграций через Helm/Argo CD.</li>
-<li>Разбирал production-инциденты и работу очередей до 10 млн сообщений: backlog, повторную обработку, rate limiting и состояние worker-процессов. Настраивал VictoriaMetrics, Grafana, Loki и Alertmanager.</li>
+<li>Разбирал production-инциденты и работу крупных асинхронных очередей: backlog, повторную обработку, rate limiting и состояние worker-процессов. Настраивал VictoriaMetrics, Grafana, Loki и Alertmanager.</li>
 <li>Поддерживал инфраструктуру Retool, компоненты Debezium/CDC для PostgreSQL и MongoDB, VPN-доступ FortiGate/FortiClient.</li>
 </ul>
-<h3>xero | 2022-07 — 2023-08</h3>
-<p>Финтех-стартап на Azure. Работал в команде DevOps, участвовал в подготовке инфраструктурной части к аудиту PCI DSS.</p>
+<h3>Azure-проект (название не раскрывается) | 2022-07 — 2023-08</h3>
+<p>Финтех-проект на Azure. Работал в команде DevOps, участвовал в подготовке инфраструктуры к требованиям PCI DSS.</p>
 <ul>
 <li>Создал повторно используемые Terraform/Terragrunt-модули, настроил удалённый state и проверки конфигурации.</li>
 <li>Настроил GitOps через FluxCD и GitLab CI, сборку и развёртывание Helm-чартов; работал с канареечными релизами.</li>
 <li>Сопровождал AKS: пулы узлов, автомасштабирование, сетевые политики, приватные ingress и Private Link к Azure PaaS.</li>
-<li>Участвовал в настройке сегментации, шифрования, TLS, RBAC/IAM, секретов и журналирования для подготовки к PCI DSS.</li>
+<li>Описывал в Terraform Kubernetes, сети, ВМ и NSG; настраивал роли/права для Ansible, firewall, учётные записи и порты.</li>
+<li>Участвовал в настройке аудита, журналирования и security enforcement; подключал GitLab SAST/DAST и другие проверки, работал со сканированием Cloudflare, DNS и URL.</li>
 <li>Поддерживал мониторинг, OpenSearch и Loki, сроки хранения логов и маскирование персональных данных. Вместе с командой оптимизировал ресурсы через автомасштабирование и очистку хранилищ.</li>
 </ul>
 <h3>SWAPP Protocol | 2021-11 — 2022-06</h3>
