@@ -50,8 +50,8 @@ BACKUP_ARTIFACT_ROOT = Path(
 K8S_BOX_PUBLIC_ROOT = "artifacts/k8s-box"
 SITE_URL = "https://tyurinmacsim-ops.github.io/portfolio/"
 CONTACT_EMAIL = "tyurinmacsim@gmail.com"
-CONTACT_TELEGRAM = "@Max_Tyrin"
-CONTACT_TELEGRAM_URL = "https://t.me/Max_Tyrin"
+CONTACT_TELEGRAM = "@Max_Tyurin"
+CONTACT_TELEGRAM_URL = "https://t.me/Max_Tyurin"
 TELEGRAM_BOT_BUNDLE_GITHUB_URL = (
     "https://github.com/tyurinmacsim-ops/portfolio/tree/gh-pages/artifacts/telegram-bot-delivery"
 )
@@ -1288,7 +1288,7 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
             "",
             "- Что можно показать: redacted-шаблоны GitLab CI для docker build/push, manual jobs, release rules и deploy workflow без приватных URL, имён переменных и секретов.",
             "title": "GitOps и Kubernetes в production",
-            "result": "100+ сервисов, релизы 10–15 минут, 5–10 деплоев в день",
+            "result": "100+ сервисов; типовая выкладка: 1,5 ч вручную → 10–15 мин через CI/CD",
             "stack": ["AWS", "EKS", "Kubernetes", "Helm", "GitLab CI/CD", "ArgoCD"],
             "text": "Production-контур для multi-service платформы: GitOps-процессы, деплой, мониторинг, логирование и эксплуатационные изменения в production.",
             "role": "DevOps / Platform Engineer",
@@ -1324,7 +1324,7 @@ def write_artifact_evidence(path: Path, artifact: dict | None) -> None:
         },
         {
             "title": "Azure, AKS и подготовка к PCI DSS",
-            "result": "релизы 15–20 минут, MTTR ниже, инфраструктурный аудит пройден",
+            "result": "подготовка инфраструктуры к PCI DSS: private ingress, network policies, Key Vault и audit trail",
             "stack": ["Azure", "AKS", "Terraform", "Terragrunt", "FluxCD", "Key Vault"],
             "text": "IaC, private ingress, network policies, Key Vault, сегментация и audit trail под security-oriented платформенную задачу.",
             "role": "DevOps / Cloud Engineer",
